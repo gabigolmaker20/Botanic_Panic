@@ -31,7 +31,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        programacion web 2025 uis
+        programacion web 2025 uis, Alejandro Farelo
       </p>
       <Component titulo={"UIS"}/>
     </>
