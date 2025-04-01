@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@400;500;600;700&display=swap");
+
+:root {
+  --principal-color: #091a04;
+  --color-fondo: #f3f5ec;
+  --color-letras: #797c7f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Cabin Condensed", sans-serif;
+}
