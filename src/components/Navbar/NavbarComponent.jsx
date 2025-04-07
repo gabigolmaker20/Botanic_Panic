@@ -1,51 +1,66 @@
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import './StylesNavbar.css';
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import "./StylesNavbar.css";
 
 const NavbarComponent = () => {
+  const listTitlesHeader = [
+    {
+      id: 1,
+      title: "Home",
+      path: "/",
+    },
+    {
+      id: 2,
+      title: "About",
+      path: "/about",
+    },
+    {
+      id: 3,
+      title: "Contact",
+      path: "/contact",
+    },
+    {
+      id: 4,
+      title: "Blog",
+      path: "/blog",
+    },
+    {
+      id: 5,
+      title: "Services",
+      path: "/services",
+    },
+    {
+      id: 6,
+      title: "Portfolio",
+      path: "/portfolio",
+    },
+  ];
   return (
-    <Navbar expand="lg" className="nav">
-      <Container fluid>
-        <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: "100px" }}
-            navbarScroll
+    <div className="d-flex w-100 justify-content-around align-items-center mt-4">
+      <div className="d-flex">
+        <figure>
+          <img
+            className="w-50"
+            src="https://gardenia-blog.axiomthemes.com/wp-content/uploads/2024/01/logo-1-retina.png"
+            alt="icono_botanic_panic"
+          />
+        </figure>
+      </div>
+      <div className="d-flex">
+        {listTitlesHeader.map((item) => (
+          <ul
+            className="list-unstyled d-flex justify-content-between align-items-center"
+            key={item.id}
           >
-            <Nav.Link href="#action1">Home</Nav.Link>
-            <Nav.Link href="#action2">Link</Nav.Link>
-            <NavDropdown title="Link" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">
-                Something else here
-              </NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Link href="#" disabled>
-              Link
-            </Nav.Link>
-          </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="Search"
-            />
-            <Button variant="outline-success">Search</Button>
-          </Form>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+            <li className="">{item.title}</li>
+          </ul>
+        ))}
+      </div>
+    </div>
   );
 };
 
