@@ -40,27 +40,22 @@ const NavbarComponent = () => {
     },
   ];
   return (
-    <div className="d-flex w-100 justify-content-around align-items-center mt-4">
-      <div className="d-flex">
-        <figure>
-          <img
-            className="w-50"
-            src="https://gardenia-blog.axiomthemes.com/wp-content/uploads/2024/01/logo-1-retina.png"
-            alt="icono_botanic_panic"
-          />
-        </figure>
-      </div>
-      <div className="d-flex">
-        {listTitlesHeader.map((item) => (
-          <ul
-            className="list-unstyled d-flex justify-content-between align-items-center"
-            key={item.id}
-          >
-            <li className="">{item.title}</li>
-          </ul>
-        ))}
-      </div>
-    </div>
+    <div className="d-flex w-100 justify-content-around align-items-center mt-4 navbar-container">
+  <div className="d-flex">
+    <figure>
+      <img
+        className=""
+        src="https://gardenia-blog.axiomthemes.com/wp-content/uploads/2024/01/logo-1-retina.png"
+        alt="icono_botanic_panic"
+      />
+    </figure>
+  </div>
+  <div className="navbar-links">
+    {listTitlesHeader.map((item) => (
+      <li key={item.id}>{item.title}</li>
+    ))}
+  </div>
+  </div>
   );
 };
 

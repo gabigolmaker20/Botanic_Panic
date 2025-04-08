@@ -1,0 +1,33 @@
+
+.navbar-container {
+    padding: 0.5rem 2rem;
+    background-color: #f8f9fa; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-container img {
+    max-width: 150px;
+    height: auto;
+  }
+  
+  .navbar-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-links li {
+    list-style: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-links li:hover {
+    color: #198754; 
+    text-decoration: underline;
+  }
+  
