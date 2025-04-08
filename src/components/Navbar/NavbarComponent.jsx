@@ -1,9 +1,5 @@
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { HiOutlineUser } from "react-icons/hi2";
+import { BsBagPlus } from "react-icons/bs";
 import "./StylesNavbar.css";
 
 const NavbarComponent = () => {
@@ -40,22 +36,28 @@ const NavbarComponent = () => {
     },
   ];
   return (
-    <div className="d-flex w-100 justify-content-around align-items-center mt-4 navbar-container">
-  <div className="d-flex">
-    <figure>
-      <img
-        className=""
-        src="https://gardenia-blog.axiomthemes.com/wp-content/uploads/2024/01/logo-1-retina.png"
-        alt="icono_botanic_panic"
-      />
-    </figure>
-  </div>
-  <div className="navbar-links">
-    {listTitlesHeader.map((item) => (
-      <li key={item.id}>{item.title}</li>
-    ))}
-  </div>
-  </div>
+    <div className="nav_container d-flex bg- w-100 justify-content-around align-items-center py-4">
+      <div className="d-flex justify-content-center align-items-center">
+        <figure>
+          <img
+            className="w-50"
+            src="https://gardenia-blog.axiomthemes.com/wp-content/uploads/2024/01/logo-1-retina.png"
+            alt="icono_botanic_panic"
+          />
+        </figure>
+      </div>
+      <div className="nav_links d-flex justify-content-center align-items-center">
+        <ul className="list-unstyled d-flex gap-1 fw-bold justify-content-between align-items-center">
+          {listTitlesHeader.map((item) => (
+            <li className="rounded-3 py-2 px-3">{item.title}</li>
+          ))}
+        </ul>
+        <div className="d-flex gap-4 justify-content-center py-2 px-3 align-items-center">
+          <button className="border-0 pb-4 m-0"><HiOutlineUser className="fs-5"/></button>
+          <button className="border-0 pb-4 m-0"><BsBagPlus  className="fs-5"/></button>
+        </div>
+      </div>
+    </div>
   );
 };
 
