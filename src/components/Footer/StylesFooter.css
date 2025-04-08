@@ -1,0 +1,326 @@
+    /* --- Estilos Footer --- */
+    #footer {
+        position: relative;
+        background-image: url('https://img.freepik.com/fotos-premium/fondo-pantalla-hojas-verde-oscuro-que-es-fondo-pantalla-tropical_889227-26448.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 40px 20px 20px 20px; /* Añadido padding para espaciado interno */
+        overflow: hidden; /* Para contener la capa y evitar desbordes */
+        border: none;
+    }
+    
+
+
+
+    
+    /* Capa semitransparente */
+    #capa {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(9, 52, 9, 0.6); /* Ligero ajuste de opacidad */
+        z-index: 0; /* Detrás del contenido */
+        height: 100%;
+    }
+    
+
+
+
+
+
+    /* Contenido principal (encima de la capa) */
+    .footer-content {
+        position: relative;
+        z-index: 1;
+       /*  max-width: 1200px; Ancho máximo para el contenido */
+        margin: 0 auto; /* Centrar el contenido */
+        display: flex;
+        flex-direction: column; /* Para alinear las columnas y el texto final */
+        align-items: center; /* Centra el texto final si es necesario */
+    }
+    
+
+
+
+
+    /* Contenedor de las columnas */
+    .footer-columns-container {
+        display: flex;
+        justify-content: space-between; /* O space-around si prefieres más espacio */
+        align-items: flex-start; /* Alinea las columnas arriba */
+        width: 100%;
+        gap: 30px; /* Espacio entre columnas */
+        /*margin-bottom: 10px;  Espacio antes del texto final */
+    }
+    
+    /* Estilo para cada columna */
+    .footer-column {
+        /* Flex-basis controla el tamaño base antes de distribuir espacio extra.
+        Puedes ajustar estos valores según necesites */
+        /* flex: 1; /* Opción para que todas ocupen espacio similar */
+        text-align: center;
+        padding: 0 15px; /* Padding interno para las columnas */
+    }
+    
+    /* Ajustes específicos  */
+    .contact-column {
+        flex-basis: 30%; /* pequeña */
+    }
+    .social-column {
+        flex-basis: 40%; /* ancha */
+    }
+    .team-column {
+        flex-basis: 30%; /* intermedia */
+    }
+    
+
+
+
+
+
+    .footer-column h2 {
+        font-size: 26px; /* Ajusta tamaños según tu diseño */
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: white; 
+    }
+    
+    .footer-column p {
+        font-size: 19px; /* Ajusta tamaños */
+        line-height: 1.6;
+        color: white; 
+    
+    }
+
+
+
+
+    
+    /* --- Estilos Columna Central (Redes Sociales) --- */
+    .social-buttons-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        margin-top: 30px; /* Espacio sobre los botones */
+        flex-wrap: wrap; /* Para que los botones pasen abajo si no caben */
+    }
+    
+    .social-button {
+        /* estilo botones */
+        background-color: white;
+    
+    }
+    
+    .social-icon {
+        width: 70%;
+        height: 70%;
+        border-radius: 50%; /* Redondeado dentro del botón si la imagen no lo es */
+        object-fit: contain; /* Para que la imagen no se distorsione */
+    }
+    
+
+
+
+
+
+    
+    /* --- Estilos Columna Equipo --- */
+    .team-members-container {
+        display: flex;
+        justify-content: center; /* Centra las tarjetas de los miembros */
+        gap: 20px; /* Espacio entre miembros */
+        margin-top: 15px;
+        flex-wrap: wrap; /* Permite que pasen abajo si no caben */
+    }
+    
+    .participant-card {
+        text-align: center;
+      /* max-width:120px; Ancho máximo para cada tarjeta de miembro */
+        width: calc(50% - 10px); /* dos por fila, considerando el gap */
+    }
+    
+    .participant-card h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+        color: white;
+    }
+    
+    .participant-image {
+        width: 80px; /* Tamaño imagen reducido */
+        height: 80px;
+        border-radius: 50%;
+        margin-bottom: 8px;
+        object-fit: cover; /* Para que la imagen cubra bien el círculo */
+        border: 2px solid white; /* Opcional: borde blanco */
+    }
+    
+    .participant-card p {
+        font-size: 12px;
+        color: #dddddd; /* Un gris claro para la descripción */
+        line-height: 1.4;
+    }
+
+
+
+
+
+/* --- Estilo Botón Genérico y Tooltip (Tooltip Abajo) --- */
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    position: relative; /* Necesario para el posicionamiento absoluto del tooltip */
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+/* Tooltip personalizado POSICIONADO ABAJO */
+.button::after {
+    content: attr(data-tooltip); /* Obtiene el texto del atributo data-tooltip */
+    position: absolute;
+    top: 100%;        /*  Posiciona el borde superior del tooltip en el borde inferior del botón */
+    margin-top: 8px;  /*  Añade un pequeño espacio entre el botón y el tooltip */
+    left: 100%;         
+    transform: translateX(-50%); /* Mueve el tooltip hacia la izquierda por la mitad de su propio ancho para centrarlo completamente */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro semitransparente (o el que prefieras) */
+    color: white;      /* Texto blanco */
+    padding: 5px 10px; /* Padding interno */
+    border-radius: 4px; /* Bordes redondeados */
+    font-size: 13px;   /* Tamaño de fuente */
+    white-space: nowrap; /* Evita que el texto del tooltip se divida en múltiples líneas */
+    opacity: 0;        /* Oculto por defecto */
+    visibility: hidden; /* Oculto por defecto */
+    transition: opacity 0.3s, visibility 0.3s; /* Transición suave para mostrar/ocultar */
+    z-index: 10;       /* Asegura que esté por encima de otros elementos si es necesario */
+}
+
+/* Mostrar tooltip al pasar el mouse */
+.button:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+    
+.button:hover {
+        background-color: #000000; /* al pasar el mouse me genera un fondo negro en los botones */
+
+    }
+
+
+
+
+    
+
+    
+    /* --- Texto Final --- */
+    .footer-bottom-text {
+        width: 100%;
+        text-align: left; /* Centrado por defecto */
+        margin-top: 20px; /* Espacio sobre el texto final */
+        padding-top: 20px; /* Espacio adicional arriba */
+        border-top: 1px solid rgba(255, 255, 255, 0.2); /* Línea divisoria sutil */
+        font-size: 16px;
+        color: #ccc; /* Color grisáceo */
+    }
+    
+
+
+
+
+
+
+
+    
+    /* --- responsive --- */
+
+    @media (max-width: 768px) {
+    
+        #footer {
+            padding: 30px 15px 15px 15px; /*padding en móvil */
+        }
+    
+        .footer-columns-container {
+        flex-direction: column; /*  Apila las columnas */
+        align-items: center; /* Centra las columnas apiladas */
+        gap: 40px; /* Más espacio vertical entre columnas apiladas */
+        }
+    
+        .footer-column {
+        width: 90%; /* Ocupan casi todo el ancho */
+        max-width: 400px; /* Evita que sean demasiado anchas en tablets */
+        padding: 0; /* Quitar padding lateral si se usa width % */
+        /* Quitar flex-basis si estaba definido */
+        flex-basis: auto;
+        text-align: center; /* Asegurar centrado */
+        }
+    
+        .footer-column h2 {
+            font-size: 20px; /* Ligeramente más pequeño en móvil */
+        }
+        .footer-column p {
+            font-size: 14px;
+        }
+    
+        .team-members-container {
+            gap: 15px; /* Ajustar espacio si es necesario */
+            justify-content: space-around; /* Distribuir mejor en móvil */
+        }
+    
+        .participant-card {
+            max-width: 50px; /* Ajustar tamaño si es necesario, 120 si se quiere 3 y 1 */
+        }
+        .participant-image {
+            width: 70px;
+            height: 70px;
+        }
+    
+        .footer-bottom-text {
+        text-align: left; /* Asegurar centrado en móvil */
+        margin-top: 30px;
+        }
+    
+        /* Ajuste Tooltip en móvil */
+        .button::after {
+            font-size: 12px; /* Más pequeño */
+            padding: 4px 8px;
+        }
+    }
+
+
+
+
+
+    
+    
+    /* pantallas aún más pequeñas */
+    @media (max-width: 480px) {
+        .footer-column h2 {
+            font-size: 18px;
+        }
+        .social-buttons-container {
+            gap: 10px;
+        }
+        .button { /* Botones sociales más pequeños */
+            width: 45px;
+            height: 45px;
+        }
+        .participant-card {
+            max-width: 50px;
+        }
+        .participant-image {
+            width: 60px;
+            height: 60px;
+        }
+    }
