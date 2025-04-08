@@ -109,6 +109,7 @@ const NavbarComponent = () => {
         </Modal>
       </div>
     </div>
+    
   );
 };
 
