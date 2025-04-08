@@ -112,8 +112,8 @@ const NavbarComponent = () => {
             </Form.Group>
             <Form.Text className="text-muted">o inicia con</Form.Text>
             <Form.Group>
-              <Button>
-                <FcGoogle />
+              <Button className="d-flex justify-content-center align-items-center py-2 px-3 border-dark bg-transparent">
+                <FcGoogle className="fs-4" />
               </Button>
             </Form.Group>
           </Modal.Footer>
