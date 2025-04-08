@@ -5,6 +5,8 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { Link } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 
 const NavbarComponent = () => {
   const [show, setShow] = useState(false);
@@ -76,11 +78,11 @@ const NavbarComponent = () => {
         </div>
 
         <Modal show={show} onHide={handleClose}>
-          <Modal.Header
-            closeButton
-            className="d-flex w-100 justify-content-center align-items-center ring-success"
-          >
+          <Modal.Header className="d-flex flex-column w-100 justify-content-center align-items-center">
             <Modal.Title>Inicio de Sesión</Modal.Title>
+            <Form.Text className="text-muted">
+              ¿ Es tu primera vez ? <Link to={"/register"}>Regístrate</Link>
+            </Form.Text>
           </Modal.Header>
           <Modal.Body>
             <Form>
@@ -88,23 +90,32 @@ const NavbarComponent = () => {
                 <Form.Label>Email address</Form.Label>
                 <Form.Control type="email" placeholder="Enter email" />
               </Form.Group>
-
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" />
+                <div className="d-flex justify-content-between mt-2">
+                  <Form.Text className="text-muted">
+                    <Link className="mt-5" to={"/"}>
+                      Olvidaste tu contraseña?
+                    </Link>
+                  </Form.Text>
+                  <Form.Check type="checkbox" label="Mantener sesión" />
+                </div>
               </Form.Group>
             </Form>
           </Modal.Body>
-          <Modal.Footer className="container-footer d-flex justify-content-between">
+          <Modal.Footer className="container-footer d-flex flex-column justify-content-between">
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Mantener sesión" />
+              <Button className="border-0 fw-bolder" type="submit">
+                Iniciar Sesión
+              </Button>
             </Form.Group>
-            <Button
-              className="border-0 fw-bolder"
-              type="submit"
-            >
-              Iniciar Sesión
-            </Button>
+            <Form.Text className="text-muted">o inicia con</Form.Text>
+            <Form.Group>
+              <Button>
+                <FcGoogle />
+              </Button>
+            </Form.Group>
           </Modal.Footer>
         </Modal>
       </div>

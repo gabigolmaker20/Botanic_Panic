@@ -16,6 +16,10 @@
   transition: all 0.3s ease-in-out;
 }
 
+button.btn-close:focus {
+  box-shadow: 0 0 0 0.2rem #091a0438;
+}
+
 .button_singIn {
   background-color: red;
   font-size: 10rem;
@@ -34,15 +38,14 @@
 }
 
 input.form-control:focus {
-    border-color: var(--color-letras);
-    box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
-    outline: none;
+  border-color: var(--color-letras);
+  box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
+  outline: none;
 }
 
-input.form-check-input:focus{
-    background-color: var(--color-letras);
-    border-color: var(--principal-color);
-    box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
-    outline: none;
+input.form-check-input:focus {
+  background-color: var(--color-letras);
+  border-color: var(--principal-color);
+  box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
+  outline: none;
 }
-  
