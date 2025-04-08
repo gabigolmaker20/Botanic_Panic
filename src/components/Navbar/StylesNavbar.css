@@ -9,3 +9,40 @@
   background-color: #c5c5c5;
   transition: all 0.3s ease-in-out;
 }
+
+.nav_buttons button:hover {
+  cursor: pointer;
+  scale: 1.08;
+  transition: all 0.3s ease-in-out;
+}
+
+.button_singIn {
+  background-color: red;
+  font-size: 10rem;
+}
+
+.container-footer button {
+  color: #c5c5c5;
+  background-color: var(--principal-color);
+}
+
+.container-footer button:hover {
+  background-color: var(--principal-color);
+  cursor: pointer;
+  scale: 1.08;
+  transition: all 0.3s ease-in-out;
+}
+
+input.form-control:focus {
+    border-color: var(--color-letras);
+    box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
+    outline: none;
+}
+
+input.form-check-input:focus{
+    background-color: var(--color-letras);
+    border-color: var(--principal-color);
+    box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
+    outline: none;
+}
+  
