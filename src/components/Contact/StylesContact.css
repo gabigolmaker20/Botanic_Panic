@@ -56,7 +56,7 @@
 .descripcion-formulario {
     /* Añade un margen inferior para separar la descripción de los campos del formulario. */
     margin-bottom: 2rem;
-    font-size: 1rem; 
+    font-size: 20px; 
     color: #333; 
     
 }
@@ -110,29 +110,4 @@
 
 
 
-
-/* Estilo para recaptcha*/
-    .contenedor-recaptcha {
-        display: flex;
-        align-items: center;
-        gap: 12px; /* Espacio entre el texto y la imagen */
-        margin-top: 1rem;
-        border: 1px solid #ccc;
-        padding: 10px;
-        border-radius: 5px;
-        max-width: 190px; /* Ajusta al ancho que necesites que contiene el enunciado y la imagen */
-        background-color: #f9f9f9;
-    }
-    
-    .etiqueta-recaptcha {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        gap: 5px;
-    }
-    
-    .logo-recaptcha img {
-        width: 30px;
-        height: 30px;
-    }
     

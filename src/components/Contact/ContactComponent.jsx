@@ -65,7 +65,7 @@ const Contactos = () => {
                     alt="Fondo del encabezado de Contacto"
                     className="imagen-encabezado"
                 />
-                <div className="titulo-sobre-imagen">Contactos</div>
+                <div className="titulo-sobre-imagen">Contáctenos</div>
             </div>
 
             {/* Contenedor del contenido principal */}
@@ -74,10 +74,15 @@ const Contactos = () => {
 
                     {/* Columna Izquierda (Mapa e Info ) */}
                     <Col md={6} className="mb-4 mb-md-0">
-                        <h4 className="titulo-seccion">CONTÁCTANOS</h4>
+                        <h3 className="titulo-seccion">CONTÁCTANOS</h3>
                         <div className="info-contacto">
-                            <p><strong>Teléfono:</strong> +57 313 456 7890</p>
-                            <p><strong>Dirección:</strong> Calle ....</p>
+                            <p style={{fontSize:"20px"}}><strong style={{fontSize:"20px"}}>Teléfono:</strong> +57 313 456 7890</p>
+                            <p style={{fontSize:"20px"}}><strong style={{fontSize:"20px"}}>Dirección:</strong> Calle 9  #carrera 27, Bucaramanga, Santander</p>
+                            <a  href="mailto:ejemplo@correo.com" style={{ color: 'inherit', textDecoration: 'none', fontSize:"20px" }}> {/* mailto: sirve para que, al hacer clic en el correo electrónico,
+                                el navegador abra automáticamente  la aplicación de correo predeterminada del usuario (como Outlook, Gmail, Apple Mail, etc.)*/}
+                            <strong style={{fontSize:"20px"}}>Correo:</strong> botanicpanic@gmail.com
+                            </a>
+
                         </div>
                         <div className="contenedor-mapa">
                             <iframe
@@ -92,8 +97,8 @@ const Contactos = () => {
 
                     {/* --- Columna Derecha (Formulario con React Hook Form) --- */}
                     <Col md={6}>
-                        <h4 className="titulo-seccion">DÉJANOS TUS DATOS</h4>
-                        <p className="descripcion-formulario">
+                        <h3 className="titulo-seccion">DÉJANOS TUS DATOS</h3>
+                        <p style={{fontSize:"20px"}} className="descripcion-formulario">
                             Permítenos contactarlo y resolver sus dudas o sugerencias.
                         </p>
 
@@ -107,7 +112,7 @@ const Contactos = () => {
                                 <Col md={6}>
                                     {/* Grupo Nombre */}
                                     <Form.Group className="mb-3" controlId="formNombre">
-                                        <Form.Label>
+                                        <Form.Label style={{fontSize:"20px"}}>
                                             Nombre: <span className="campo-obligatorio">*</span>
                                         </Form.Label>
                                         <Form.Control
@@ -129,7 +134,7 @@ const Contactos = () => {
                                 <Col md={6}>
                                     {/* Grupo Apellidos */}
                                     <Form.Group className="mb-3" controlId="formApellidos">
-                                        <Form.Label>
+                                        <Form.Label style={{fontSize:"20px"}}>
                                             Apellidos: <span className="campo-obligatorio">*</span>
                                         </Form.Label>
                                         <Form.Control
@@ -147,7 +152,7 @@ const Contactos = () => {
 
                             {/* Grupo Teléfono */}
                             <Form.Group className="mb-3" controlId="formTelefono">
-                                <Form.Label>Teléfono:</Form.Label>
+                                <Form.Label style={{fontSize:"20px"}}>Teléfono:</Form.Label>
                                 <Form.Control
                                     type="tel"
                                     placeholder="Teléfono (opcional)"
@@ -159,12 +164,12 @@ const Contactos = () => {
 
                             {/* Grupo Correo Electrónico */}
                             <Form.Group className="mb-3" controlId="formCorreo">
-                                <Form.Label>
+                                <Form.Label style={{fontSize:"20px"}}>
                                     Correo electrónico: <span className="campo-obligatorio">*</span>
                                 </Form.Label>
                                 <Form.Control
                                     type="email"
-                                    placeholder="correo@ejemplo.com"
+                                    placeholder="correo@gmail.com"
                                     {...register("correo")}
                                     isInvalid={!!errors.correo}
                                 />
@@ -176,7 +181,7 @@ const Contactos = () => {
 
                             {/* Grupo Comentarios */}
                             <Form.Group className="mb-3" controlId="formComentarios">
-                                <Form.Label>Comentarios:</Form.Label>
+                                <Form.Label style={{fontSize:"20px"}}>Comentarios:</Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     rows={4}
