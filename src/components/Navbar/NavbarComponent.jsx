@@ -81,7 +81,7 @@ const NavbarComponent = () => {
           <Modal.Header className="d-flex flex-column w-100 justify-content-center align-items-center">
             <Modal.Title>Inicio de Sesión</Modal.Title>
             <Form.Text className="text-muted">
-              ¿ Es tu primera vez ? <Link to={"/register"}>Regístrate</Link>
+              ¿Es tu primera vez? <Link className="rounded-2 text-black px-3 py-2" to={"/register"}>Regístrate</Link>
             </Form.Text>
           </Modal.Header>
           <Modal.Body>
@@ -95,7 +95,7 @@ const NavbarComponent = () => {
                 <Form.Control type="password" placeholder="Password" />
                 <div className="d-flex justify-content-between mt-2">
                   <Form.Text className="text-muted">
-                    <Link className="mt-5" to={"/"}>
+                    <Link className=" rounded-2 mt-5 text-black px-3 py-2" to={"/"}>
                       Olvidaste tu contraseña?
                     </Link>
                   </Form.Text>
@@ -110,7 +110,7 @@ const NavbarComponent = () => {
                 Iniciar Sesión
               </Button>
             </Form.Group>
-            <Form.Text className="text-muted">o inicia con</Form.Text>
+            <Form.Text className="text-muted">O inicia con</Form.Text>
             <Form.Group>
               <Button className="d-flex justify-content-center align-items-center py-2 px-3 border-dark bg-transparent">
                 <FcGoogle className="fs-4" />
