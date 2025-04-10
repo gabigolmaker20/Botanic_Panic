@@ -5,8 +5,8 @@ import "./StylesFooter.css"
 const participants = [
     { nombre: "Yesid Vanegas", imagen:"../src/assets/yesid.jpg", descripcion: "Desarrollador Frontend kjasndnvjhdijv ajsnvojasjdvij" },
     { nombre: "Laura Rosas", imagen: "../src/assets/laura.jpg", descripcion: "Diseñadora UX/UI" },
-    { nombre: "Gabriel Vera ", imagen: "https://thumbs.dreamstime.com/b/mujer-joven-de-risa-30737045.jpg", descripcion: "Backend Developer" },
-    { nombre: "Alejandro Farelo", imagen: "https://cdn0.uncomo.com/es/posts/6/5/8/por_que_los_hombres_tienen_barba_31856_600_square.jpg", descripcion: "Project Manager" }
+    { nombre: "Gabriel Vera ", imagen: "../src/assets/gabriel.jpg", descripcion: "Backend Developer" },
+    { nombre: "Alejandro Farelo", imagen: "../src/assets/alejandro.jpg", descripcion: "Project Manager" }
 ];
 
 
@@ -67,7 +67,7 @@ return (
             <br />
             <a href="mailto:ejemplo@correo.com" style={{ color: 'inherit', textDecoration: 'none' }}> {/* mailto: sirve para que, al hacer clic en el correo electrónico,
                 el navegador abra automáticamente  la aplicación de correo predeterminada del usuario (como Outlook, Gmail, Apple Mail, etc.)*/}
-            ✉️ ejemplo@correo.com
+            ✉️ botanic_panic@correo.com
             </a>
 
         </div>
