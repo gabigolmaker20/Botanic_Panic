@@ -1,3 +1,4 @@
+import React from "react";
 import { HiOutlineUser } from "react-icons/hi2";
 import { BsBagPlus } from "react-icons/bs";
 import "./StylesNavbar.css";
@@ -22,8 +23,8 @@ const NavbarComponent = () => {
     },
     {
       id: 2,
-      title: "About",
-      path: "/about",
+      title: "Productos",
+      path: "/products",
     },
     {
       id: 3,
@@ -61,15 +62,17 @@ const NavbarComponent = () => {
         <ul className="list-unstyled d-flex gap-1 fw-bold justify-content-between align-items-center">
           {listTitlesHeader?.map((item) => (
             <li key={item.id} className="rounded-3 py-2 px-3">
-              {item.title}
+              <Link to={item.path} className="text-decoration-none text-black">
+                {item.title}
+              </Link>
             </li>
           ))}
         </ul>
-        <div
-          onClick={handleShow}
-          className="nav_buttons d-flex gap-4 justify-content-center py-2 px-3 align-items-center"
-        >
-          <button className="border-0 bg-transparent pb-4 m-0">
+        <div className="nav_buttons d-flex gap-4 justify-content-center py-2 px-3 align-items-center">
+          <button
+            onClick={handleShow}
+            className="border-0 bg-transparent pb-4 m-0"
+          >
             <HiOutlineUser className="fs-5" />
           </button>
           <button className="border-0 pb-4 bg-transparent m-0">
@@ -81,7 +84,10 @@ const NavbarComponent = () => {
           <Modal.Header className="d-flex flex-column w-100 justify-content-center align-items-center">
             <Modal.Title>Inicio de Sesión</Modal.Title>
             <Form.Text className="text-muted">
-              ¿Es tu primera vez? <Link className="rounded-2 text-black px-3 py-2" to={"/register"}>Regístrate</Link>
+              ¿Es tu primera vez?{" "}
+              <Link className="rounded-2 text-black px-3 py-2" to={"/register"}>
+                Regístrate
+              </Link>
             </Form.Text>
           </Modal.Header>
           <Modal.Body>
@@ -93,9 +99,11 @@ const NavbarComponent = () => {
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <div className="d-flex justify-content-between mt-2">
                   <Form.Text className="text-muted">
-                    <Link className=" rounded-2 mt-5 text-black px-3 py-2" to={"/"}>
+                    <Link className="rounded-2 text-black px-3 py-2" to={"/"}>
                       Olvidaste tu contraseña?
                     </Link>
                   </Form.Text>
