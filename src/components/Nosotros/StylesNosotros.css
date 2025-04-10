@@ -1,0 +1,213 @@
+    /* Estilo para el contenedor principal*/
+    .encabezado-equipo {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        /* Oculta cualquier parte de la imagen que pudiera desbordarse del contenedor si sus dimensiones no encajan perfectamente. */
+        overflow: hidden;
+    }
+    
+    /* Estilo para la imagen parte superior */
+    .imagen-encabezado {
+        width: 100%;
+        height: 100%;
+        /* la imagen cubre completamente el área del contenedor. Puede recortar partes de la imagen si es necesario. */
+        object-fit: cover;
+        /* Aplica un filtro para oscurecer la imagen (60% de brillo), mejorando la legibilidad del texto superpuesto.
+         Ajusta el porcentaje (0% a 100%) según la oscuridad deseada. */
+        filter: brightness(30%);
+    }
+    
+    /* Estilo para el título que se muestra encima de la imagen superior. */
+    .titulo-sobre-imagen {
+        position: absolute;
+        top: 50%;/* Posiciona el borde superior del título en el centro vertical del contenedor padre. */
+        left: 50%;
+        transform: translate(-50%, -50%);    /* Mueve el título hacia arriba y hacia la izquierda en un 50%
+         de su propio tamaño. Esto centra el título perfectamente, independientemente de su tamaño. */
+        color: white;
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);/* Añade una sombra al texto para mejorar su legibilidad
+         sobre fondos complejos. (desplazamiento-x, desplazamiento-y, desenfoque, color-con-opacidad). */
+    
+    }
+        
+    
+    
+        
+        /* --- Estilos Generales de la Sección --- */
+        .seccion-equipo {
+            padding: 60px 20px;
+            background-color: #f3f5ec; 
+            font-family: sans-serif;
+        }
+        
+        .titulo-seccion-equipo {
+            text-align: center;
+            margin-bottom: 50px;
+            color: #2b2828;
+        }
+    
+        .titulo-seccion-equipo h2 { 
+            font-size: 2.5rem;
+            margin-bottom: 10px; 
+            font-weight: 600; 
+            color: #3a506b; }
+    
+        .titulo-seccion-equipo p { 
+            font-size: 1rem; 
+            color: #777; 
+            margin-bottom: 20px; }
+    
+        .linea-decorativa-titulo { 
+            width: 60px;
+            height: 3px;
+            background-color: #1abc9c;
+            margin: 0 auto; }
+        
+        
+        /* --- Grid Centrado para las Tarjetas --- */
+        .equipo-grid-centrado {
+            display: grid;
+            /* Columnas responsivas */
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 45px; 
+            max-width: 2000px; /* Ancho máximo del grid (ajusta si es necesario) */
+            margin: 0 auto; /* Centra el grid en la página */
+        }
+        
+        /* --- Estilo de la Tarjeta Individual --- */
+        .tarjeta-miembro {
+            background-color: #ffffff; /* Fondo blanco por defecto */
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            text-align: center;
+            position: relative;
+            padding-bottom: 25px; /* Ajusta padding inferior */
+            /* Transiciones para hover */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            margin-left: 50px;
+        }
+        
+        /* Contenedor de la imagen */
+        .tarjeta-imagen-contenedor {
+            height: 400px; /*altura de la imagen del integrante*/
+            position: relative;
+            background-color: #eee;
+    
+        }
+        
+        .tarjeta-imagen-miembro {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* --- El Efecto Diagonal --- */
+        .tarjeta-imagen-contenedor::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px; /* Altura del corte */
+            background-color: #ffffff; /* Blanco por defecto */
+            transform: skewY(-5deg);
+            transform-origin: top left;
+            z-index: 1;
+            /* Transición para el cambio de color */
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Contenido debajo de la imagen */
+        .tarjeta-contenido {
+            padding: 35px 25px 15px 25px; /* Ajusta padding */
+            position: relative;
+            z-index: 2;
+            margin-top: -30px; 
+        }
+        
+        .tarjeta-nombre {
+            font-size: 1.5rem; 
+            font-weight: 600;
+            color: #333; 
+            margin-top: 0;
+            margin-bottom: 8px;
+            transition: color 0.3s ease; /* Transición para color */
+        }
+        
+        .linea-decorativa-nombre {
+            width: 45px; 
+            height: 2px;
+            background-color: #1abc9c; 
+            margin: 0 auto 18px auto;
+            transition: background-color 0.3s ease; /* Transición para color */
+        }
+        
+        .tarjeta-descripcion {
+            font-size: 20px; 
+            color: #524c4c; /*color del codigo de estudiante*/
+            line-height: 1.5;
+            margin-bottom: 25px;
+            transition: color 0.3s ease; /* Transición para color */
+        }
+        
+    
+        .icono-social {
+            color: #4c4949; /* Color de los iconos de las redes sociales */
+            font-size: 1.5rem; /* tamaño */
+            margin: 0 8px;
+            text-decoration: none;
+            transition: color 0.3s ease; /* Transición para color */
+        }
+        
+        
+        /* --- EFECTO HOVER --- */
+        .tarjeta-miembro:hover {
+            transform: scale(1.05); /* Agrandar */
+            background-color: #1a1a1a; /* Fondo casi negro */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); /* Sombra*/
+            cursor: pointer; /* Puntero */
+            z-index: 10;
+        }
+        
+        /* Cambiar color de TODO el contenido interno a blanco en hover */
+        .tarjeta-miembro:hover .tarjeta-nombre,
+        .tarjeta-miembro:hover .tarjeta-descripcion,
+        .tarjeta-miembro:hover .icono-social {
+            color: #ffffff;
+        }
+        
+        /* Cambiar color de la línea decorativa a blanco en hover */
+        .tarjeta-miembro:hover .linea-decorativa-nombre {
+            background-color: #ffffff;
+        }
+        
+        /* Cambiar color la diagonal a negro (para que se funda con el fondo) en hover */
+        .tarjeta-miembro:hover .tarjeta-imagen-contenedor::after {
+            background-color: #1a1a1a; 
+        }
+        
+        
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .equipo-grid-centrado {
+            /* Reduce el tamaño mínimo en pantallas más pequeñas si es necesario */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            }
+            .tarjeta-imagen-contenedor {
+                height: 250px; /* Reduce altura imagen */
+            }
+        
+        }
+        
+        @media (max-width: 480px) {
+            .equipo-grid-centrado {
+                /* Cambia a una columna en pantallas muy pequeñas */
+                grid-template-columns: 1fr;
+            }
+        }
