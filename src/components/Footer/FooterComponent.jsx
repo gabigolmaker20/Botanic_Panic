@@ -58,16 +58,17 @@ return (
         <div className="footer-column contact-column">
             <h2>CONTÁCTANOS</h2>
             <br />
-            <p style={{ textAlign: "left"}}>⌖ Calle cjsbhdfg skjdfnfshhg lksjvijshf kjsngi hasbduf sdvhwhdv jinvdihswd  hsihhfushf </p>
+            <br />
+            <p style={{ textAlign: "center" ,fontSize:"23px"}}>⌖ Calle 9  #carrera 27, Bucaramanga, Santander </p>
             
-            <a href="tel:+57313567890" style={{ color: 'inherit', textDecoration: 'none' }} >
+            <a href="tel:+57313567890" style={{ color: 'inherit', textDecoration: 'none',fontSize:"20px" }} >
             📞 +57 313 456 7890
             </a>
             <br />
             <br />
-            <a href="mailto:ejemplo@correo.com" style={{ color: 'inherit', textDecoration: 'none' }}> {/* mailto: sirve para que, al hacer clic en el correo electrónico,
+            <a href="mailto:ejemplo@correo.com" style={{ color: 'inherit', textDecoration: 'none' , fontSize:"20px"}}> {/* mailto: sirve para que, al hacer clic en el correo electrónico,
                 el navegador abra automáticamente  la aplicación de correo predeterminada del usuario (como Outlook, Gmail, Apple Mail, etc.)*/}
-            ✉️ botanic_panic@correo.com
+            ✉️ botanicpanic@gmail.com
             </a>
 
         </div>
