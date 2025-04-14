@@ -5,6 +5,7 @@ import ContactComponent from "../components/Contact/ContactComponent";
 import NosotrosComponent from "../components/Nosotros/NosotrosComponent";
 import Home from "../components/home/Home";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Equipo from "../components/Nosotros/NosotrosComponent";
 
 
 const AppRouter = () => {
@@ -15,6 +16,7 @@ const AppRouter = () => {
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<ContactComponent/>}/>
           <Route path="/nosotros" element={<NosotrosComponent/>}/>
+          {/* <Route path="/nosotros" element={<Equipo/>}/> */}
         </Route>
       </Routes>
     </BrowserRouter>
