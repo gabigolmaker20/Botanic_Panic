@@ -1,5 +1,6 @@
-import { useState } from "react";
+
 import "./StylesFooter.css"
+import { Link } from 'react-router-dom';
 
 // Los integrantes del equipo: nombre, foto y descripcion
 const participants = [
@@ -56,7 +57,7 @@ return (
 
         {/* --- Columna de contactos --- */}
         <div className="footer-column contact-column">
-            <h2>CONTÁCTANOS</h2>
+            <Link to="/contact" style={{textDecoration:' none'}}><h2>CONTÁCTANOS</h2></Link>
             <br />
             <br />
             <p style={{ textAlign: "center" ,fontSize:"23px"}}>⌖ Calle 9  #carrera 27, Bucaramanga, Santander </p>
@@ -88,7 +89,7 @@ return (
                 key={index}
                 className="button social-button" // Añadida clase social-button si necesitas estilos específicos
                 data-tooltip={button.dataName}
-                //  añadir un onClick si estos botones hacen algo
+                
                 //onClick={() => window.location.href = button.url} // Redirige al hacer clic
                 >
                 <img
@@ -105,7 +106,8 @@ return (
 
         {/* --- Columna de Nuestro Equipo --- */}
         <div className="footer-column team-column">
-            <h2>NUESTRO EQUIPO</h2>
+        <Link to="/nosotros" style={{textDecoration:' none'}}><h2>NUESTRO EQUIPO</h2></Link>
+            
             <br />
             <div className="team-members-container">
             {participants.map((participant, index) => (
