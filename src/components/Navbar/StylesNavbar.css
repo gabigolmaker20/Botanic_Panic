@@ -7,6 +7,7 @@
 .nav_links li:hover {
   cursor: pointer;
   background-color: #c5c5c5;
+  scale: 1.08;
   transition: all 0.3s ease-in-out;
 }
 
@@ -14,6 +15,10 @@
   cursor: pointer;
   scale: 1.08;
   transition: all 0.3s ease-in-out;
+}
+
+button.btn-close:focus {
+  box-shadow: 0 0 0 0.2rem #091a0438;
 }
 
 .button_singIn {
@@ -34,15 +39,21 @@
 }
 
 input.form-control:focus {
-    border-color: var(--color-letras);
-    box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
-    outline: none;
+  border-color: var(--color-letras);
+  box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
+  outline: none;
 }
 
-input.form-check-input:focus{
-    background-color: var(--color-letras);
-    border-color: var(--principal-color);
-    box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
-    outline: none;
+input.form-check-input:focus {
+  background-color: var(--color-letras);
+  border-color: var(--principal-color);
+  box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
+  outline: none;
 }
-  
+
+a:hover{
+  background-color: #c5c5c5;
+  scale: 1.08;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
