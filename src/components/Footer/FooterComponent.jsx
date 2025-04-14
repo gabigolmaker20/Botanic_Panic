@@ -10,26 +10,27 @@ const participants = [
     { nombre: "Alejandro Farelo", imagen: "../src/assets/alejandro.jpg", descripcion: "Project Manager" }
 ];
 
-
-   // imagened de las redes sociales
+       // imagened de las redes sociales
 const buttonImages = [
         {
         src: "https://cdn.pixabay.com/photo/2021/06/15/12/51/facebook-6338508_1280.png",
-        dataName: "Facebook"
-        //url: "https://facebook.com/tu-pagina" si se le pone red social
-
+        dataName: "Facebook",
+        url: "https://www.facebook.com/profile.php?id=61575052720129"
         },
         {
         src: "https://esemanal.mx/revista/wp-content/uploads/2021/06/logo-instagram.png",
-        dataName: "Instagram"
+        dataName: "Instagram",
+        url: "https://www.instagram.com/botanic_panic48/"
         },
         {
         src: "https://i0.wp.com/consultarse.org/wp-content/uploads/2020/06/Twitter_Logo_Blue.png?fit=400%2C400&ssl=1",
-        dataName: "Twitter"
+        dataName: "Twitter",
+        url: "https://x.com/botanic20913"
         },
         {
         src: "https://cdn.pixabay.com/photo/2021/06/15/12/28/tiktok-6338432_640.png",
-        dataName: "TikTok"
+        dataName: "TikTok",
+        url: "https://www.tiktok.com/@botanicpanic785?lang=es"
         }
 ];
 
@@ -89,8 +90,7 @@ return (
                 key={index}
                 className="button social-button" // Añadida clase social-button si necesitas estilos específicos
                 data-tooltip={button.dataName}
-                
-                //onClick={() => window.location.href = button.url} // Redirige al hacer clic
+                onClick={() => window.location.href = button.url} // Redirige al hacer clic
                 >
                 <img
                     src={button.src}
