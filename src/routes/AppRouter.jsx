@@ -5,8 +5,7 @@ import ContactComponent from "../components/Contact/ContactComponent";
 import NosotrosComponent from "../components/Nosotros/NosotrosComponent";
 import Home from "../components/home/Home";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Equipo from "../components/Nosotros/NosotrosComponent";
-
+import Products from "../components/listProducts/Products";
 
 const AppRouter = () => {
   return (
@@ -14,6 +13,7 @@ const AppRouter = () => {
       <Routes>
         <Route element={<LayoutComponent />}>
           <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products/>}/>
           <Route path="/contact" element={<ContactComponent/>}/>
           <Route path="/nosotros" element={<NosotrosComponent/>}/>
           {/* <Route path="/nosotros" element={<Equipo/>}/> */}
