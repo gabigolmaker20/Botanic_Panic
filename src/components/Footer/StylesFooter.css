@@ -61,9 +61,14 @@
         /* Flex-basis controla el tamaño base antes de distribuir espacio extra.
         Puedes ajustar estos valores según necesites */
         /* flex: 1; /* Opción para que todas ocupen espacio similar */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         text-align: center;
         padding: 0 15px; /* Padding interno para las columnas */
     }
+
     
     /* Ajustes específicos  */
     .contact-column {
