@@ -154,6 +154,11 @@
             margin-bottom: 25px;
             transition: color 0.3s ease; /* Transición para color */
         }
+
+        .tarjeta-redes{
+            display: flex;
+            justify-content: space-between;
+        }
         
     
         .icono-social {
