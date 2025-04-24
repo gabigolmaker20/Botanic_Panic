@@ -164,11 +164,14 @@
         .icono-social {
             color: #4c4949; /* Color de los iconos de las redes sociales */
             font-size: 1.5rem; /* tamaño */
-            margin: 0 8px;
+            padding: .5rem;
+            border-radius: 50%;
             text-decoration: none;
             transition: color 0.3s ease; /* Transición para color */
         }
-        
+        .icono-social:hover {
+            color: #1a1a1a; /* Color al pasar el mouse */
+        }
         
         /* --- EFECTO HOVER --- */
         .tarjeta-miembro:hover {
