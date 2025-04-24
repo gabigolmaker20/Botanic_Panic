@@ -138,6 +138,10 @@
     }
     
     .participant-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         text-align: center;
       /* max-width:120px; Ancho máximo para cada tarjeta de miembro */
         width: calc(50% - 10px); /* dos por fila, considerando el gap */
@@ -278,12 +282,10 @@
             justify-content: space-around; /* Distribuir mejor en móvil */
         }
     
-        .participant-card {
-            max-width: 50px; /* Ajustar tamaño si es necesario, 120 si se quiere 3 y 1 */
-        }
         .participant-image {
             width: 70px;
             height: 70px;
+            border-radius: 100%; /* Redondear más en móvil */
         }
     
         .footer-bottom-text {
@@ -322,5 +324,6 @@
         .participant-image {
             width: 60px;
             height: 60px;
+            border-radius: 100%;
         }
     }
