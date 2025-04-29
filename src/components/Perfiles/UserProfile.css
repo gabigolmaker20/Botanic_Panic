@@ -1,0 +1,191 @@
+    /* UserProfile.css - Estilos para el componente de perfil de usuario */
+
+    /* --- Contenedor Principal --- */
+    .user-profile-container {
+        overflow: hidden; /* Evita que elementos flotantes o con márgenes negativos se salgan */
+        border: 1px solid #dee2e6;
+        height: 530px; /* Borde sutil similar a la imagen original */
+        
+    }
+    
+    /* --- Cabecera del Perfil --- */
+    .profile-header {
+        position: relative; /* Necesario para posicionar absolutamente botones hijos */
+    }
+    
+    /* --- Foto de Portada --- */
+    .cover-photo {
+        height: 220px; /* Altura fija para la imagen de portada */
+        background-size: cover; /* Asegura que la imagen cubra el área */
+        background-position: center center; /* Centra la imagen */
+        background-color: #e9ecef; /* Color de fondo placeholder mientras carga */
+        position: relative; /* Contexto para el botón de edición de portada */
+        border-bottom: 1px solid #dee2e6; /* Línea divisoria sutil */
+    }
+    
+    /* --- Botón de Edición (sobre Portada y Foto de Perfil) --- */
+    .cover-edit-button,
+    .profile-edit-button {
+        position: absolute; /* Posicionamiento absoluto respecto al padre (.cover-photo o .profile-picture-wrapper) */
+        border-radius: 50%; /* Botón redondo */
+        opacity: 0.7; /* Ligeramente transparente por defecto */
+        transition: opacity 0.2s ease-in-out; /* Transición suave al pasar el ratón */
+        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semi-transparente */
+        border: 1px solid rgba(0, 0, 0, 0.1); /* Borde muy sutil */
+        line-height: 1; /* Ajusta la altura de línea para el icono */
+        padding: 0.25rem 0.5rem; /* Padding interno (Bootstrap: btn-sm ajusta esto también) */
+        z-index: 3; /* Asegura que esté por encima de la imagen */
+    }
+    .cover-edit-button:hover,
+    .profile-edit-button:hover {
+        opacity: 1; /* Totalmente opaco al pasar el ratón */
+    }
+    
+    /* Posicionamiento específico del botón de editar portada */
+    .cover-edit-button {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    /* --- Barra de Información (debajo de la portada) --- */
+    .profile-info-bar {
+        background-color: #ffffff; /* Fondo blanco */
+        /* Clases de Bootstrap usadas: p-3, p-md-4 */
+    }
+    
+    /* --- Contenedor de la Foto de Perfil --- */
+    .profile-picture-wrapper {
+        position: relative; /* Contexto para el botón de edición de perfil */
+        /* Levanta la imagen de perfil para que se superponga a la portada */
+        margin-top: -75px; /* La mitad de la altura de la imagen (150px / 2) */
+        z-index: 2; /* Asegura que esté por encima de la portada pero debajo del botón de edición si se superponen */
+        flex-shrink: 0; /* Evita que el contenedor se encoja si el nombre es muy largo */
+    }
+    
+    /* --- Imagen de Perfil --- */
+    .profile-picture {
+        width: 150px;  /* Ancho fijo */
+        height: 150px; /* Alto fijo (para que sea un círculo perfecto) */
+        border: 4px solid #fff; /* Borde blanco grueso para separarla del fondo */
+        background-color: #adb5bd; /* Color placeholder mientras carga */
+        object-fit: cover; /* Evita que la imagen se distorsione, la recorta si es necesario */
+        /* Clases de Bootstrap usadas: img-thumbnail, rounded-circle */
+    }
+    
+    /* Posicionamiento específico del botón de editar perfil */
+    .profile-edit-button {
+        bottom: 5px;
+        right: 5px;
+    }
+    
+    /* --- Detalles del Usuario (Nombre y Bio) --- */
+    .user-details {
+        min-width: 0; /* Permite que flex-grow funcione correctamente y el texto se ajuste */
+        /* Clases de Bootstrap usadas: ms-3, ms-md-4, flex-grow-1 */
+    }
+    
+    /* Nombre del Usuario */
+    .user-name {
+        font-weight: 600; /* Texto más grueso para el nombre */
+        /* Clases de Bootstrap usadas: h4, mb-1 */
+    }
+    
+    /* Biografía del Usuario */
+    .user-bio {
+        font-style: italic; /* Texto en cursiva */
+        font-size: 0.9rem; /* Tamaño de fuente ligeramente reducido */
+        /* Clases de Bootstrap usadas: text-muted, small, mb-0 */
+    }
+    
+    /* --- Botón Principal "Modificar Perfil" --- */
+    .edit-profile-button {
+        white-space: nowrap; /* Evita que el texto del botón se divida en dos líneas */
+        /* Clases de Bootstrap usadas: btn, btn-outline-secondary, btn-sm, ms-auto, align-self-start, pt-md-0, pt-2 */
+    }
+    
+    /* --- Sección de Vínculos Rápidos --- */
+    .quick-links-section {
+        background-color: #f8f9fa; /* Fondo gris muy claro para diferenciar la sección */
+        /* Clases de Bootstrap usadas: card-body, border-top */
+    }
+    
+    /* Título "Vínculos rápidos" */
+    .quick-links-title {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #495057;
+        /* Clases de Bootstrap usadas: mb-3 */
+    }
+    
+    /* Estilo para los botones dentro de Vínculos Rápidos */
+    .quick-links-section .btn {
+        font-size: 0.9rem; /* Texto ligeramente más pequeño */
+        padding: 0.5rem 0.8rem; /* Padding personalizado */
+        /* Clases de Bootstrap usadas: d-flex, flex-wrap, gap-2 (en el contenedor), d-inline-flex, align-items-center, ms-2 (en el span) */
+    }
+    
+    /* --- Media Queries para Responsividad --- */
+    
+    /* Dispositivos Medianos (tablets, < 992px) */
+    @media (max-width: 991.98px) {
+        /* No se necesitan cambios específicos aquí normalmente si Bootstrap maneja bien el flex */
+    }
+    
+
+    @media (max-width: 768px) {
+        .cover-photo {
+        height: 150px; /* Portada más pequeña */
+        }
+        .profile-picture-wrapper {
+        margin-top: -50px; /* Ajustar la subida de la foto de perfil */
+        }
+        .profile-picture {
+        width: 100px; /* Foto de perfil más pequeña */
+        height: 100px;
+        border-width: 3px; /* Borde ligeramente más delgado */
+        }
+        .user-name {
+            font-size: 1.15rem; /* Nombre un poco más pequeño */
+        }
+        .edit-profile-button {
+            font-size: 0.8rem; /* Botón de editar más pequeño */
+            padding: 0.25rem 0.5rem;
+        }
+        /* Ajuste para que el botón de editar no choque con la bio en móvil */
+        .profile-info-bar .d-flex {
+            align-items: flex-start; /* Alinear arriba en móvil */
+        }
+        .user-details {
+            margin-bottom: 0.5rem; /* Añadir espacio si el botón está debajo */
+        }
+    }
+    
+    /* Dispositivos Extra Pequeños  */
+    @media (max-width: 576px) {
+        /* Apilar los elementos de la barra de info */
+        .profile-info-bar .d-flex {
+            flex-direction: column; /* Cambiar a columna */
+            align-items: center; /* Centrar elementos */
+        }
+        .profile-picture-wrapper {
+            margin-bottom: 1rem; /* Espacio debajo de la foto cuando está apilada */
+            /* margin-top se mantiene */
+        }
+        .user-details {
+            text-align: center; /* Centrar nombre y bio */
+            margin-left: 0 !important; /* Resetear margen izquierdo */
+            width: 100%;
+        }
+        /* Mover el botón Editar a la esquina superior derecha de la barra de info */
+        .edit-profile-button {
+            position: absolute;
+            top: 0.75rem; /* Ajustar desde p-3 */
+            right: 0.75rem; /* Ajustar desde p-3 */
+            /* align-self-start y pt-* ya no aplican igual */
+        }
+        /* Hacer que los botones de vínculos rápidos ocupen más ancho si es necesario */
+        .quick-links-section .btn {
+            flex-grow: 1; /* Opcional: hacer que los botones crezcan para llenar espacio */
+            justify-content: center; /* Centrar contenido del botón si crece */
+        }
+    }
