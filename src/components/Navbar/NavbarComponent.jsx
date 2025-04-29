@@ -148,7 +148,7 @@ const NavbarComponent = () => {
           </button>
         </div>
         <div className="d-flex justify-content-center align-items-center">
-          <button className="d-flex justify-content-center align-items-center border-0 pb-4 bg-transparent m-0">
+          <div className="d-flex justify-content-center align-items-center border-0 pb-4 bg-transparent m-0">
             <DropdownButton
               title={<BsBagPlus className="fs-5" />}
               align="end"
@@ -198,21 +198,21 @@ const NavbarComponent = () => {
               <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*/}
               <Dropdown.Divider />
               <Dropdown.Item eventKey="4">
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="d-flex justify-content-between align-items-center ">
                   <span>Total:</span>
                   <span className="fw-bold"> $ 100</span>
                 </div>
                 <div className="w-100 d-flex justify-content-center align-items-center">
-                  <Link
+                  <button
                     to={"/cart"}
-                    className="text-decoration-none rounded w-100 text-center text-black"
+                    className="text-decoration-none hover:bg-gray-300 transition-all duration-150 rounded w-100 text-center text-black"
                   >
                     Ir al Carrito
-                  </Link>
+                  </button>
                 </div>
               </Dropdown.Item>
             </DropdownButton>
-          </button>
+          </div>
         </div>
 
         <Modal show={show} onHide={handleClose}>
