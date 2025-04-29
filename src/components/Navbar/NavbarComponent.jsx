@@ -13,12 +13,15 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { MdOutlineAdd } from "react-icons/md";
 import { RiSubtractLine } from "react-icons/ri";
 import { MdDeleteForever } from "react-icons/md";
+import { authUsers } from "../../zustand/authUsers";
 
 const NavbarComponent = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const {loginWithGoogle} = authUsers();
 
   const products = [
     {
@@ -252,7 +255,7 @@ const NavbarComponent = () => {
             </Form.Group>
             <Form.Text className="text-muted">O inicia con</Form.Text>
             <Form.Group>
-              <Button className="d-flex justify-content-center align-items-center py-2 px-3 border-dark bg-transparent">
+              <Button onClick={() => loginWithGoogle()} className="d-flex justify-content-center align-items-center py-2 px-3 border-dark bg-transparent">
                 <FcGoogle className="fs-4" />
               </Button>
             </Form.Group>
