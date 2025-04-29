@@ -8,12 +8,83 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import { MdOutlineAdd } from "react-icons/md";
+import { RiSubtractLine } from "react-icons/ri";
+import { MdDeleteForever } from "react-icons/md";
+import { authUsers } from "../../zustand/authUsers";
 
 const NavbarComponent = () => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const {loginWithGoogle} = authUsers();
+
+  const products = [
+    {
+      id: 1,
+      name: "Basic Tee",
+      href: "#",
+      imageSrc:
+        "https://images.stockcake.com/public/f/7/d/f7df4c36-2d58-4568-8713-2e03e833050a_large/sunny-succulent-display-stockcake.jpg",
+      imageAlt: "Front of men's Basic Tee in black.",
+      price: "$35",
+      color: "Black",
+    },
+    {
+      id: 2,
+      name: "Basic Tee",
+      href: "#",
+      imageSrc:
+        "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-02.jpg",
+      imageAlt: "Front of men's Basic Tee in black.",
+      price: "$35",
+      color: "Black",
+    },
+    {
+      id: 3,
+      name: "Basic Tee",
+      href: "#",
+      imageSrc:
+        "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-03.jpg",
+      imageAlt: "Front of men's Basic Tee in black.",
+      price: "$35",
+      color: "Black",
+    },
+    // {
+    //   id: 4,
+    //   name: "Basic Tee",
+    //   href: "#",
+    //   imageSrc:
+    //     "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-04.jpg",
+    //   imageAlt: "Front of men's Basic Tee in black.",
+    //   price: "$35",
+    //   color: "Black",
+    // },
+    // {
+    //   id: 5,
+    //   name: "Basic Tee",
+    //   href: "#",
+    //   imageSrc:
+    //     "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-03.jpg",
+    //   imageAlt: "Front of men's Basic Tee in black.",
+    //   price: "$35",
+    //   color: "Black",
+    // },
+    // {
+    //   id: 6,
+    //   name: "Basic Tee",
+    //   href: "#",
+    //   imageSrc:
+    //     "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    //   imageAlt: "Front of men's Basic Tee in black.",
+    //   price: "$35",
+    //   color: "Black",
+    // },
+  ];
 
   const listTitlesHeader = [
     {
@@ -75,9 +146,73 @@ const NavbarComponent = () => {
           >
             <HiOutlineUser className="fs-5" />
           </button>
-          <button className="border-0 pb-4 bg-transparent m-0">
-            <BsBagPlus className="fs-5" />
-          </button>
+        </div>
+        <div className="d-flex justify-content-center align-items-center">
+          <div className="d-flex justify-content-center align-items-center border-0 pb-4 bg-transparent m-0">
+            <DropdownButton
+              title={<BsBagPlus className="fs-5" />}
+              align="end"
+              id="dropdown-menu-align-end"
+              className="border-0 d-flex flex-row"
+              size="lg"
+              variant="transparent"
+            >
+              <div style={{ width: "300px" }}>
+                {products?.map((product) => (
+                  <div
+                    key={product.id}
+                    className="d-flex px-1 w-100 py-3 justify-content-between align-items-center gap-2"
+                  >
+                    <div className="d-flex gap-3">
+                      <button>
+                        <MdDeleteForever className="hover:text-red-600 transition-all duration-200" style={{fontSize:"1.2rem"}}/>
+                      </button>
+
+                      <img
+                        src={product.imageSrc}
+                        alt={product.imageAlt}
+                        className="rounded-2 object-fit-cover"
+                        style={{ width: "50px", height: "50px" }}
+                      />
+                    </div>
+
+                    <div className="d-flex gap-3">
+                      <button>
+                        <RiSubtractLine />
+                      </button>
+                      <span className="mx-2">1</span>
+                      <button>
+                        <MdOutlineAdd />
+                      </button>
+                    </div>
+                    <div className="d-flex ml-1.5 flex-column">
+                      <span>{product.name}</span>
+                      <span>{product.price}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* <Dropdown.Item eventKey="1">Action</Dropdown.Item>
+              <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
+              <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>*/}
+              <Dropdown.Divider />
+              <Dropdown.Item eventKey="4">
+                <div className="d-flex justify-content-between align-items-center ">
+                  <span>Total:</span>
+                  <span className="fw-bold"> $ 100</span>
+                </div>
+                <div className="w-100 d-flex justify-content-center align-items-center">
+                  <button
+                    to={"/cart"}
+                    className="text-decoration-none hover:bg-gray-300 transition-all duration-150 rounded w-100 text-center text-black"
+                  >
+                    Ir al Carrito
+                  </button>
+                </div>
+              </Dropdown.Item>
+            </DropdownButton>
+          </div>
         </div>
 
         <Modal show={show} onHide={handleClose}>
@@ -120,7 +255,7 @@ const NavbarComponent = () => {
             </Form.Group>
             <Form.Text className="text-muted">O inicia con</Form.Text>
             <Form.Group>
-              <Button className="d-flex justify-content-center align-items-center py-2 px-3 border-dark bg-transparent">
+              <Button onClick={() => loginWithGoogle()} className="d-flex justify-content-center align-items-center py-2 px-3 border-dark bg-transparent">
                 <FcGoogle className="fs-4" />
               </Button>
             </Form.Group>
@@ -128,7 +263,6 @@ const NavbarComponent = () => {
         </Modal>
       </div>
     </div>
-    
   );
 };
 

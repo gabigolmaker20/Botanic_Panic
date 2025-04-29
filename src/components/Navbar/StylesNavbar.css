@@ -57,3 +57,17 @@ a:hover{
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
+
+#dropdown-menu-align-end{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+
+
+#dropdown-item{
+  width: 300px;
+  background-color: #f3f5ec;
+}

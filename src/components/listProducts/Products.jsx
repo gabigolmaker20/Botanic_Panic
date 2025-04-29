@@ -86,7 +86,7 @@ const products = [
 
 const Products = () => {
   return (
-    <div className="mx-5 cursor-pointer bg-white">
+    <div className="mx-5 mb-4 cursor-pointer bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 className="text-2xl my-4 font-bold tracking-tight text-gray-900">
           Nuestros productos
@@ -100,19 +100,23 @@ const Products = () => {
                 src={product.imageSrc}
                 className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:scale-95 transition-all group-hover:opacity-75 lg:aspect-auto lg:h-80"
               />
-              <div className="mt-4 flex justify-between">
-                <div>
+              <div className="mt-4 flex-col justify-between">
+                <div className="flex items-center justify-between">
                   <h3 className="text-sm text-gray-700">
                     <div>
                       <span aria-hidden="true" className="absolute inset-0" />
                       {product.name}
                     </div>
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500">{product.color}</p>
+                  <p className="text-sm font-medium text-gray-900">
+                    {product.price}
+                  </p>
                 </div>
-                <p className="text-sm font-medium text-gray-900">
-                  {product.price}
-                </p>
+                <div className="mt-1 flex justify-center">
+                  <button className="bg-[#091a04] text-amber-50 w-full rounded py-2 font-semibold group-hover:scale-95 transition-all duration-300 ease-in-out">
+                    Añadir al carrito
+                  </button>
+                </div>
               </div>
             </div>
           ))}
