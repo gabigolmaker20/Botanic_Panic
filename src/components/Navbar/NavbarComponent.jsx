@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { HiOutlineUser } from "react-icons/hi2";
 import { BsBagPlus } from "react-icons/bs";
 import "./StylesNavbar.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Links, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -32,7 +32,7 @@ const NavbarComponent = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { loginWithGoogle } = authUsers();
+  const { loginWithGoogle, user } = authUsers();
 
   const products = [
     {
@@ -154,12 +154,19 @@ const NavbarComponent = () => {
         </ul>
 
         <div className="nav_buttons d-flex gap-4 justify-content-center py-2 px-3 align-items-center">
-          <button
-            onClick={handleShow}
-            className="border-0 bg-transparent pb-4 m-0"
-          >
-            <HiOutlineUser className="fs-5" />
-          </button>
+          {user ? (
+            <Link className="flex mb-5 rounded justify-center items-center flex-column text-decoration-none list-unstyled" to="/perfiles">
+              <img className="w-[30%] rounded-5" src={user.photoURL} alt={user.displayName} />
+              <span className="text-gray-900 font-semibold">{user.displayName}</span>
+            </Link>
+          ) : (
+            <button
+              onClick={handleShow}
+              className="border-0 bg-transparent pb-4 m-0"
+            >
+              <HiOutlineUser className="fs-5" />
+            </button>
+          )}
         </div>
         <div className="d-flex justify-content-center align-items-center">
           <div className="d-flex justify-content-center align-items-center border-0 pb-4 bg-transparent m-0">
@@ -230,14 +237,6 @@ const NavbarComponent = () => {
               </Dropdown.Item>
             </DropdownButton>
           </div>
-          {/* {!loggedIn && (
-            <button onClick={handleShow} className="border-0 bg-transparent pb-4 m-0">
-              <HiOutlineUser className="fs-5" />
-            </button>
-          )}
-          <button className="border-0 pb-4 bg-transparent m-0">
-            <BsBagPlus className="fs-5" />
-          </button> */}
         </div>
 
         <Modal show={show} onHide={handleClose}>
@@ -288,7 +287,11 @@ const NavbarComponent = () => {
 
           <Modal.Footer className="container-footer d-flex flex-column justify-content-between">
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Button className="border-0 fw-bolder" type="submit">
+              <Button
+                className="border-0 fw-bolder"
+                type="submit"
+                onClick={() => handleLogin(event)}
+              >
                 Iniciar Sesión
               </Button>
             </Form.Group>
