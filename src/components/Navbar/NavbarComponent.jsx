@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { HiOutlineUser } from "react-icons/hi2";
 import { BsBagPlus } from "react-icons/bs";
 import "./StylesNavbar.css";
-import { Link, Links, useNavigate } from "react-router-dom";
+import { Link, Links, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -18,6 +18,7 @@ import { usersData } from "../Perfiles/userData-";
 
 const NavbarComponent = () => {
   const [show, setShow] = useState(false);
+  const location = useLocation();
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
@@ -147,7 +148,7 @@ const NavbarComponent = () => {
       <div className="nav_links d-flex justify-content-center align-items-center">
         <ul className="list-unstyled d-flex gap-1 fw-bold justify-content-between align-items-center">
           {listTitlesHeader.map((item) => (
-            <li key={item.id} className="rounded-3 py-2 px-3">
+            <li key={item.id} className={`py-2 mx-3 px-3 ${location.pathname === item.path ? "active" : ""}`}>
               <Link to={item.path} className="text-decoration-none text-black">
                 {item.title}
               </Link>
