@@ -7,16 +7,17 @@ import Home from "../components/home/Home";
 import Products from "../components/listProducts/Products";
 import Perfiles from "../components/Perfiles/ProfilePage";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import RutaProtegida from "./routeProtect/RutaProtegida";
 
 // Función para verificar si el usuario está logueado
-const isAuthenticated = () => {
-  return !!localStorage.getItem("loggedInUserId"); // Devuelve true si hay usuario
-};
+// const isAuthenticated = () => {
+//   return !!localStorage.getItem("loggedInUserId"); // Devuelve true si hay usuario
+// };
 
 // Componente para proteger rutas
-const PrivateRoute = ({ children }) => {
-  return isAuthenticated() ? children : <Navigate to="/" />;
-};
+// const PrivateRoute = ({ children }) => {
+//   return isAuthenticated() ? children : <Navigate to="/" />;
+// };
 
 const AppRouter = () => {
   return (
@@ -28,23 +29,11 @@ const AppRouter = () => {
           <Route path="/contact" element={<ContactComponent />} />
 
           {/* Rutas protegidas */}
-          <Route
-            path="/perfiles"
-            element={
-              <PrivateRoute>
-                <Perfiles />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/nosotros"
-            element={
-              <PrivateRoute>
-                <NosotrosComponent />
-              </PrivateRoute>
-            }
-          />
-          
+
+          <Route element={<RutaProtegida/>}>
+            <Route path="/perfiles" element={<Perfiles/>} />
+            <Route path="/nosotros" element={<NosotrosComponent/>} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

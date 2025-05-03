@@ -32,7 +32,7 @@ const NavbarComponent = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { loginWithGoogle, user } = authUsers();
+  const { loginWithGoogle, user, isAuthentication } = authUsers();
 
   const products = [
     {
@@ -97,21 +97,23 @@ const NavbarComponent = () => {
     // },
   ];
   const handleLogin = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
-    const foundUser = usersData.find(
-      (user) => user.email === email && user.password === password
-    );
+    // const foundUser = usersData.find(
+    //   (user) => user.email === email && user.password === password
+    // );
 
-    if (foundUser) {
-      console.log("Usuario autenticado:", foundUser);
-      localStorage.setItem("loggedInUserId", foundUser.id);
-      setLoggedIn(true);
-      handleClose();
-      navigate("/perfiles");
-    } else {
-      alert("Correo o contraseña incorrectos.");
-    }
+    // if (foundUser) {
+    //   console.log("Usuario autenticado:", foundUser);
+    //   localStorage.setItem("loggedInUserId", foundUser.id);
+    //   setLoggedIn(true);
+    //   handleClose();
+    //   navigate("/perfiles");
+    // } else {
+    //   alert("Correo o contraseña incorrectos.");
+    // }
+    loginWithGoogle();
+    handleClose();
   };
 
   const listTitlesHeader = [
@@ -120,7 +122,7 @@ const NavbarComponent = () => {
     { id: 3, title: "Contact", path: "/contact" },
     { id: 5, title: "Services", path: "/services" },
     // "Perfil" y "Nosotros" sólo si está logueado
-    ...(loggedIn
+    ...(isAuthentication
       ? [
           { id: 4, title: "Perfil", path: "/perfiles" },
           { id: 6, title: "Nosotros", path: "/nosotros" },
@@ -154,10 +156,19 @@ const NavbarComponent = () => {
         </ul>
 
         <div className="nav_buttons d-flex gap-4 justify-content-center py-2 px-3 align-items-center">
-          {user ? (
-            <Link className="flex mb-5 rounded justify-center items-center flex-column text-decoration-none list-unstyled" to="/perfiles">
-              <img className="w-[30%] rounded-5" src={user.photoURL} alt={user.displayName} />
-              <span className="text-gray-900 font-semibold">{user.displayName}</span>
+          {user && isAuthentication ? (
+            <Link
+              className="flex mb-5 rounded justify-center items-center flex-column text-decoration-none list-unstyled"
+              to="/perfiles"
+            >
+              <img
+                className="w-[30%] rounded-5"
+                src={user.photoURL}
+                alt={user.displayName}
+              />
+              <span className="text-gray-900 font-semibold">
+                {user.displayName}
+              </span>
             </Link>
           ) : (
             <button
@@ -298,7 +309,7 @@ const NavbarComponent = () => {
             <Form.Text className="text-muted">O inicia con</Form.Text>
             <Form.Group>
               <Button
-                onClick={() => loginWithGoogle()}
+                onClick={() => handleLogin(event)}
                 className="d-flex justify-content-center align-items-center py-2 px-3 border-dark bg-transparent"
               >
                 <FcGoogle className="fs-4" />
