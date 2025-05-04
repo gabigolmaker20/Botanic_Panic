@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { auth, provider, signInWithPopup, signOut } from "../firebase/firebase.config";
 import Swal from "sweetalert2";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 
 export const authUsers = create((set) => ({
@@ -46,11 +47,35 @@ export const authUsers = create((set) => ({
         }
     },
 
-    setUser: (user) => set({user}),
-    setIsAuthenticated: (isAuthentication) => set({isAuthentication}),
+    loginWithEmailAndPassword: async (email, password) => {
+        set({ loading: true });
+        try {
+            const response = await signInWithEmailAndPassword(auth, email, password)
+            console.log('Respuesta desde zustand: ', response.user);
+
+            set({
+                user: response.user,
+                loading: false,
+                isAuthentication: true
+            })
+        } catch (error) {
+            console.log("Error en el login: ", error);
+            Swal.fire({
+                title: "Error!",
+                text: "Do you want to continue",
+                icon: "error",
+                confirmButtonText: "Cool",
+            });
+
+            set({ error, loading: false, isAuthentication: false });
+        }
+    },
+
+    setUser: (user) => set({ user }),
+    setIsAuthenticated: (isAuthentication) => set({ isAuthentication }),
 
     logout: async () => {
-        try{
+        try {
             await signOut(auth);
             set({
                 user: null,
@@ -66,7 +91,7 @@ export const authUsers = create((set) => ({
                 window.location.reload(); // Recargar la página después de cerrar sesión
             });
 
-        }catch (error){
+        } catch (error) {
             console.log("Error en el logout: ", error);
             Swal.fire({
                 title: "Error!",

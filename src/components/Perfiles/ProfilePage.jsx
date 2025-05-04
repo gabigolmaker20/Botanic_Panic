@@ -9,7 +9,7 @@
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
-      const { logout } = authUsers();
+      const { logout, user } = authUsers();
 
     useEffect(() => {
         const loggedInUserId = localStorage.getItem("loggedInUserId");
@@ -74,25 +74,25 @@
         );
     }
 
-    if (!currentUser) {
-        return (
-        <div className="container mt-4">
-            <p className="alert alert-warning">
-            No se pudo cargar la información del perfil. Por favor,{" "}
-            <a href="/login">intenta iniciar sesión</a> de nuevo.
-            </p>
-        </div>
-        );
-    }
+    // if (!currentUser) {
+    //     return (
+    //     <div className="container mt-4">
+    //         <p className="alert alert-warning">
+    //         No se pudo cargar la información del perfil. Por favor,{" "}
+    //         <a href="/login">intenta iniciar sesión</a> de nuevo.
+    //         </p>
+    //     </div>
+    //     );
+    // }
 
     return (
         <div className="container mt-4">
         <UserProfile
-            userName={currentUser.userName}
-            userBio={currentUser.bio}
-            profileImageUrl={currentUser.profileImageUrl}
-            coverImageUrl={currentUser.coverImageUrl}
-            itemCount={currentUser.cartItemCount}
+            userName={user?.displayName ? user.displayName : "BotanicPanic"}
+            userBio={user?.email ? user.email : "Soy BotanicPanic, un apasionado de las plantas y la naturaleza."}
+            profileImageUrl={user?.photoURL ? user.photoURL : "https://robohash.org/stefan-one"}
+            coverImageUrl={user?.photoURL ? user.photoURL : "https://media.istockphoto.com/id/1351985254/es/vector/paisaje-de-luna-llena.jpg?s=612x612&w=0&k=20&c=tCQSNKqWGyIIZMZvYIE9bMsEn-1MQZJfuxivpoLjJGE="}
+            itemCount={currentUser?.cartItemCount || 7}
             onEditProfile={handleEditProfile}
             onNavigate={handleNavigate}
             onChangeProfilePic={handleChangeProfilePic}

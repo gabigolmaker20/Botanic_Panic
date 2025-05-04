@@ -33,7 +33,7 @@ const NavbarComponent = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { loginWithGoogle, user, isAuthentication } = authUsers();
+  const { loginWithGoogle, loginWithEmailAndPassword, user, isAuthentication } = authUsers();
 
   const products = [
     {
@@ -97,6 +97,11 @@ const NavbarComponent = () => {
     //   color: "Black",
     // },
   ];
+
+  const handleLoginEmailAndPasswod = () => {
+      loginWithEmailAndPassword(email, password)
+      handleClose();
+  }
   const handleLogin = (e) => {
     // e.preventDefault();
 
@@ -163,12 +168,12 @@ const NavbarComponent = () => {
               to="/profile"
             >
               <img
-                className="w-[30%] rounded-5"
-                src={user.photoURL}
-                alt={user.displayName}
+                className="w-[50px] rounded-5"
+                src={user.photoURL ? user.photoURL : "https://robohash.org/stefan-one"}
+                alt={user.displayName ? user.displayName : "Botanic"}
               />
               <span className="text-gray-900 font-semibold">
-                {user.displayName}
+                {user.displayName ? user.displayName : "Botanic"}
               </span>
             </Link>
           ) : (
@@ -302,7 +307,7 @@ const NavbarComponent = () => {
               <Button
                 className="border-0 fw-bolder"
                 type="submit"
-                onClick={() => handleLogin(event)}
+                onClick={() => handleLoginEmailAndPasswod()}
               >
                 Iniciar Sesión
               </Button>
