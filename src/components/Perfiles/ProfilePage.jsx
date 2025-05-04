@@ -2,11 +2,14 @@
     import UserProfile from '../Perfiles/UserProfile'; 
     import { getLoggedInUser } from '../Perfiles/userData-';
     import { useNavigate } from 'react-router-dom';
+    import { authUsers } from "../../zustand/authUsers";
 
     function ProfilePage() {
     const [currentUser, setCurrentUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+
+      const { logout } = authUsers();
 
     useEffect(() => {
         const loggedInUserId = localStorage.getItem("loggedInUserId");
@@ -99,7 +102,7 @@
         {/* Botón Cerrar Sesión */}
         <div className="d-flex justify-content-end mt-4">
             <button style={{marginBottom:"15px"}}
-            onClick={handleLogout}
+            onClick={() => logout()}
             className="btn btn-danger px-4 py-2"
             >
             Cerrar Sesión

@@ -125,7 +125,7 @@ const NavbarComponent = () => {
     // "Perfil" y "Nosotros" sólo si está logueado
     ...(isAuthentication
       ? [
-          { id: 4, title: "Perfil", path: "/perfiles" },
+          
           { id: 6, title: "Nosotros", path: "/nosotros" },
         ]
       : []),
@@ -160,7 +160,7 @@ const NavbarComponent = () => {
           {user && isAuthentication ? (
             <Link
               className="flex mb-5 rounded justify-center items-center flex-column text-decoration-none list-unstyled"
-              to="/perfiles"
+              to="/profile"
             >
               <img
                 className="w-[30%] rounded-5"

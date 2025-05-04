@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import LayoutComponent from "../components/Layout/LayoutComponent";
 import ContactComponent from "../components/Contact/ContactComponent";
@@ -8,6 +8,9 @@ import Products from "../components/listProducts/Products";
 import Perfiles from "../components/Perfiles/ProfilePage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RutaProtegida from "./routeProtect/RutaProtegida";
+import { onAuthStateChanged } from "firebase/auth";
+import { authUsers } from "../zustand/authUsers";
+import { auth } from "../firebase/firebase.config";
 
 // Función para verificar si el usuario está logueado
 // const isAuthenticated = () => {
@@ -20,6 +23,23 @@ import RutaProtegida from "./routeProtect/RutaProtegida";
 // };
 
 const AppRouter = () => {
+
+  const { setUser, setIsAuthenticated } = authUsers();
+
+  useEffect(() => {
+    const unsuscribe = onAuthStateChanged(auth, (user) => {
+      if(user){
+        setUser(user);
+        setIsAuthenticated(true);
+      }else{
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+    });
+    return () => unsuscribe(); // Limpia el listener al desmontar el componente
+
+  }, [setUser, setIsAuthenticated])
+
   return (
     <BrowserRouter>
       <Routes>
@@ -31,7 +51,7 @@ const AppRouter = () => {
           {/* Rutas protegidas */}
 
           <Route element={<RutaProtegida/>}>
-            <Route path="/perfiles" element={<Perfiles/>} />
+            <Route path="/profile" element={<Perfiles/>} />
             <Route path="/nosotros" element={<NosotrosComponent/>} />
           </Route>
         </Route>
