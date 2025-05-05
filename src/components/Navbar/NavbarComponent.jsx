@@ -33,7 +33,8 @@ const NavbarComponent = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { loginWithGoogle, loginWithEmailAndPassword, user, isAuthentication } = authUsers();
+  const { loginWithGoogle, loginWithEmailAndPassword, user, isAuthentication } =
+    authUsers();
 
   const products = [
     {
@@ -99,9 +100,9 @@ const NavbarComponent = () => {
   ];
 
   const handleLoginEmailAndPasswod = () => {
-      loginWithEmailAndPassword(email, password)
-      handleClose();
-  }
+    loginWithEmailAndPassword(email, password);
+    handleClose();
+  };
   const handleLogin = (e) => {
     // e.preventDefault();
 
@@ -129,10 +130,7 @@ const NavbarComponent = () => {
     // { id: 5, title: "Services", path: "/services" },
     // "Perfil" y "Nosotros" sólo si está logueado
     ...(isAuthentication
-      ? [
-          
-          { id: 6, title: "Nosotros", path: "/nosotros" },
-        ]
+      ? [{ id: 6, title: "Nosotros", path: "/nosotros" }]
       : []),
   ];
 
@@ -153,7 +151,12 @@ const NavbarComponent = () => {
       <div className="nav_links d-flex justify-content-center align-items-center">
         <ul className="list-unstyled d-flex gap-1 fw-bold justify-content-between align-items-center">
           {listTitlesHeader.map((item) => (
-            <li key={item.id} className={`py-2 mx-3 px-3 ${location.pathname === item.path ? "active" : ""}`}>
+            <li
+              key={item.id}
+              className={`py-2 mx-3 px-3 ${
+                location.pathname === item.path ? "active" : ""
+              }`}
+            >
               <Link to={item.path} className="text-decoration-none text-black">
                 {item.title}
               </Link>
@@ -169,7 +172,11 @@ const NavbarComponent = () => {
             >
               <img
                 className="w-[50px] rounded-5"
-                src={user.photoURL ? user.photoURL : "https://robohash.org/stefan-one"}
+                src={
+                  user.photoURL
+                    ? user.photoURL
+                    : "https://robohash.org/stefan-one"
+                }
                 alt={user.displayName ? user.displayName : "Botanic"}
               />
               <span className="text-gray-900 font-semibold">
