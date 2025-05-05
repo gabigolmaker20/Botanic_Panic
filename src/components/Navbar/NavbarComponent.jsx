@@ -38,32 +38,32 @@ const NavbarComponent = () => {
   const products = [
     {
       id: 1,
-      name: "Basic Tee",
+      name: "Suculenta",
       href: "#",
       imageSrc:
         "https://images.stockcake.com/public/f/7/d/f7df4c36-2d58-4568-8713-2e03e833050a_large/sunny-succulent-display-stockcake.jpg",
       imageAlt: "Front of men's Basic Tee in black.",
-      price: "$35",
+      price: "$5000",
       color: "Black",
     },
     {
       id: 2,
-      name: "Basic Tee",
+      name: "Cinta",
       href: "#",
       imageSrc:
-        "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-02.jpg",
+        "https://cdn.pixabay.com/photo/2014/12/29/14/23/potted-plants-582820_1280.jpg",
       imageAlt: "Front of men's Basic Tee in black.",
-      price: "$35",
+      price: "$5200",
       color: "Black",
     },
     {
-      id: 3,
-      name: "Basic Tee",
+      id: 7,
+      name: "Romero",
       href: "#",
       imageSrc:
-        "https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-01-related-product-03.jpg",
+        "https://cdn.pixabay.com/photo/2022/04/30/18/05/rosemary-7166091_1280.jpg",
       imageAlt: "Front of men's Basic Tee in black.",
-      price: "$35",
+      price: "$8600",
       color: "Black",
     },
     // {
@@ -241,7 +241,7 @@ const NavbarComponent = () => {
               <Dropdown.Item eventKey="4">
                 <div className="d-flex justify-content-between align-items-center ">
                   <span>Total:</span>
-                  <span className="fw-bold"> $ 100</span>
+                  <span className="fw-bold"> $ 18800</span>
                 </div>
                 <div className="w-100 d-flex justify-content-center align-items-center">
                   <button
