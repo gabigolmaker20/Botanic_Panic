@@ -22,7 +22,7 @@ Bienvenido/a a **Botanic Panic**, un proyecto de e-commerce dedicado a todos los
 1. CLONAR EL PROYECTO DE GITHUB
    - Git:
      ```bash
-     git clone https://github.com/usuario/repositorio.git
+     git clone https://github.com/gabigolmaker20/Botanic_Panic.git
      ```
      ```bash
      cd Botanic_Panic/
