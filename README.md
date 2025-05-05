@@ -1,12 +1,45 @@
-# React + Vite
+Grupo: 04.  
+Fecha: 04/05/2025.  
+Proyecto: Botanic Panic.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🌿 BOTANIC PANIC 🪴
 
-Currently, two official plugins are available:
+Bienvenido/a a **Botanic Panic**, un proyecto de e-commerce dedicado a todos los amantes de las plantas, desde los principiantes hasta los más experimentados coleccionistas. Nuestra objetivo es que encontrar y comprar la planta perfecta para tu espacio sea una experiencia fácil, divertida y llena de verde. 🌿
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## GUÍA DE INSTALACIÓN.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**REQUISITOS PREVIOS**
+
+1. Tener instalado Node.js y npm.
+
+2. (Opcional) Tener instalado Git para clonar el repositorio:
+
+
+**PASOS PARA INSTALACIÓN LOCAL**
+
+
+1. CLONAR EL PROYECTO DE GITHUB
+   - Git:
+     ```bash
+     git clone https://github.com/usuario/repositorio.git
+     ```
+     ```bash
+     cd Botanic_Panic/
+     ```
+     ```bash
+     code .
+     ```
+
+2. INSTALAR DEPENDENCIAS
+   - En la terminal(git), dentro del proyecto:
+     ```bash
+     npm install
+     ```
+
+3. EJECUTAR 
+   - En la misma terminal con vite:
+     ```bash
+     npm run dev
+     ```
+
