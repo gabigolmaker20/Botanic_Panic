@@ -80,7 +80,7 @@ const Contactos = () => {
                             <p style={{fontSize:"20px"}}><strong style={{fontSize:"20px"}}>Dirección:</strong> Calle 9  #carrera 27, Bucaramanga, Santander</p>
                             <a  href="mailto:ejemplo@correo.com" style={{ color: 'inherit', textDecoration: 'none', fontSize:"20px" }}> {/* mailto: sirve para que, al hacer clic en el correo electrónico,
                                 el navegador abra automáticamente  la aplicación de correo predeterminada del usuario (como Outlook, Gmail, Apple Mail, etc.)*/}
-                            <strong style={{fontSize:"20px"}}>Correo:</strong> botanicpanic@gmail.com
+                            <strong style={{fontSize:"20px"}}>Correo:</strong> botanicpanic48@gmail.com
                             </a>
 
                         </div>

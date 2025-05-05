@@ -93,7 +93,7 @@ export default function Footer() {
               {" "}
               {/* mailto: sirve para que, al hacer clic en el correo electrónico,
                 el navegador abra automáticamente  la aplicación de correo predeterminada del usuario (como Outlook, Gmail, Apple Mail, etc.)*/}
-              ✉️ botanicpanic@gmail.com
+              ✉️ botanicpanic48@gmail.com
             </a>
           </div>
 
