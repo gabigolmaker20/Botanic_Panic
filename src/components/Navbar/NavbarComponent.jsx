@@ -126,7 +126,7 @@ const NavbarComponent = () => {
     { id: 1, title: "Home", path: "/" },
     { id: 2, title: "Productos", path: "/products" },
     { id: 3, title: "Contact", path: "/contact" },
-    { id: 5, title: "Services", path: "/services" },
+    // { id: 5, title: "Services", path: "/services" },
     // "Perfil" y "Nosotros" sólo si está logueado
     ...(isAuthentication
       ? [
