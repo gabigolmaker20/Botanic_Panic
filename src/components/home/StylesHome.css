@@ -167,3 +167,13 @@
     grid-template-columns: 1fr;
   }
 }
+
+accordion-body {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+
+.accordion-collapse {
+  transition: none !important;
+}

@@ -53,7 +53,6 @@ const Home = () => {
         </div>
       </section>
 
-      
       <section className="home-carrusel" aria-label="Galería de proyectos">
         <div
           id="carouselExampleAutoplaying"
