@@ -2,6 +2,7 @@
   import "./StylesProducts.css";
   import { VscChromeClose } from "react-icons/vsc";
   import { SlPencil, SlTrash } from "react-icons/sl";
+  import axios from 'axios';
 
   const products_y = [
     {
@@ -189,7 +190,7 @@
     };
 
 // Cloudinary
-
+/*
     const subirImagenACloudinary = async (file) => {
     const cloudName = "TU_CLOUD_NAME"; // ← Reemplaza con tu Cloud name
     const uploadPreset = "react_preset"; // ← Reemplaza con tu upload preset
@@ -228,7 +229,43 @@
       alert("Por favor selecciona una imagen válida.");
     }
   };
+*/
 
+
+
+const  subirImagenACloudinary = async (file) => {
+  const cloudName = "TU_CLOUD_NAME";
+  const uploadPreset = "react_preset";
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", uploadPreset);
+
+  try {
+    const response = await axios.post(
+      `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+      formData
+    );
+    // Asumimos que si no hay error HTTP, secure_url estará presente
+        return response.data.secure_url;
+
+  } catch (error) {
+    console.error("Error subiendo imagen con Axios:", error.response?.data || error.message);
+    alert("Hubo un error al subir la imagen.");
+    return null;
+  }
+};
+  
+  const previewFile = async (file) => {
+    if (file && file.type.startsWith("image/")) {
+      const url = await subirImagenACloudinary(file);
+      if (url) {
+        setImageSrc(url);
+      }
+    } else {
+      alert("Por favor selecciona una imagen válida.");
+    }
+  };
   
     const handleFileChange = (e) => {
       const file = e.target.files[0];
@@ -272,7 +309,7 @@
                 >
                   <VscChromeClose size={24} />
                 </button>
-                <h3 style={{ margin: "15px 0" }} className="text-2xl font-semibold mb-6 text-emerald-700 text-center">Nuevo producto</h3>
+                <h3 style={{ margin: "15px 0" }} className="text-2xl font-semibold mb-6 text-emerald-700 text-center">Producto</h3>
                 <form onSubmit={handleSubmitProducto} className="space-y-4 px-4 sm:px-6">
                   <div>
                     <label className="block mb-1.5 font-medium text-emerald-600">Imagen</label>
