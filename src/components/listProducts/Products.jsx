@@ -114,33 +114,7 @@
       setMostrarModal(false);
     };
 
-    const handleDrop = (e) => {
-      e.preventDefault();
-      const file = e.dataTransfer.files[0];
-      previewFile(file);
-    };
 
-    const handleFileChange = (e) => {
-      const file = e.target.files[0];
-      previewFile(file);
-    };
-
-    const previewFile = (file) => {
-      if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImageSrc(reader.result);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        setImageSrc(null);
-        alert("Por favor, selecciona un archivo de imagen válido.");
-      }
-    };
-
-    const handleDragOver = (e) => {
-      e.preventDefault();
-    };
 
     const handleSubmitProducto = (e) => {
       e.preventDefault();
@@ -214,6 +188,65 @@
       }
     };
 
+// Cloudinary
+
+    const subirImagenACloudinary = async (file) => {
+    const cloudName = "TU_CLOUD_NAME"; // ← Reemplaza con tu Cloud name
+    const uploadPreset = "react_preset"; // ← Reemplaza con tu upload preset
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+
+    try {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.secure_url) {
+        return data.secure_url;
+      } else {
+        throw new Error("No se pudo obtener la URL segura");
+      }
+    } catch (error) {
+      console.error("Error subiendo imagen:", error);
+      alert("Hubo un error al subir la imagen.");
+      return null;
+    }
+  };
+
+  
+
+  const previewFile = async (file) => {
+    if (file && file.type.startsWith("image/")) {
+      const url = await subirImagenACloudinary(file);
+      if (url) {
+        setImageSrc(url);
+      }
+    } else {
+      alert("Por favor selecciona una imagen válida.");
+    }
+  };
+
+  
+    const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      previewFile(file);
+    };
+
+        const handleDrop = (e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      previewFile(file);
+    };
+
+
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
     return (
       <div className="mx-5 mb-4 bg-white"> {/* Eliminado cursor-pointer global si no es necesario */}
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -243,26 +276,30 @@
                 <form onSubmit={handleSubmitProducto} className="space-y-4 px-4 sm:px-6">
                   <div>
                     <label className="block mb-1.5 font-medium text-emerald-600">Imagen</label>
-                    <div
-                      style={{ width: "100%", background: "white", height: "180px", marginBottom: "10px" }}
-                      onClick={() => fileInputRef.current.click()}
-                      onDrop={handleDrop}
-                      onDragOver={handleDragOver}
-                      className="border-2 border-dashed border-gray-300 rounded-lg w-full h-48 sm:h-64 flex items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all"
-                    >
-                      {imageSrc ? (
-                        <img src={imageSrc} alt="Preview" className="object-contain max-h-full max-w-full rounded-md" />
-                      ) : (
-                        <p className="text-gray-500 text-center p-2">Haz clic o arrastra una imagen aquí</p>
-                      )}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRef}
-                        className="hidden"
-                        onChange={handleFileChange}
-                      />
-                    </div>
+                        <div
+                              style={{ width: "100%", background: "white", height: "180px", marginBottom: "10px" }}
+                              onClick={() => fileInputRef.current.click()}
+                              onDrop={handleDrop}
+                              onDragOver={handleDragOver}
+                              className="border-2 border-dashed border-gray-300 rounded-lg w-full h-48 sm:h-64 flex items-center justify-center cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all"
+                            >
+                              {imageSrc ? (
+                                <img
+                                  src={imageSrc}
+                                  alt="Preview"
+                                  className="object-contain max-h-full max-w-full rounded-md"
+                                />
+                              ) : (
+                                <p className="text-gray-500 text-center p-2">Haz clic o arrastra una imagen aquí</p>
+                              )}
+                              <input
+                                type="file"
+                                accept="image/*"
+                                ref={fileInputRef}
+                                className="hidden"
+                                onChange={handleFileChange}
+                              />
+                            </div>
                   </div>
                   <div>
                     <label htmlFor="nombreProducto" className="block mb-1.5 font-medium text-emerald-600">Nombre</label>
