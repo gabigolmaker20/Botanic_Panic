@@ -16,6 +16,10 @@ import { authUsers } from "../../zustand/authUsers";
 
 import { usersData } from "../Perfiles/userData-";
 
+
+
+
+
 const NavbarComponent = () => {
   const [show, setShow] = useState(false);
   const location = useLocation();
@@ -34,7 +38,6 @@ const NavbarComponent = () => {
   const handleShow = () => setShow(true);
 
   const { loginWithGoogle, loginWithEmailAndPassword, user, isAuthentication } = authUsers();
-
   const products = [
     {
       id: 1,
@@ -244,12 +247,12 @@ const NavbarComponent = () => {
                   <span className="fw-bold"> $ 18800</span>
                 </div>
                 <div className="w-100 d-flex justify-content-center align-items-center">
-                  <button
-                    to={"/cart"}
-                    className="text-decoration-none hover:bg-gray-300 transition-all duration-150 rounded w-100 text-center text-black"
+                  <Button
+                  onClick={() => navigate("/cart")}
+                   className="w-100"
                   >
-                    Ir al Carrito
-                  </button>
+                       Ir al Carrito
+                  </Button>
                 </div>
               </Dropdown.Item>
             </DropdownButton>
