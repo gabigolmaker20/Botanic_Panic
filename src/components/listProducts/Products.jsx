@@ -590,11 +590,9 @@ const Products = () => {
               </div>
               <div className="mt-4 flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm text-gray-700">
-                    <h6 href={product.href} className="hover:underline">
+                  <h5 className="text-sm text-gray-700">
                       {product.name}
-                    </h6>
-                  </h3>
+                  </h5>
                   <p className="text-sm font-medium text-gray-900">
                     {product.price}
                   </p>
