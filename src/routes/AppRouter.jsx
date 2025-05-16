@@ -27,7 +27,7 @@ const AppRouter = () => {
 
   const { setUser, setIsAuthenticated } = authUsers();
 
-  useEffect(() => {
+  useEffect(() => { 
     const unsuscribe = onAuthStateChanged(auth, (user) => {
       if(user){
         setUser(user);
@@ -47,7 +47,7 @@ const AppRouter = () => {
         <Route element={<LayoutComponent />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/VistaProducto" element={<VistaProducto />} />
+          <Route path="/detalleproduct" element={<VistaProducto />} />
           <Route path="/contact" element={<ContactComponent />} />
 
           {/* Rutas protegidas */}
