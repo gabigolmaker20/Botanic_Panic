@@ -1,169 +1,434 @@
-@import url("https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@400;500;600;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap");
 
 :root {
-  --principal-color: #091a04;
-  --color-fondo: #f3f5ec;
-  --color-letras: #797c7f;
+  --principal-color: #2c5e1a; /* Verde principal */
+  --secondary-color: #4a783a; /* Verde secundario */
+  --accent-color: #f4a261;   /* Color acento */
+  --color-fondo-claro: rgb(247, 249, 250); /* Casi blanco, usado por bg-light de Bootstrap */
+  --color-letras: #333;
+  --color-letras-claras: #ffffff;
+  --sombra-suave: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  --font-principal: "Cabin Condensed", sans-serif;
+  --font-titulos: "Playfair Display", serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Cabin Condensed", sans-serif;
-  font-size: 17px;
+/* Estilos generales */
+body {
+  font-family: var(--font-principal);
+  color: var(--color-letras);
+  line-height: 1.6;
 }
 
-.home-video {
+.section-title {
+  font-family: var(--font-titulos);
+  color: var(--principal-color);
+  font-weight: 700;
   position: relative;
-  height: 100vh;
-  overflow: hidden;
+  padding-bottom: 0.75rem;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 70px;
+  height: 3px;
+  background-color: var(--secondary-color);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+/* --- Hero Section con Video --- */
+.home-video {
+  min-height: 500px; /* Altura mínima */
 }
 
 .video-bg {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-  filter: brightness(0.8);
+  filter: brightness(0.6) contrast(0.9);
+  z-index: 0; /* Detrás del overlay */
 }
 
 .video-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-  width: 90%;
   max-width: 800px;
 }
 
-.video-overlay h1 {
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
-  text-shadow: 2px 2px 4px var(--principal-color);
-  font-weight: 700;
+.video-overlay .display-3 { /* Para el h1 */
+  font-family: var(--font-titulos);
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
 }
 
 .btn-hero {
-  background-color: var(--principal-color);
-  color: white;
-  padding: 12px 30px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-size: 1.2rem;
-  transition: all 0.3s;
-  border: 2px solid transparent;
+  background-color: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
+  padding: 0.75rem 2rem !important;
+  transition: all 0.3s ease;
 }
-
 .btn-hero:hover {
-  background-color: transparent;
-  border-color: white;
+  background-color: var(--principal-color) !important;
+  border-color: var(--principal-color) !important;
+  transform: translateY(-2px);
 }
 
-.home-servicios {
-  padding: 5rem 2rem;
-  background-color: var(--color-fondo);
-  text-align: center;
+/* Animación "arrastrado" / "wipe-in" para el texto del Hero */
+@keyframes wipeInRight {
+  from {
+    clip-path: inset(0 100% 0 0); /* Viene desde la derecha */
+    /* Alternativa: transform: translateX(-100%); opacity: 0; */
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    /* Alternativa: transform: translateX(0); opacity: 1; */
+  }
 }
 
-.home-servicios h2 {
+@keyframes fadeInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-hero-title {
+  animation: wipeInRight 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  /* Puedes ajustar la duración y el timing function */
+}
+
+.animate-hero-subtitle {
+  opacity: 0; /* Empieza invisible */
+  animation: fadeInFromBottom 0.8s 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Delay de 0.5s */
+}
+
+.animate-hero-button {
+  opacity: 0; /* Empieza invisible */
+  animation: fadeInFromBottom 0.8s 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Delay de 0.8s */
+}
+
+
+/* --- Sección de Beneficios --- */
+.home-beneficios .beneficio-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.home-beneficios .beneficio-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sombra-suave) !important; /* Forzar sobre el shadow-sm */
+}
+.beneficio-icon-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.beneficio-icon {
+  font-size: 1.8rem; /* Ajusta según el tamaño del wrapper */
+  color: var(--color-letras-claras);
+}
+.home-beneficios h3 {
   color: var(--principal-color);
-  font-size: 2.5rem;
-  margin-bottom: 3rem;
-  font-weight: 600;
 }
 
-.servicios-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
+/* --- Sección de Servicios --- */
 .servicio-card {
-  background: white;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .servicio-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-5px);
+  box-shadow: var(--sombra-suave) !important;
 }
-
-.servicio-card img {
+.servicio-card-img-container {
   width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
-.servicio-card h3 {
-  color: var(--principal-color);
-  margin: 1.5rem 0;
-  font-size: 1.5rem;
-  font-weight: 500;
-}
-
-.btn-servicio-card {
-  display: inline-block;
-  background-color: var(--principal-color);
-  color: white;
-  padding: 10px 25px;
-  border-radius: 25px;
-  margin: 1rem 0 2rem;
-  text-decoration: none;
-  transition: background-color 0.3s;
-}
-
-.btn-servicio-card:hover {
-  background-color: #1a3a0f;
-}
-
-.home-carrusel {
-  padding: 2rem 0; 
-}
-
-.carousel-inner {
-  max-width: 800px; 
-  height: 400px; 
-  margin: 0 auto;
+  height: 250px; /* Altura fija para las imágenes */
   overflow: hidden;
 }
-
-.carousel-inner img {
-  height: 0%;
-  width: 0%;
-  object-fit: contain; 
-  object-position: 0% 0%;
-  background-color: var(--color-fondo);
+.servicio-card-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.servicio-card:hover .servicio-card-img-container img {
+  transform: scale(1.05);
+}
+.servicio-card .card-title {
+  font-family: var(--font-titulos);
+  color: var(--principal-color);
+}
+.servicio-card .btn-outline-success {
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+.servicio-card .btn-outline-success:hover {
+  background-color: var(--secondary-color);
+  color: white;
 }
 
-.carousel-control-prev,
-.carousel-control-next {
-  width: 5%;
+/* --- Sección Carrusel Bootstrap --- */
+.carousel-img-custom {
+  height: 500px; /* Ajusta esta altura según tus imágenes */
+  object-fit: cover; /* Para que la imagen cubra sin distorsionarse */
+}
+
+.carousel-caption {
+  /* Estilos adicionales para el caption si es necesario */
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: var(--principal-color); /* Color de los indicadores */
 }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-color: var(--principal-color);
+  background-color: rgba(0,0,0,0.3); /* Fondo semi-transparente para los controles */
   border-radius: 50%;
-  padding: 15px;
+  padding: 10px; /* Aumenta el área clickeable */
+}
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e") !important;
+}
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e") !important;
+}
+
+/* --- Sección CTA --- */
+.home-cta {
+  /* Si no usas imagen de fondo, usa un color: */
+  background-color: var(--principal-color);
+  /* Para usar una imagen de fondo (descomenta la prop style en el JSX): */
+  /*
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  */
+}
+.home-cta .display-5 {
+  font-family: var(--font-titulos);
+}
+
+.home-cta .btn-light.text-success {
+  border: 2px solid var(--principal-color);
+  transition: all 0.3s ease;
+}
+.home-cta .btn-light.text-success:hover {
+  background-color: transparent !important;
+  color: var(--color-letras-claras) !important;
+  border-color: var(--color-letras-claras) !important;
+}
+.home-cta .btn-outline-light:hover {
+  background-color: var(--color-letras-claras) !important;
+  color: var(--principal-color) !important;
+}
+
+/* Media Queries para ajustes finos */
+@media (max-width: 768px) {
+  .video-overlay .display-3 {
+    font-size: 2.5rem; /* Ajusta según sea necesario */
+  }
+  .video-overlay .lead {
+    font-size: 1.1rem;
+  }
+  .carousel-img-custom {
+    height: 350px; /* Menor altura en móviles */
+  }
+  .section-title {
+    font-size: 2rem; /* Un poco más pequeño en móviles */
+  }
+}
+
+@media (max-width: 576px) {
+  .video-overlay .display-3 {
+    font-size: 2rem;
+  }
+  .carousel-img-custom {
+    height: 250px;
+  }
+  .home-cta .btn-lg {
+    font-size: 1rem; /* Botones de CTA más pequeños en móviles */
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* ... (Estilos anteriores) ... */
+
+:root {
+  /* ... (tus variables existentes) ... */
+  --color-fondo-claro-sutil: #e9f5e6; /* Un verde muy pálido para el fondo de la sección de consejos */
+  --color-iconos-consejos: var(--principal-color); /* Color para los iconos de consejos */
 }
 
 
+/* --- Sección de Consejos y Cuidados --- */
+.home-consejos-cuidados {
+background-color: rgb(247, 249, 250);
+}
+
+
+
+.consejo-card {
+  background-color: #fff; /* Fondo blanco para las tarjetas */
+  border-radius: 0.75rem; /* Bordes redondeados consistentes */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.consejo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--sombra-suave) !important;
+}
+
+.consejo-icon-wrapper {
+
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f0f0f0; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.consejo-icon {
+  font-size: 1.8rem; /* Tamaño del icono */
+  color: var(--color-iconos-consejos); /* Color del icono */
+  /* Si usas el wrapper con círculo, centra el icono: */
+  /* display: block; margin: auto; */
+}
+
+.consejo-card .card-title {
+  color: var(--principal-color);
+  font-family: var(--font-principal); /* O var(--font-titulos) si prefieres */
+}
+
+.consejo-card .card-text {
+  line-height: 1.6; /* Mejor legibilidad para textos más largos */
+}
+
+
+
 @media (max-width: 768px) {
-  .video-overlay h1 {
-    font-size: 2.5rem;
+  /* ... (tus ajustes existentes) ... */
+  .home-consejos-cuidados .lead { /* Ajustar el subtítulo si es necesario */
+    font-size: 0.95rem;
   }
+}
 
-  .home-servicios {
-    padding: 3rem 1rem;
-  }
+/* --- Estilos para Sección FAQ Aesthetic --- */
 
-  .servicios-grid {
-    grid-template-columns: 1fr;
-  }
+.faq-aesthetic-section {
+  background-color: #fdfcfa; /* Un blanco hueso o crema muy sutil */
+  /* O un degradado muy suave: background-image: linear-gradient(to bottom, #fdfcfa, #f8f6f2); */
+  font-family: 'Poppins', sans-serif; /* Una fuente moderna y limpia, asegúrate de importarla */
+  /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap'); */
+}
+
+.section-title-aesthetic {
+  font-family: 'Playfair Display', serif; /* O una fuente serif elegante */
+  color: #4a5568; /* Un gris oscuro, no negro puro */
+  font-weight: 600;
+  font-size: 2.25rem; /* 36px */
+  margin-bottom: 0.75rem;
+}
+
+.text-muted-aesthetic {
+  color: #718096; /* Un gris más claro para el subtítulo */
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Estilo Flush para quitar bordes por defecto y dar un look más limpio */
+.accordion-flush-aesthetic .accordion-item-aesthetic {
+  background-color: transparent;
+  border: 0;
+  margin-bottom: 1rem; /* Espacio entre preguntas */
+  border-radius: 12px; /* Bordes suavemente redondeados */
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra muy sutil */
+  transition: box-shadow 0.3s ease-in-out;
+}
+.accordion-flush-aesthetic .accordion-item-aesthetic:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.accordion-flush-aesthetic .accordion-item-aesthetic:first-of-type {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.accordion-flush-aesthetic .accordion-item-aesthetic:last-of-type {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.accordion-button-aesthetic {
+  background-color: #fff; /* Fondo blanco para el botón */
+  color: #2d3748; /* Color de texto oscuro */
+  font-weight: 500; /* Un poco más de peso */
+  font-size: 1.1rem;
+  padding: 1.25rem 1.5rem; /* Más padding */
+  border-radius: 12px !important; /* Aplicar a todas las esquinas, importante para cuando está colapsado */
+  box-shadow: none !important; /* Quitar sombra por defecto de Bootstrap */
+  text-align: left;
+  width: 100%;
+  border: none; /* Quitar borde del botón */
+  transition: background-color 0.3s ease;
+}
+
+.accordion-button-aesthetic:not(.collapsed) {
+  color: #1a3a0f; /* Un verde oscuro para el texto cuando está abierto */
+  background-color: #f0f4f0; /* Un fondo verde muy, muy pálido o grisáceo */
+  border-bottom-left-radius: 0 !important; /* Quitar redondeo inferior cuando está abierto */
+  border-bottom-right-radius: 0 !important;
+}
+
+/* Icono de flecha del acordeón de Bootstrap */
+.accordion-button-aesthetic::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%234a5568'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  transition: transform .2s ease-in-out;
+  transform-origin: center;
+  width: 1rem; /* Tamaño del icono de flecha */
+  height: 1rem;
+}
+.accordion-button-aesthetic:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231a3a0f'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  transform: rotate(-180deg);
+}
+
+.accordion-icon-aesthetic {
+  font-size: 1.5rem; /* Tamaño del icono personalizado */
+  color: #5a8d67; /* Un verde suave para los iconos */
+  flex-shrink: 0;
+}
+.accordion-button-aesthetic:not(.collapsed) .accordion-icon-aesthetic {
+    color: #1a3a0f; /* Verde más oscuro cuando está activo */
+}
+
+.accordion-body-aesthetic {
+  padding: 1.5rem;
+  background-color: #fff; /* Cuerpo blanco */
+  font-size: 0.98rem;
+  color: #4a5568; /* Gris oscuro para el texto del cuerpo */
+  line-height: 1.75;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.details-list-aesthetic {
+  list-style: none; /* Quitar bullets por defecto */
+}
+.details-list-aesthetic li {
+    color: #525f7f; /* Un gris azulado para los detalles */
+}
+.detail-icon-aesthetic {
+    font-size: 1.1em; /* Tamaño del icono de corazón o el que elijas */
+    color: #e97a7a; /* Un color rosado/coral suave para el icono de detalle */
+    margin-top: 0.2em; /* Alineación vertical fina */
 }
