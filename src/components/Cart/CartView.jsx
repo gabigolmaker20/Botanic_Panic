@@ -2,11 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../zustand/cartStore";
 import { MdDeleteForever } from "react-icons/md";
+import { FaMoneyCheckAlt } from "react-icons/fa"; 
 
 
 const CartView = () => {
   const navigate = useNavigate();
-  const { items, removeFromCart } = useCart(); // ✅ añadimos removeFromCart
+  const { items, removeFromCart } = useCart();
 
   const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
@@ -68,28 +69,36 @@ const CartView = () => {
           {/* Sección: Tabla de totales */}
 {/* Totales del carrito */}
 {/* Totales del carrito - nuevo estilo armonizado */}
-<div className="mt-10 bg-white border border-gray-200 rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
-  <h3 className="text-2xl font-bold mb-6 text-gray-900">Toal</h3>
-  <table className="w-full text-sm text-gray-800">
+<div className="mt-12 bg-[#f6f8ee] border border-gray-300 rounded-2xl shadow-md p-8 w-full max-w-[800px] mx-auto">
+ <div className="flex items-center gap-4 mb-6">
+  <FaMoneyCheckAlt
+    className="text-[#4c7c0b]"
+    style={{ fontSize: "4rem", minWidth: "40px" }}
+  />
+  <h3 className="text-2xl font-bold text-[#091a04]">Resumen del Carrito</h3>
+</div>
+
+
+  <table className="w-full text-md text-gray-800">
     <tbody>
-      <tr className="border-b border-gray-100">
+      <tr className="border-b border-gray-200">
         <td className="py-4 font-medium">Subtotal</td>
         <td className="py-4 text-right">${total}</td>
       </tr>
       <tr>
         <td className="py-4 font-medium">Total</td>
-        <td className="py-4 text-right text-[#091a04] font-bold text-lg">
+        <td className="py-4 text-right font-bold text-[#4c7c0b] text-lg">
           ${total}
         </td>
       </tr>
     </tbody>
   </table>
 
-  <div className="mt-6 flex justify-center">
-    <button className="bg-[#091a04] hover:bg-[#0c2606] text-white text-base font-semibold py-2 px-8 rounded transition duration-300 ease-in-out shadow">
-      Proceder al Pago
-    </button>
-  </div>
+  <div className="mt-8 flex justify-center">
+  <button className="w-full max-w-xs bg-[#4c7c0b] hover:bg-[#3a610c] transition-all duration-200 text-white text-base font-semibold py-3 px-10 rounded-full shadow-md">
+    Proceder al Pago
+  </button>
+</div>
 </div>
 
 
