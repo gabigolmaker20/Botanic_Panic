@@ -339,7 +339,7 @@ const Products = () => {
   }, [mostrarModal, productoAEditar]);
 
   return (
-    <div className="mx-5 mb-4 bg-white">
+    <div className="mx-5 mb-4 bg-white" style={{marginTop: "8rem"}}>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <div className="flex items-center justify-between my-4">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">

@@ -1,77 +1,134 @@
-@import "../../index.css";
-
+/* Estilos adicionales para la barra de navegación */
 .nav_container {
-  background-color: var(--color-fondo);
+  z-index: 1030;
 }
 
-.nav_links li:hover {
-  cursor: pointer;
-  border-bottom: 2px solid #c5c5c5;
-  scale: 1.08;
-  transition: all 0.3s ease-in-out;
-}
-.active {
-  background-color: #c5c5c5;
-  scale: 1.08;
-  transition: all 0.3s ease-in-out;
-  border-radius: 5px;
+/* Gradientes de texto */
+.text-green-700 {
+  color: #2c7c38;
 }
 
-.nav_buttons button:hover {
-  cursor: pointer;
-  scale: 1.08;
-  transition: all 0.3s ease-in-out;
+.text-amber-500 {
+  color: #f59e0b;
 }
 
-button.btn-close:focus {
-  box-shadow: 0 0 0 0.2rem #091a0438;
+.text-green-600 {
+  color: #3a9a47;
 }
 
-.button_singIn {
-  background-color: red;
-  font-size: 10rem;
+.text-green-50 {
+  background-color: rgba(240, 249, 240, 0.8);
 }
 
-.container-footer button {
-  color: #c5c5c5;
-  background-color: var(--principal-color);
+.bg-green-50 {
+  background-color: rgba(240, 249, 240, 0.8);
 }
 
-.container-footer button:hover {
-  background-color: var(--principal-color);
-  cursor: pointer;
-  scale: 1.08;
-  transition: all 0.3s ease-in-out;
+.hover\:bg-gray-100:hover {
+  background-color: rgba(243, 244, 246, 0.7);
 }
 
-input.form-control:focus {
-  border-color: var(--color-letras);
-  box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
-  outline: none;
+.hover\:bg-green-100:hover {
+  background-color: rgba(220, 240, 220, 0.7);
 }
 
-input.form-check-input:focus {
-  background-color: var(--color-letras);
-  border-color: var(--principal-color);
-  box-shadow: 0 0 0 0.2rem #091a0438; /* Cambia la sombra para que coincida con el color rojo */
-  outline: none;
+.hover\:text-green-600:hover {
+  color: #3a9a47;
 }
-/* 
-a:hover {
-  background-color: #c5c5c5;
-  scale: 1.08;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-} */
 
-#dropdown-menu-align-end {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.from-green-400 {
+  --tw-gradient-from: #5eb46a;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(94, 180, 106, 0));
+}
+
+.to-green-600 {
+  --tw-gradient-to: #3a9a47;
+}
+
+.from-amber-400 {
+  --tw-gradient-from: #fbbf24;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(251, 191, 36, 0));
+}
+
+.to-amber-600 {
+  --tw-gradient-to: #d97706;
+}
+
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.rounded-pill {
+  border-radius: 50rem;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Estilos para el dropdown del carrito */
+.dropdown-menu {
+  border-radius: 1rem;
   border: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  overflow: hidden;
 }
 
-#dropdown-item {
-  width: 300px;
-  background-color: #f3f5ec;
+/* Estilos para el modal de login */
+.modal-content {
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el offcanvas */
+.offcanvas {
+  border-radius: 1rem 0 0 1rem;
+}
+
+/* Estilos para el submenú de productos */
+.hover-bg-light:hover {
+  background-color: #f8f9fa;
+}
+
+/* Animación para el submenú */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.position-absolute {
+  animation: fadeIn 0.2s ease-out forwards;
 }
