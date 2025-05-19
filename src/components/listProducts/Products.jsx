@@ -1,10 +1,30 @@
-import React, { useRef, useState, useCallback, useEffect } from "react"; // Añadido useEffect
+import React, { useRef, useState, useEffect } from "react";
 import "./StylesProducts.css";
 import { VscChromeClose } from "react-icons/vsc";
 import { SlPencil, SlTrash } from "react-icons/sl";
-import axios from "axios";
+import * as yup from "yup";
+
 import fileUpLoad from "../../service/uploadFileToCloudinary";
 
+const esquemaValidacion = yup.object().shape({
+  imageSrc: yup.string().nullable().required("La imagen es obligatoria."),
+  nombre: yup.string().trim().required("El nombre es obligatorio."),
+  categoria: yup.string().trim().required("La categoría es obligatoria."),
+  descripcion: yup.string().trim().required("La descripción es obligatoria."),
+  precio: yup
+    .number()
+    .typeError("El precio debe ser un número.")
+    .positive("El precio debe ser mayor a 0.")
+    .required("El precio es obligatorio."),
+  stock: yup
+    .number()
+    .typeError("El stock debe ser un número.")
+    .integer("El stock debe ser un número entero.")
+    .min(0, "El stock no puede ser negativo.")
+    .required("El stock es obligatorio."),
+});
+
+// Asegúrate de que tus productos iniciales tengan todos los campos que usas en el formulario/edición
 const products_y = [
   {
     id: 1,
@@ -92,28 +112,22 @@ const Products = () => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [products, setProducts] = useState(products_y);
 
-  // Estados del formulario
   const [imageSrc, setImageSrc] = useState(null);
   const [nombre, setNombre] = useState("");
   const [categoria, setCategoria] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [precio, setPrecio] = useState("");
   const [stock, setStock] = useState("");
-  const [isUploading, setIsUploading] = useState(false); // Para Cloudinary
-
-  // Estado para edición
-  const [productoAEditar, setProductoAEditar] = useState(null); // Si no es null, estamos editando
-
-  // Estados para modal de eliminación
+  const [isUploading, setIsUploading] = useState(false);
+  const [productoAEditar, setProductoAEditar] = useState(null);
   const [mostrarModalEliminar, setMostrarModalEliminar] = useState(false);
   const [
     productoParaConfirmarEliminacion,
     setProductoParaConfirmarEliminacion,
   ] = useState(null);
-
+  const [formErrors, setFormErrors] = useState({});
   const fileInputRef = useRef(null);
 
-  // Función para limpiar los campos del formulario
   const limpiarCamposFormulario = () => {
     setImageSrc(null);
     setNombre("");
@@ -122,50 +136,38 @@ const Products = () => {
     setPrecio("");
     setStock("");
     setIsUploading(false);
+    setFormErrors({});
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
   };
 
   const abrirModalParaCrear = () => {
-    setProductoAEditar(null); // Asegura que no estamos editando
+    setProductoAEditar(null);
     limpiarCamposFormulario();
     setMostrarModal(true);
   };
 
   const cerrarModalPrincipal = () => {
-    limpiarCamposFormulario(); // Limpia siempre al cerrar
-    setProductoAEditar(null); // Resetea el estado de edición
+    limpiarCamposFormulario();
+    setProductoAEditar(null);
     setMostrarModal(false);
   };
 
-  // Cloudinary con AXIOS (Usando la versión mejorada de antes)
+  // Cloudinary (Asegúrate que TU_CLOUD_NAME y react_preset estén configurados si usas esta función directamente)
   // const subirImagenACloudinary = async (file) => {
-  //   const cloudName = "TU_CLOUD_NAME"; // ← Reemplaza con tu Cloud name
-  //   const uploadPreset = "react_preset"; // ← Reemplaza con tu upload preset
-
-  //   if (
-  //     !cloudName ||
-  //     cloudName === "TU_CLOUD_NAME" ||
-  //     !uploadPreset ||
-  //     uploadPreset === "react_preset"
-  //   ) {
-  //     alert(
-  //       "Por favor, configura tu 'cloudName' y 'uploadPreset' de Cloudinary."
-  //     );
-  //     console.error(
-  //       "Cloudinary no configurado. Revisa cloudName y uploadPreset."
-  //     );
+  //   const cloudName = "TU_CLOUD_NAME";
+  //   const uploadPreset = "react_preset";
+  //   if (!cloudName || cloudName === "TU_CLOUD_NAME" || !uploadPreset || uploadPreset === "react_preset") {
+  //     alert("Por favor, configura tu 'cloudName' y 'uploadPreset' de Cloudinary.");
+  //     console.error("Cloudinary no configurado. Revisa cloudName y uploadPreset.");
   //     return null;
   //   }
   //   const formData = new FormData();
   //   formData.append("file", file);
   //   formData.append("upload_preset", uploadPreset);
   //   try {
-  //     const response = await axios.post(
-  //       `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
-  //       formData
-  //     );
+  //     const response = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, formData);
   //     if (response.data && response.data.secure_url) {
   //       return response.data.secure_url;
   //     } else {
@@ -176,8 +178,7 @@ const Products = () => {
   //     let alertMessage = "Hubo un error al subir la imagen.";
   //     if (error.response) {
   //       const cloudinaryError = error.response.data?.error?.message;
-  //       if (cloudinaryError)
-  //         alertMessage = `Error de Cloudinary: ${cloudinaryError}`;
+  //       if (cloudinaryError) alertMessage = `Error de Cloudinary: ${cloudinaryError}`;
   //     }
   //     alert(alertMessage);
   //     return null;
@@ -187,20 +188,16 @@ const Products = () => {
   const previewFile = async (file) => {
     if (file && file.type.startsWith("image/")) {
       setIsUploading(true);
-      // Muestra previsualización local si se desea
-      // const localPreviewUrl = URL.createObjectURL(file);
-      // setImageSrc(localPreviewUrl);
+      setFormErrors((prev) => ({ ...prev, imageSrc: undefined }));
 
-      const cloudinaryUrl = await fileUpLoad(file);
+      const cloudinaryUrl = await fileUpLoad(file); // Usar tu función importada
       setIsUploading(false);
 
       if (cloudinaryUrl) {
         setImageSrc(cloudinaryUrl);
       } else {
-        // Si la subida falla y estabas mostrando previsualización local, puedes revertirla
-        // if (!productoAEditar) setImageSrc(null); // Solo si es nuevo, si es editar, mantiene la imagen anterior
-        // else setImageSrc(productoAEditar.imageSrc);
         if (fileInputRef.current) fileInputRef.current.value = "";
+        // Opcional: setFormErrors(prev => ({...prev, imageSrc: "Error al subir la imagen."}));
       }
     } else {
       alert("Por favor selecciona un archivo de imagen válido.");
@@ -221,91 +218,83 @@ const Products = () => {
 
   const handleDragOver = (e) => e.preventDefault();
 
-  const handleSubmitProducto = (e) => {
+  const handleSubmitProducto = async (e) => {
     e.preventDefault();
     if (isUploading) {
       alert("Por favor, espera a que la imagen termine de subirse.");
       return;
     }
 
-    let esValido = true;
-    const errores = [];
-    if (!imageSrc && !productoAEditar?.imageSrc) {
-      // Si no hay imagen nueva Y no estamos editando una con imagen
-      errores.push("La imagen es requerida.");
-      esValido = false;
-    }
-    if (!nombre.trim()) {
-      errores.push("El nombre es requerido.");
-      esValido = false;
-    }
-    if (!categoria.trim()) {
-      errores.push("La categoría es requerida.");
-      esValido = false;
-    }
-    if (!descripcion.trim()) {
-      errores.push("La descripción es requerida.");
-      esValido = false;
-    }
-    const precioNum = parseFloat(precio);
-    if (isNaN(precioNum) || precioNum <= 0) {
-      errores.push("El precio debe ser un número positivo.");
-      esValido = false;
-    }
-    const stockNum = parseInt(stock, 10);
-    if (isNaN(stockNum) || stockNum < 0) {
-      errores.push("El stock debe ser un número entero no negativo.");
-      esValido = false;
-    }
+    const currentImageSrc =
+      imageSrc || (productoAEditar ? productoAEditar.imageSrc : null);
 
-    if (!esValido) {
-      alert(
-        "Por favor, corrige los siguientes errores:\n- " + errores.join("\n- ")
-      );
-      return;
-    }
-
-    const datosProducto = {
-      name: nombre.trim(),
-      category: categoria.trim(),
-      description: descripcion.trim(),
-      price: `$${precioNum.toFixed(2)}`, // Guardar como string con $
-      stock: stockNum,
-      imageSrc: imageSrc, // Esta será la nueva URL de Cloudinary si se cambió, o la anterior si no.
+    const datosParaValidar = {
+      imageSrc: currentImageSrc,
+      nombre,
+      categoria,
+      descripcion,
+      precio: precio === "" ? undefined : Number(precio),
+      stock: stock === "" ? undefined : Number(stock),
     };
 
-    console.log("Prodcutos a enviar a la BD", datosProducto);
+    try {
+      await esquemaValidacion.validate(datosParaValidar, {
+        abortEarly: false,
+      });
+      setFormErrors({});
 
-    if (productoAEditar) {
-      // Estamos editando
-      const productosActualizados = products.map(
-        (p) =>
-          p.id === productoAEditar.id ? { ...p, ...datosProducto, id: p.id } : p // Mantenemos el ID original
-      );
-      setProducts(productosActualizados);
-      alert("Producto actualizado exitosamente!");
-    } else {
-      // Estamos creando uno nuevo
-      const nuevoProductoConId = { ...datosProducto, id: Date.now() };
-      setProducts((prevProducts) => [nuevoProductoConId, ...prevProducts]);
-      alert("Producto creado exitosamente!");
+      const datosProducto = {
+        name: nombre.trim(),
+        category: categoria.trim(),
+        description: descripcion.trim(),
+        price: `$${parseFloat(precio).toFixed(2)}`,
+        stock: parseInt(stock, 10),
+        imageSrc: currentImageSrc,
+      };
+
+      console.log("Producto a enviar a la BD", datosProducto);
+
+      if (productoAEditar) {
+        const productosActualizados = products.map((p) =>
+          p.id === productoAEditar.id
+            ? { ...p, ...datosProducto, id: p.id }
+            : p
+        );
+        setProducts(productosActualizados);
+        alert("Producto actualizado exitosamente!");
+      } else {
+        const nuevoProductoConId = { ...datosProducto, id: Date.now() };
+        setProducts((prevProducts) => [nuevoProductoConId, ...prevProducts]);
+        alert("Producto creado exitosamente!");
+      }
+      cerrarModalPrincipal();
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        const erroresYup = {};
+        err.inner.forEach((error) => {
+          erroresYup[error.path] = error.message;
+        });
+        setFormErrors(erroresYup);
+      } else {
+        console.error("Error inesperado:", err);
+        alert("Ocurrió un error inesperado.");
+      }
     }
-    cerrarModalPrincipal();
+    // --- El bloque de código problemático que fue eliminado estaba aquí ---
   };
 
   const handleEditProduct = (producto) => {
+    limpiarCamposFormulario();
     setProductoAEditar(producto);
     setNombre(producto.name);
-    setCategoria(producto.category || ""); // Asegurar que no sea undefined
-    setDescripcion(producto.description || "");
-    // El precio se guarda como "$XXXX", necesitamos el número para el input
+    setCategoria(producto.category || ""); // Asegura que no sea undefined si el producto inicial no lo tenía
+    setDescripcion(producto.description || ""); // Igual aquí
     setPrecio(producto.price ? producto.price.replace("$", "") : "");
-    setStock(producto.stock !== undefined ? producto.stock.toString() : ""); // Convertir a string para el input
-    setImageSrc(producto.imageSrc); // Mostrar la imagen actual
+    setStock(producto.stock !== undefined ? producto.stock.toString() : ""); // Igual aquí
+    setImageSrc(producto.imageSrc);
     setMostrarModal(true);
   };
 
-  // --- Lógica del Modal de Eliminación ---
   const abrirModalEliminar = (producto) => {
     setProductoParaConfirmarEliminacion(producto);
     setMostrarModalEliminar(true);
@@ -319,27 +308,19 @@ const Products = () => {
   const confirmarEliminacionProducto = () => {
     if (productoParaConfirmarEliminacion) {
       setProducts((prevProducts) =>
-        prevProducts.filter((p) => p.id !== productoParaConfirmarEliminacion.id)
+        prevProducts.filter(
+          (p) => p.id !== productoParaConfirmarEliminacion.id
+        )
       );
-      // Aquí la llamada a la API para eliminar del backend
-      alert(`Producto "${productoParaConfirmarEliminacion.name}" eliminado.`);
+      alert(
+        `Producto "${productoParaConfirmarEliminacion.name}" eliminado.`
+      );
     }
     cerrarModalEliminar();
   };
 
-  // Este useEffect se puede usar si quieres resetear la imagen al cambiar entre modo crear/editar
-  // si se abre el modal sin un producto a editar (modo crear).
-  useEffect(() => {
-    if (mostrarModal && !productoAEditar) {
-      // Si el modal se abre y NO hay productoAEditar (o sea, es para crear uno nuevo)
-      // y imageSrc ya tiene algo (quizás de una edición previa sin guardar), lo limpiamos.
-      // Esto es opcional, depende de cómo quieras el flujo exacto.
-      // limpiarCamposFormulario(); // Ya se hace en abrirModalParaCrear
-    }
-  }, [mostrarModal, productoAEditar]);
-
   return (
-    <div className="mx-5 mb-4 bg-white" style={{marginTop: "8rem"}}>
+    <div className="mx-5 mb-4 bg-white" style={{ marginTop: "8rem" }}>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <div className="flex items-center justify-between my-4">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -347,13 +328,12 @@ const Products = () => {
           </h2>
           <button
             className="bg-[#091a04] text-amber-50 px-4 py-2 rounded font-semibold hover:scale-95 transition-all duration-300 ease-in-out"
-            onClick={abrirModalParaCrear} // Cambiado para llamar a la función correcta
+            onClick={abrirModalParaCrear}
           >
             Crear producto
           </button>
         </div>
 
-        {/* Modal Principal (Crear/Editar Producto) */}
         {mostrarModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 sm:p-12 md:p-20">
             <div
@@ -362,7 +342,7 @@ const Products = () => {
             >
               <button
                 style={{ margin: "10px" }}
-                onClick={cerrarModalPrincipal} // Usar la función de cierre principal
+                onClick={cerrarModalPrincipal}
                 className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl transition-colors hover:text-red-600 rounded-md p-1"
               >
                 <VscChromeClose size={24} />
@@ -386,7 +366,6 @@ const Products = () => {
                       width: "100%",
                       background: "white",
                       height: "180px",
-                      marginBottom: "10px",
                     }}
                     onClick={() => !isUploading && fileInputRef.current.click()}
                     onDrop={
@@ -395,7 +374,9 @@ const Products = () => {
                     onDragOver={
                       !isUploading ? handleDragOver : (e) => e.preventDefault()
                     }
-                    className={`border-2 border-dashed border-gray-300 rounded-lg w-full h-48 sm:h-64 flex items-center justify-center ${
+                    className={`border-2 border-dashed ${
+                      formErrors.imageSrc ? "border-red-500" : "border-gray-300"
+                    } rounded-lg w-full h-48 sm:h-64 flex items-center justify-center ${
                       !isUploading
                         ? "cursor-pointer bg-gray-50 hover:bg-gray-100"
                         : "bg-gray-200 cursor-not-allowed"
@@ -403,9 +384,13 @@ const Products = () => {
                   >
                     {isUploading ? (
                       <p className="text-gray-600">Subiendo imagen...</p>
-                    ) : imageSrc ? ( // imageSrc ahora puede ser la URL de Cloudinary o una local para preview
+                    ) : imageSrc ||
+                      (productoAEditar && productoAEditar.imageSrc) ? (
                       <img
-                        src={imageSrc}
+                        src={
+                          imageSrc ||
+                          (productoAEditar && productoAEditar.imageSrc)
+                        }
                         alt="Preview"
                         className="object-contain max-h-full max-w-full rounded-md"
                       />
@@ -423,8 +408,16 @@ const Products = () => {
                       disabled={isUploading}
                     />
                   </div>
+                  {formErrors.imageSrc && (
+                    <p
+                      style={{ color: "rgb(219, 53, 69)", fontSize: "14px" }}
+                      className="mt-1"
+                    >
+                      {formErrors.imageSrc}
+                    </p>
+                  )}
                 </div>
-                {/* Campos del formulario */}
+
                 <div>
                   <label
                     htmlFor="nombreProducto"
@@ -434,14 +427,32 @@ const Products = () => {
                   </label>
                   <input
                     id="nombreProducto"
-                    style={{ width: "100%", marginBottom: "10px" }}
+                    style={{ width: "100%" }}
                     type="text"
-                    className=" border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400"
+                    className={`border ${
+                      formErrors.nombre ? "border-red-500" : "border-gray-300"
+                    } rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400`}
                     placeholder="Ej: Menta"
                     value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
+                    onChange={(e) => {
+                      setNombre(e.target.value);
+                      if (formErrors.nombre)
+                        setFormErrors((prev) => ({
+                          ...prev,
+                          nombre: undefined,
+                        }));
+                    }}
                   />
+                  {formErrors.nombre && (
+                    <p
+                      style={{ color: "rgb(219, 53, 69)", fontSize: "14px" }}
+                      className="mt-1"
+                    >
+                      {formErrors.nombre}
+                    </p>
+                  )}
                 </div>
+
                 <div>
                   <label
                     htmlFor="categoriaProducto"
@@ -451,14 +462,34 @@ const Products = () => {
                   </label>
                   <input
                     id="categoriaProducto"
-                    style={{ width: "100%", marginBottom: "10px" }}
+                    style={{ width: "100%" }}
                     type="text"
-                    className=" border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400"
+                    className={`border ${
+                      formErrors.categoria
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400`}
                     placeholder="Ej: Aromáticas, Interior, Exterior..."
                     value={categoria}
-                    onChange={(e) => setCategoria(e.target.value)}
+                    onChange={(e) => {
+                      setCategoria(e.target.value);
+                      if (formErrors.categoria)
+                        setFormErrors((prev) => ({
+                          ...prev,
+                          categoria: undefined,
+                        }));
+                    }}
                   />
+                  {formErrors.categoria && (
+                    <p
+                      style={{ color: "rgb(219, 53, 69)", fontSize: "14px" }}
+                      className="mt-1"
+                    >
+                      {formErrors.categoria}
+                    </p>
+                  )}
                 </div>
+
                 <div>
                   <label
                     htmlFor="descripcionProducto"
@@ -468,14 +499,34 @@ const Products = () => {
                   </label>
                   <textarea
                     id="descripcionProducto"
-                    style={{ width: "100%", marginBottom: "10px" }}
-                    className=" border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400"
+                    style={{ width: "100%" }}
+                    className={`border ${
+                      formErrors.descripcion
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400`}
                     rows="3"
                     placeholder="Detalles sobre la planta, cuidados, etc."
                     value={descripcion}
-                    onChange={(e) => setDescripcion(e.target.value)}
+                    onChange={(e) => {
+                      setDescripcion(e.target.value);
+                      if (formErrors.descripcion)
+                        setFormErrors((prev) => ({
+                          ...prev,
+                          descripcion: undefined,
+                        }));
+                    }}
                   ></textarea>
+                  {formErrors.descripcion && (
+                    <p
+                      style={{ color: "rgb(219, 53, 69)", fontSize: "14px" }}
+                      className="mt-1"
+                    >
+                      {formErrors.descripcion}
+                    </p>
+                  )}
                 </div>
+
                 <div>
                   <label
                     htmlFor="precioProducto"
@@ -485,15 +536,33 @@ const Products = () => {
                   </label>
                   <input
                     id="precioProducto"
-                    style={{ width: "100%", marginBottom: "10px" }}
+                    style={{ width: "100%" }}
                     type="number"
                     step="0.01"
-                    className=" border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400"
+                    className={`border ${
+                      formErrors.precio ? "border-red-500" : "border-gray-300"
+                    } rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400`}
                     placeholder="0.00"
                     value={precio}
-                    onChange={(e) => setPrecio(e.target.value)}
+                    onChange={(e) => {
+                      setPrecio(e.target.value);
+                      if (formErrors.precio)
+                        setFormErrors((prev) => ({
+                          ...prev,
+                          precio: undefined,
+                        }));
+                    }}
                   />
+                  {formErrors.precio && (
+                    <p
+                      style={{ color: "rgb(219, 53, 69)", fontSize: "14px" }}
+                      className="mt-1"
+                    >
+                      {formErrors.precio}
+                    </p>
+                  )}
                 </div>
+
                 <div>
                   <label
                     htmlFor="stockProducto"
@@ -505,12 +574,30 @@ const Products = () => {
                     id="stockProducto"
                     style={{ width: "100%" }}
                     type="number"
-                    className=" border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400"
+                    className={`border ${
+                      formErrors.stock ? "border-red-500" : "border-gray-300"
+                    } rounded-md px-3 py-2 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors duration-200 placeholder-gray-400`}
                     placeholder="0"
                     value={stock}
-                    onChange={(e) => setStock(e.target.value)}
+                    onChange={(e) => {
+                      setStock(e.target.value);
+                      if (formErrors.stock)
+                        setFormErrors((prev) => ({
+                          ...prev,
+                          stock: undefined,
+                        }));
+                    }}
                   />
+                  {formErrors.stock && (
+                    <p
+                      style={{ color: "rgb(219, 53, 69)", fontSize: "14px" }}
+                      className="mt-1"
+                    >
+                      {formErrors.stock}
+                    </p>
+                  )}
                 </div>
+
                 <div className="flex justify-end pt-4">
                   <button
                     style={{ marginBottom: "15px", marginRight: "0px" }}
@@ -534,7 +621,6 @@ const Products = () => {
           </div>
         )}
 
-        {/* Modal de Confirmación de Eliminación */}
         {mostrarModalEliminar && productoParaConfirmarEliminacion && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
             <div
@@ -549,10 +635,7 @@ const Products = () => {
               </h3>
               <p style={{ margin: "10px" }} className="text-gray-600 mb-6">
                 ¿Estás seguro de que deseas eliminar el producto "
-                <strong>
-                  {productoParaConfirmarEliminacion.id &&
-                    productoParaConfirmarEliminacion.name}
-                </strong>
+                <strong>{productoParaConfirmarEliminacion.name}</strong>
                 "? Esta acción no se puede deshacer.
               </p>
               <div
@@ -578,7 +661,6 @@ const Products = () => {
           </div>
         )}
 
-        {/* Listado de Productos */}
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
             <div key={product.id} className="group relative">
@@ -605,7 +687,7 @@ const Products = () => {
                 <div className="flex justify-center gap-12 mt-4">
                   <button
                     style={{ background: "rgb(243, 245, 235)" }}
-                    onClick={() => handleEditProduct(product)} // Llamar a handleEditProduct
+                    onClick={() => handleEditProduct(product)}
                     className="w-14 h-14 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl hover:bg-gray-100"
                     title="Editar"
                   >
@@ -613,7 +695,7 @@ const Products = () => {
                   </button>
                   <button
                     style={{ background: "rgb(242, 244, 245)" }}
-                    onClick={() => abrirModalEliminar(product)} // Llamar a abrirModalEliminar
+                    onClick={() => abrirModalEliminar(product)}
                     className="w-14 h-14 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl hover:bg-gray-100"
                     title="Eliminar"
                   >
