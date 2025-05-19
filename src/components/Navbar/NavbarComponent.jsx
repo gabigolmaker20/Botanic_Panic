@@ -15,6 +15,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { authUsers } from "../../zustand/authUsers";
 
 import { usersData } from "../Perfiles/userData-";
+import { useCart } from "../../zustand/cartStore";
 
 
 
@@ -25,6 +26,7 @@ const NavbarComponent = () => {
   const location = useLocation();
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const { items } = useCart();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -199,7 +201,7 @@ const NavbarComponent = () => {
               variant="transparent"
             >
               <div style={{ width: "300px" }}>
-                {products?.map((product) => (
+                {items?.map((product) => (
                   <div
                     key={product.id}
                     className="d-flex px-1 w-100 py-3 justify-content-between align-items-center gap-2"
