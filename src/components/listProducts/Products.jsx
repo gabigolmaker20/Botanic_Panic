@@ -335,7 +335,7 @@ const Products = () => {
         </div>
 
         {mostrarModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 sm:p-12 md:p-20">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 sm:p-12 md:p-20" style={{  zIndex: 9999}} >
             <div
               style={{ width: "590px", background: "rgb(242, 244, 245)" }}
               className="rounded-lg shadow-xl p-6 sm:p-8 relative border border-gray-300 mt-8 sm:mt-0 max-h-[90vh] overflow-y-auto"
