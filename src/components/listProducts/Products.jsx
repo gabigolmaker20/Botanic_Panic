@@ -2,6 +2,10 @@ import React from "react";
 import "./StylesProducts.css";
 import Filtro from "./Filtro"; // 
 import { useCart } from "../../zustand/cartStore";
+import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const products = [
   {
@@ -63,19 +67,42 @@ const products = [
 ];
 const Products = () => {
   const { addToCart } = useCart(); // 👈 HOOK DE ZUSTAND
+  const [loadingId, setLoadingId] = useState(null); // para spinner individual
+  const [successId, setSuccessId] = useState(null);
+
+ const handleAddToCart = (product) => {
+  setLoadingId(product.id);
+  setSuccessId(null);
+  
+  setTimeout(() => {
+    addToCart(product);
+    setLoadingId(null);
+    setSuccessId(product.id);
+    toast.success(`${product.name} fue agregado al carrito.`, {
+      position: "top-right",
+      autoClose: 2000,
+    });
+
+    setTimeout(() => {
+      setSuccessId(null);
+    }, 1500);
+  }, 1000);
+};
+
 
   return (
-    <div className="container-fluid mt-4">
+    <div className="container-fluid mt-4 mb-8">
       <div className="row">
         <div className="col-md-3 px-4 mb-4">
           <Filtro />
         </div>
 
-        <div className="col-md-9">
+        <div className="col-md-9 pr-4">
           <h2 className="text-2xl my-4 font-bold tracking-tight text-gray-900">
             Nuestros productos
           </h2>
-          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 pb-32 pr-6 mr-2">
+
             {products.map((product) => (
               <div key={product.id} className="group relative">
                 <img
@@ -89,12 +116,22 @@ const Products = () => {
                     <p className="text-sm font-medium text-gray-900">{product.price}</p>
                   </div>
                   <div className="mt-1 flex justify-center">
-                    <button
-                      onClick={() => addToCart(product)} // ✅ ahora sí funciona
-                      className="bg-[#091a04] text-white w-full rounded py-2 font-semibold group-hover:scale-95 transition-all duration-300 ease-in-out"
-                    >
-                      Añadir al carrito
-                    </button>
+                   <button
+  onClick={() => handleAddToCart(product)}
+  disabled={loadingId === product.id}
+  className={`bg-[#091a04] text-white w-full rounded py-2 font-semibold group-hover:scale-95 transition-all duration-300 ease-in-out flex justify-center items-center ${loadingId === product.id ? 'opacity-70 cursor-not-allowed' : ''}`}
+>
+  {loadingId === product.id ? (
+  <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+) : successId === product.id ? (
+  <span className="text-green-300 text-xl font-bold">✔</span>
+) : (
+  "Añadir al carrito"
+)}
+
+</button>
+
+
                   </div>
                 </div>
               </div>
@@ -102,6 +139,8 @@ const Products = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
+
     </div>
   );
 };

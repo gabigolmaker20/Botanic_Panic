@@ -156,7 +156,11 @@ const NavbarComponent = () => {
       <div className="nav_links d-flex justify-content-center align-items-center">
         <ul className="list-unstyled d-flex gap-1 fw-bold justify-content-between align-items-center">
           {listTitlesHeader.map((item) => (
-            <li key={item.id} className={`py-2 mx-3 px-3 ${location.pathname === item.path ? "active" : ""}`}>
+           <li
+  key={item.id}
+  className={`py-2 mx-3 px-3 ${location.pathname === item.path ? "active" : ""}`}
+>
+
               <Link to={item.path} className="text-decoration-none text-black">
                 {item.title}
               </Link>
