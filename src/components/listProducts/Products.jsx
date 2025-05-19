@@ -274,7 +274,7 @@ const Products = () => {
       imageSrc: imageSrc, // Esta será la nueva URL de Cloudinary si se cambió, o la anterior si no.
     };
 
-    console.log("Prodcutos a enviar a la BD",datosProducto)
+    console.log("Prodcutos a enviar a la BD", datosProducto);
 
     if (productoAEditar) {
       // Estamos editando
@@ -591,13 +591,12 @@ const Products = () => {
               </div>
               <div className="mt-4 flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <h5 className="text-sm text-gray-700">
-                      {product.name}
-                  </h5>
+                  <h5 className="text-sm text-gray-700">{product.name}</h5>
                   <p className="text-sm font-medium text-gray-900">
                     {product.price}
                   </p>
                 </div>
+
                 <div className="mt-1 flex justify-center">
                   <button className="bg-[#091a04] text-amber-50 w-full rounded py-2 font-semibold group-hover:scale-95 transition-all duration-300 ease-in-out">
                     Añadir al carrito
