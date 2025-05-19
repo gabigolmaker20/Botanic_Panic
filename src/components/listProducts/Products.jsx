@@ -3,6 +3,7 @@ import "./StylesProducts.css";
 import { VscChromeClose } from "react-icons/vsc";
 import { SlPencil, SlTrash } from "react-icons/sl";
 import axios from "axios";
+import fileUpLoad from "../../service/uploadFileToCloudinary";
 
 const products_y = [
   {
@@ -139,49 +140,49 @@ const Products = () => {
   };
 
   // Cloudinary con AXIOS (Usando la versión mejorada de antes)
-  const subirImagenACloudinary = async (file) => {
-    const cloudName = "TU_CLOUD_NAME"; // ← Reemplaza con tu Cloud name
-    const uploadPreset = "react_preset"; // ← Reemplaza con tu upload preset
+  // const subirImagenACloudinary = async (file) => {
+  //   const cloudName = "TU_CLOUD_NAME"; // ← Reemplaza con tu Cloud name
+  //   const uploadPreset = "react_preset"; // ← Reemplaza con tu upload preset
 
-    if (
-      !cloudName ||
-      cloudName === "TU_CLOUD_NAME" ||
-      !uploadPreset ||
-      uploadPreset === "react_preset"
-    ) {
-      alert(
-        "Por favor, configura tu 'cloudName' y 'uploadPreset' de Cloudinary."
-      );
-      console.error(
-        "Cloudinary no configurado. Revisa cloudName y uploadPreset."
-      );
-      return null;
-    }
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", uploadPreset);
-    try {
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
-        formData
-      );
-      if (response.data && response.data.secure_url) {
-        return response.data.secure_url;
-      } else {
-        throw new Error("No se pudo obtener la URL segura de la respuesta.");
-      }
-    } catch (error) {
-      console.error("Error subiendo imagen con Axios:", error);
-      let alertMessage = "Hubo un error al subir la imagen.";
-      if (error.response) {
-        const cloudinaryError = error.response.data?.error?.message;
-        if (cloudinaryError)
-          alertMessage = `Error de Cloudinary: ${cloudinaryError}`;
-      }
-      alert(alertMessage);
-      return null;
-    }
-  };
+  //   if (
+  //     !cloudName ||
+  //     cloudName === "TU_CLOUD_NAME" ||
+  //     !uploadPreset ||
+  //     uploadPreset === "react_preset"
+  //   ) {
+  //     alert(
+  //       "Por favor, configura tu 'cloudName' y 'uploadPreset' de Cloudinary."
+  //     );
+  //     console.error(
+  //       "Cloudinary no configurado. Revisa cloudName y uploadPreset."
+  //     );
+  //     return null;
+  //   }
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+  //   formData.append("upload_preset", uploadPreset);
+  //   try {
+  //     const response = await axios.post(
+  //       `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+  //       formData
+  //     );
+  //     if (response.data && response.data.secure_url) {
+  //       return response.data.secure_url;
+  //     } else {
+  //       throw new Error("No se pudo obtener la URL segura de la respuesta.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error subiendo imagen con Axios:", error);
+  //     let alertMessage = "Hubo un error al subir la imagen.";
+  //     if (error.response) {
+  //       const cloudinaryError = error.response.data?.error?.message;
+  //       if (cloudinaryError)
+  //         alertMessage = `Error de Cloudinary: ${cloudinaryError}`;
+  //     }
+  //     alert(alertMessage);
+  //     return null;
+  //   }
+  // };
 
   const previewFile = async (file) => {
     if (file && file.type.startsWith("image/")) {
@@ -190,7 +191,7 @@ const Products = () => {
       // const localPreviewUrl = URL.createObjectURL(file);
       // setImageSrc(localPreviewUrl);
 
-      const cloudinaryUrl = await subirImagenACloudinary(file);
+      const cloudinaryUrl = await fileUpLoad(file);
       setIsUploading(false);
 
       if (cloudinaryUrl) {
@@ -271,9 +272,9 @@ const Products = () => {
       price: `$${precioNum.toFixed(2)}`, // Guardar como string con $
       stock: stockNum,
       imageSrc: imageSrc, // Esta será la nueva URL de Cloudinary si se cambió, o la anterior si no.
-      imageAlt: `Imagen de ${nombre.trim()}`,
-      href: "#", // O generar dinámicamente
     };
+
+    console.log("Prodcutos a enviar a la BD",datosProducto)
 
     if (productoAEditar) {
       // Estamos editando
