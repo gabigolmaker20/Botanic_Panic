@@ -15,7 +15,11 @@ import { MdDeleteForever } from "react-icons/md";
 import { authUsers } from "../../zustand/authUsers";
 import { motion } from "framer-motion";
 import { FiSearch, FiShoppingBag } from "react-icons/fi";
-import { IoLeafOutline, IoChevronDownOutline, IoArrowForward } from "react-icons/io5";
+import {
+  IoLeafOutline,
+  IoChevronDownOutline,
+  IoArrowForward,
+} from "react-icons/io5";
 
 const NavbarComponent = () => {
   const [show, setShow] = useState(false);
@@ -59,7 +63,8 @@ const NavbarComponent = () => {
   useEffect(() => {
     const path = location.pathname;
     if (path === "/") setActiveItem("Home");
-    else if (path === "/products" || path.startsWith("/products/")) setActiveItem("Productos");
+    else if (path === "/products" || path.startsWith("/products/"))
+      setActiveItem("Productos");
     else if (path === "/contact") setActiveItem("Contact");
     else if (path === "/nosotros") setActiveItem("Nosotros");
     else if (path === "/profile") setActiveItem("Profile");
@@ -171,8 +176,8 @@ const NavbarComponent = () => {
           <div className="nav_links d-none d-md-flex align-items-center">
             <ul className="list-unstyled d-flex mb-0 fw-medium">
               {listTitlesHeader.map((item) => (
-                <li 
-                  key={item.id} 
+                <li
+                  key={item.id}
                   className="position-relative mx-2"
                   onMouseEnter={() => {
                     if (item.hasSubmenu) setShowProductsMenu(true);
@@ -191,37 +196,40 @@ const NavbarComponent = () => {
                   >
                     {item.title}
                     {item.hasSubmenu && (
-                      <IoChevronDownOutline className="ms-1" style={{ fontSize: "0.8rem" }} />
+                      <IoChevronDownOutline
+                        className="ms-1"
+                        style={{ fontSize: "0.8rem" }}
+                      />
                     )}
                   </Link>
-                  
+
                   {/* Submenú de Productos */}
                   {item.hasSubmenu && showProductsMenu && (
-                    <motion.div 
+                    <motion.div
                       className="position-absolute start-0 mt-1 bg-white rounded-3 shadow-lg py-2"
-                      style={{ 
-                        width: "280px", 
+                      style={{
+                        width: "280px",
                         zIndex: 1000,
-                        border: "1px solid rgba(0,0,0,0.08)"
+                        border: "1px solid rgba(0,0,0,0.08)",
                       }}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.2 }}
                     >
                       {productCategories.map((category, index) => (
-                        <Link 
+                        <Link
                           key={index}
                           to={category.path}
                           className="d-flex justify-content-between align-items-center px-4 py-2 text-decoration-none text-dark hover-bg-light"
                           style={{ transition: "all 0.2s" }}
                         >
                           <span>{category.name}</span>
-                          <span 
+                          <span
                             className="badge rounded-pill"
-                            style={{ 
-                              backgroundColor: "#f0f0f0", 
+                            style={{
+                              backgroundColor: "#f0f0f0",
                               color: "#666",
-                              fontWeight: "normal"
+                              fontWeight: "normal",
                             }}
                           >
                             {category.count}
@@ -229,7 +237,7 @@ const NavbarComponent = () => {
                         </Link>
                       ))}
                       <div className="border-top mt-2 pt-2">
-                        <Link 
+                        <Link
                           to="/products"
                           className="d-flex align-items-center px-4 py-2 text-decoration-none"
                           style={{ color: "#3a9a47" }}
@@ -240,7 +248,7 @@ const NavbarComponent = () => {
                       </div>
                     </motion.div>
                   )}
-                  
+
                   {activeItem === item.title && (
                     <motion.div
                       className="position-absolute bottom-0 start-0 bg-green-500"
@@ -470,34 +478,37 @@ const NavbarComponent = () => {
                     </Link>
                     <div className="ms-3 mb-2">
                       {productCategories.map((category, index) => (
-                        <Link 
+                        <Link
                           key={index}
                           to={category.path}
                           className="d-flex justify-content-between align-items-center py-1 px-3 text-decoration-none text-dark rounded-3"
                           data-bs-dismiss="offcanvas"
                         >
                           <span className="small">{category.name}</span>
-                          <span 
+                          <span
                             className="badge rounded-pill"
-                            style={{ 
-                              backgroundColor: "#f0f0f0", 
+                            style={{
+                              backgroundColor: "#f0f0f0",
                               color: "#666",
                               fontWeight: "normal",
-                              fontSize: "0.7rem"
+                              fontSize: "0.7rem",
                             }}
                           >
                             {category.count}
                           </span>
                         </Link>
                       ))}
-                      <Link 
+                      <Link
                         to="/products"
                         className="d-flex align-items-center py-1 px-3 text-decoration-none small"
                         style={{ color: "#3a9a47" }}
                         data-bs-dismiss="offcanvas"
                       >
                         <span>Ver todos los productos</span>
-                        <IoArrowForward className="ms-1" style={{ fontSize: "0.8rem" }} />
+                        <IoArrowForward
+                          className="ms-1"
+                          style={{ fontSize: "0.8rem" }}
+                        />
                       </Link>
                     </div>
                   </div>
