@@ -550,6 +550,24 @@ const Products = () => {
                     </div>
                   </form>
                 </div>
+                <div className="flex justify-center gap-12 mt-4">
+                  <button
+                    style={{ background: "rgb(243, 245, 235)" }}
+                    onClick={() => handleEditProduct(product)} // Llamar a handleEditProduct
+                    className="w-14 h-14 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl hover:bg-gray-100"
+                    title="Editar"
+                  >
+                    <SlPencil className="text-gray-800 text-xl" />
+                  </button>
+                  <button
+                    style={{ background: "rgb(242, 244, 245)" }}
+                    onClick={() => abrirModalEliminar(product)} // Llamar a abrirModalEliminar
+                    className="w-14 h-14 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl hover:bg-gray-100"
+                    title="Eliminar"
+                  >
+                    <SlTrash className="text-red-600 text-xl" />
+                  </button>
+                </div>
               </div>
             )}
 

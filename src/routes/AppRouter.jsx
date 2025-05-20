@@ -6,6 +6,7 @@ import NosotrosComponent from "../components/Nosotros/NosotrosComponent";
 import Home from "../components/home/Home";
 import Products from "../components/listProducts/Products";
 import Perfiles from "../components/Perfiles/ProfilePage";
+import VistaProducto from "../components/VistaProducto/VistaProducto";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RutaProtegida from "./routeProtect/RutaProtegida";
 import { onAuthStateChanged } from "firebase/auth";
@@ -26,7 +27,7 @@ const AppRouter = () => {
 
   const { setUser, setIsAuthenticated } = authUsers();
 
-  useEffect(() => {
+  useEffect(() => { 
     const unsuscribe = onAuthStateChanged(auth, (user) => {
       if(user){
         setUser(user);
@@ -46,6 +47,7 @@ const AppRouter = () => {
         <Route element={<LayoutComponent />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/detalleproduct" element={<VistaProducto />} />
           <Route path="/contact" element={<ContactComponent />} />
 
           {/* Rutas protegidas */}

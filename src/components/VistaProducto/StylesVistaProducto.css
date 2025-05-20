@@ -1,0 +1,92 @@
+/* Estilos para el componente VistaProducto */
+
+.plant-product-view {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.plant-product-view .card {
+  border: none;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: transform 0.3s ease;
+}
+
+.plant-product-view .card:hover {
+  transform: translateY(-5px);
+}
+
+.plant-product-view .card img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.5s ease;
+}
+
+.plant-product-view .card:hover img {
+  transform: scale(1.05);
+}
+
+.plant-product-view h2 {
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+}
+
+.plant-product-view .text-primary {
+  color: #28a745 !important;
+}
+
+.plant-product-view .btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  transition: all 0.3s ease;
+}
+
+.plant-product-view .btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+  transform: translateY(-2px);
+}
+
+.plant-product-view .input-group .btn {
+  border-color: #ced4da;
+}
+
+.plant-product-view .card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.plant-product-view .table {
+  margin-bottom: 0;
+}
+
+.plant-product-view .table th {
+  font-weight: 600;
+  color: #495057;
+}
+
+.plant-product-view .badge {
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+}
+
+/* Estilos responsivos */
+@media (max-width: 767.98px) {
+  .plant-product-view .d-flex {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .plant-product-view .input-group {
+    margin-bottom: 1rem;
+    width: 100% !important;
+  }
+
+  .plant-product-view .btn-lg {
+    width: 100%;
+  }
+}
