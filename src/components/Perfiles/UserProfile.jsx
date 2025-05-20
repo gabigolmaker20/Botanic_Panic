@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types"; // Recomendado para validar props
 import "./UserProfile.css"; // Importa los estilos CSS
+import { Link } from "react-router-dom";
 
 const CartIcon = () => (
   <span role="img" aria-label="Carrito">
@@ -46,23 +47,7 @@ function UserProfile({
 
   // --- Manejadores de Eventos Internos ---
 
-  /**
-   * Maneja el clic en el botón "Modificar Perfil".
-   * Llama a la función `onEditProfile` pasada como prop si está definida.
-   */
-  const handleEditClick = () => {
-    if (onEditProfile) {
-      onEditProfile();
-    } else {
-      console.warn("UserProfile: onEditProfile prop is not defined.");
-    }
-  };
 
-  /**
-   * Maneja el clic en los botones de vínculos rápidos.
-   * Llama a la función `onNavigate` pasada como prop con la ruta correspondiente.
-   * @param {string} path - La ruta de destino (ej: '/cart', '/orders').
-   */
   const handleLinkClick = (path) => {
     if (onNavigate) {
       onNavigate(path);
@@ -114,17 +99,7 @@ function UserProfile({
           role="img" // Rol semántico
           aria-label={`Foto de portada de ${userName || "Usuario"}`} // Accesibilidad
         >
-          {/* Botón para cambiar la foto de portada (opcional) */}
-          {onChangeCoverPic && ( // Solo muestra si se proporciona la función
-            <button
-              className="btn btn-light btn-sm cover-edit-button"
-              title="Cambiar foto de portada"
-              onClick={handleChangeCoverPicClick}
-              aria-label="Cambiar foto de portada"
-            >
-              <CameraIcon />
-            </button>
-          )}
+
         </div>
 
         {/* --- Barra de Información del Perfil (Debajo de la portada) --- */}
@@ -141,17 +116,7 @@ function UserProfile({
                 alt={`Foto de perfil de ${userName || "Usuario"}`}
                 className="profile-picture img-thumbnail rounded-circle"
               />
-              {/* Botón para cambiar la foto de perfil (opcional) */}
-              {onChangeProfilePic && (
-                <button
-                  className="btn btn-light btn-sm profile-edit-button"
-                  title="Cambiar foto de perfil"
-                  onClick={handleChangeProfilePicClick}
-                  aria-label="Cambiar foto de perfil"
-                >
-                  <EditIcon /> {/* Usa un icono de lápiz aquí */}
-                </button>
-              )}
+        
             </div>
             {/* --- Nombre y Biografía --- */}
             <div className="user-details ms-3 ms-md-4 flex-grow-1">
@@ -168,13 +133,13 @@ function UserProfile({
             <div className="ms-auto align-self-start pt-md-0 pt-2">
               {" "}
               {/* Ajuste de padding top en móvil */}
-              <button
-                className="btn btn-outline-secondary btn-sm edit-profile-button"
-                onClick={handleEditClick}
-                aria-label="Modificar perfil"
-              >
-                Modificar Perfil
-              </button>
+          <Link
+            to="/gestor"
+            className="btn btn-outline-secondary btn-sm edit-profile-button"
+            aria-label="Gestor de archivos"
+          >
+            Gestor de Archivos
+          </Link>
             </div>
           </div>
         </div>

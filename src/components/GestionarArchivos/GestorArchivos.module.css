@@ -1,0 +1,113 @@
+/* GestorArchivos.module.css */
+.contenedorPrincipal {
+    background-color: #FFFFFF;
+    padding: 25px 30px; /* Más padding horizontal */
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 750px; /* Un poco más estrecho */
+    margin: 20px auto;
+    padding-top: 8rem;
+}
+
+.cabeceraPagina {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #386641;
+}
+
+.cabeceraPagina h1 {
+    color: #386641;
+    font-size: 2.1em; /* Ligeramente más pequeño */
+    margin-bottom: 8px;
+    font-weight: 700; /* Más peso */
+}
+
+.cabeceraPagina p {
+    font-size: 1em;
+    color: #555555;
+}
+
+.seccionSubida, .seccionListaArchivos {
+    margin-bottom: 35px; /* Más separación entre secciones */
+}
+
+.seccionSubida h2, .seccionListaArchivos h2 {
+    color: #386641;
+    font-size: 1.5em; /* Ligeramente más pequeño */
+    margin-top: 0; /* Remover margen superior si es el primer elemento de la sección */
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #A7C957;
+    font-weight: 600;
+}
+
+.boton {
+    background-color: #6A994E;
+    color: var(--color-blanco);
+    padding: 10px 22px; /* Padding ajustado */
+    border: none;
+    border-radius: 6px; /* Bordes un poco menos redondeados */
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 10px; /* Reducir margen superior general del botón */
+}
+
+.boton:hover:not(:disabled) {
+    background-color: #386641;
+    transform: translateY(-1px); /* Efecto sutil al pasar el mouse */
+}
+.boton:active:not(:disabled) {
+    transform: translateY(0px);
+}
+
+.boton:disabled {
+    background-color: #cccccc;
+    color: #888888;
+    cursor: not-allowed;
+}
+
+.botonSubir {
+    display: block;
+    margin: 20px auto 0 auto; /* Margen superior específico, centrado */
+    min-width: 240px;
+}
+
+.botonRefrescar {
+    background-color: #A7C957;
+    color: #333333;
+    margin-bottom: 10px; /* Menos margen inferior */
+}
+.botonRefrescar:hover:not(:disabled) {
+    background-color: #96BB4C; /* Un poco más oscuro */
+}
+
+.estadoSubida {
+    margin-top: 20px;
+    padding: 12px; /* Más padding */
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500; /* Un poco menos bold */
+    border-width: 1px;
+    border-style: solid;
+}
+
+.estadoSubida.exito {
+    background-color: #E8F5E9;
+    color: #388E3C;
+    border-color: #388E3C;
+}
+
+.estadoSubida.error {
+    background-color: #FFEBEE;
+    color:  #D32F2F;
+    border-color:  #D32F2F;
+}
+.estadoSubida.info {
+    background-color: #E3F2FD;
+    color: #1976D2;
+    border-color: #1976D2;
+}

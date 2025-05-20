@@ -11,6 +11,7 @@ import RutaProtegida from "./routeProtect/RutaProtegida";
 import { onAuthStateChanged } from "firebase/auth";
 import { authUsers } from "../zustand/authUsers";
 import { auth } from "../firebase/firebase.config";
+import Gestionar from "../components/GestionarArchivos/GestorArchivos"
 
 // Función para verificar si el usuario está logueado
 // const isAuthenticated = () => {
@@ -47,11 +48,13 @@ const AppRouter = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/contact" element={<ContactComponent />} />
+          
 
           {/* Rutas protegidas */}
 
           <Route element={<RutaProtegida/>}>
             <Route path="/profile" element={<Perfiles/>} />
+            <Route path="/gestor" element={<Gestionar />} />
             <Route path="/nosotros" element={<NosotrosComponent/>} />
           </Route>
         </Route>
