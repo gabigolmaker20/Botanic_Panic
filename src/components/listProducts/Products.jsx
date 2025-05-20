@@ -7,6 +7,7 @@ import * as yup from "yup";
 import fileUpLoad from "../../service/uploadFileToCloudinary";
 import Spinner from "react-bootstrap/Spinner";
 import { authUsers } from "../../zustand/authUsers";
+import { Link } from "react-router-dom";
 
 const esquemaValidacion = yup.object().shape({
   imageSrc: yup.string().nullable().required("La imagen es obligatoria."),
@@ -594,14 +595,14 @@ const Products = () => {
 
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
               {products.map((product) => (
-                <div key={product.id} className="group relative">
-                  <div className="group relative">
+                <div key={product.id} className="group relative hover:cursor-pointer">
+                  <Link to={"/"} className="group relative">
                     <img
                       alt={product.nombre}
                       src={product.imagen}
                       className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:scale-95 transition-all group-hover:opacity-75 lg:aspect-auto lg:h-80"
                     />
-                  </div>
+                  </Link>
                   <div className="mt-4 flex flex-col justify-between">
                     <div className="flex items-center justify-between">
                       <h5 className="text-sm text-gray-700">
