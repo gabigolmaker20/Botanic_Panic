@@ -6,6 +6,7 @@ const useProductsStore = create((set) => ({
     products: [],
     loading: false,
     error: null,
+    product: null,
 
     fetchProducts: async () => {
         set({ loading: true, error: null });
@@ -59,6 +60,11 @@ const useProductsStore = create((set) => ({
         } catch (error) {
             set({ error: error.message, loading: false });
         }
+    },
+
+    setProduct: (product) => {
+        set({ product });
+        sessionStorage.setItem(product.nombre, JSON.stringify(product));
     },
 }));
 

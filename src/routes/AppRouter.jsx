@@ -47,7 +47,7 @@ const AppRouter = () => {
         <Route element={<LayoutComponent />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/detalleproduct" element={<VistaProducto />} />
+          <Route path="/detalleproduct/:producto" element={<VistaProducto />} />
           <Route path="/contact" element={<ContactComponent />} />
 
           {/* Rutas protegidas */}

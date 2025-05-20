@@ -30,6 +30,7 @@ const esquemaValidacion = yup.object().shape({
 const Products = () => {
   const { products, fetchProducts, deleteProduct } = useProductsStore();
   const { user } = authUsers();
+  const { setProduct } = useProductsStore();
   // Estados del formulario
   const [mostrarModal, setMostrarModal] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
@@ -202,6 +203,10 @@ const Products = () => {
       console.log("Respuesta de eleiminacion", res);
     }
     cerrarModalEliminar();
+  };
+
+  const handleAddDetailProduct = (product) => {
+    setProduct(product);
   };
   return (
     <>
@@ -613,8 +618,15 @@ const Products = () => {
 
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
               {products.map((product) => (
-                <div key={product.id} className="group relative hover:cursor-pointer">
-                  <Link to={"/"} className="group relative">
+                <div
+                  key={product.id}
+                  className="group relative hover:cursor-pointer"
+                >
+                  <Link
+                    to={`/detalleproduct/${product.nombre}`}
+                    onClick={() => handleAddDetailProduct(product)}
+                    className="group relative"
+                  >
                     <img
                       alt={product.nombre}
                       src={product.imagen}
