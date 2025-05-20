@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
+import { CgLaptop } from 'react-icons/cg';
 
 const useProductsStore = create((set) => ({
     products: [],
@@ -20,7 +21,7 @@ const useProductsStore = create((set) => ({
     addProduct: async (newProduct) => {
         set({ loading: true, error: null });
         try {
-            const response = await axios.post('http://localhost:3000/products', newProduct);
+            const response = await axios.post('http://localhost:3000/plantas', newProduct);
             set((state) => ({
                 products: [...state.products, response.data],
                 loading: false,
@@ -33,7 +34,7 @@ const useProductsStore = create((set) => ({
     updateProduct: async (id, updatedProduct) => {
         set({ loading: true, error: null });
         try {
-            const response = await axios.put(`http://localhost:3000/products/${id}`, updatedProduct);
+            const response = await axios.put(`http://localhost:3000/plantas/${id}`, updatedProduct);
             set((state) => ({
                 products: state.products.map((product) =>
                     product.id === id ? response.data : product
@@ -48,7 +49,9 @@ const useProductsStore = create((set) => ({
     deleteProduct: async (id) => {
         set({ loading: true, error: null });
         try {
-            await axios.delete(`http://localhost:3000/products/${id}`);
+            const res = await axios.delete(`http://localhost:3000/plantas/${id}`);
+
+            console.log("respuesta delete desde zustand: ", res);
             set((state) => ({
                 products: state.products.filter((product) => product.id !== id),
                 loading: false,
