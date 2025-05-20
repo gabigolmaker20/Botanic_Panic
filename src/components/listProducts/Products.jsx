@@ -6,6 +6,7 @@ import { SlPencil, SlTrash } from "react-icons/sl";
 import * as yup from "yup";
 import fileUpLoad from "../../service/uploadFileToCloudinary";
 import Spinner from "react-bootstrap/Spinner";
+import { authUsers } from "../../zustand/authUsers";
 
 const esquemaValidacion = yup.object().shape({
   imageSrc: yup.string().nullable().required("La imagen es obligatoria."),
@@ -27,6 +28,7 @@ const esquemaValidacion = yup.object().shape({
 
 const Products = () => {
   const { products, fetchProducts, deleteProduct } = useProductsStore();
+  const { user } = authUsers();
   // Estados del formulario
   const [mostrarModal, setMostrarModal] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
@@ -220,12 +222,14 @@ const Products = () => {
               <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                 Nuestros productos
               </h2>
-              <button
-                className="bg-[#091a04] text-amber-50 px-4 py-2 rounded font-semibold hover:scale-95 transition-all duration-300 ease-in-out"
-                onClick={abrirModalParaCrear}
-              >
-                Crear producto
-              </button>
+              {user && user.rol === "admin" && (
+                <button
+                  className="bg-[#091a04] text-amber-50 px-4 py-2 rounded font-semibold hover:scale-95 transition-all duration-300 ease-in-out"
+                  onClick={abrirModalParaCrear}
+                >
+                  Crear producto
+                </button>
+              )}
             </div>
 
             {mostrarModal && (
@@ -613,24 +617,26 @@ const Products = () => {
                         Añadir al carrito
                       </button>
                     </div>
-                    <div className="flex justify-center gap-12 mt-4">
-                      <button
-                        style={{ background: "rgb(243, 245, 235)" }}
-                        onClick={() => handleEditProduct(product)}
-                        className="w-14 h-14 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl hover:bg-gray-100"
-                        title="Editar"
-                      >
-                        <SlPencil className="text-gray-800 text-xl" />
-                      </button>
-                      <button
-                        style={{ background: "rgb(242, 244, 245)" }}
-                        onClick={() => abrirModalEliminar(product)}
-                        className="w-14 h-14 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl hover:bg-gray-100"
-                        title="Eliminar"
-                      >
-                        <SlTrash className="text-red-600 text-xl" />
-                      </button>
-                    </div>
+                    {user && user.rol === "admin" && (
+                      <div className="flex justify-center gap-12 mt-4">
+                        <button
+                          style={{ background: "rgb(243, 245, 235)" }}
+                          onClick={() => handleEditProduct(product)}
+                          className="w-14 h-14 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl hover:bg-gray-100"
+                          title="Editar"
+                        >
+                          <SlPencil className="text-gray-800 text-xl" />
+                        </button>
+                        <button
+                          style={{ background: "rgb(242, 244, 245)" }}
+                          onClick={() => abrirModalEliminar(product)}
+                          className="w-14 h-14 rounded-full shadow-md flex items-center justify-center transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-xl hover:bg-gray-100"
+                          title="Eliminar"
+                        >
+                          <SlTrash className="text-red-600 text-xl" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

@@ -136,8 +136,13 @@ const NavbarComponent = () => {
   return (
     <nav
       className={`nav_container w-100 fixed-top transition-all duration-300 ${
-        scrolled ? "py-2 bg-white shadow-sm" : "py-4 bg-[#f8f7f2]"
+        scrolled ? "py-2 bg-white" : "py-4 bg-[#f8f7f2]"
       }`}
+      style={{
+        boxShadow: scrolled
+          ? "rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px"
+          : "none",
+      }}
     >
       <div className="container-fluid px-4">
         <div className="d-flex justify-content-between align-items-center">

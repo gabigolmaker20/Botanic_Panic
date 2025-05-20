@@ -59,7 +59,7 @@ export const authUsers = create((set) => ({
         try {
             const response = await apiClient.post("/auth/login-db", { email, contraseña: password });
             const { token, user } = response.data;
-            console.log('Respuesta desde zustand: ', response.user);
+            console.log('Respuesta desde zustand: ', response.data);
 
             set({
                 user: user,
