@@ -2,16 +2,16 @@ import { create } from "zustand";
 import { auth, provider, signInWithPopup, signOut } from "../firebase/firebase.config";
 import Swal from "sweetalert2";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import apiClient from "../api/apiClient";
 
 
 export const authUsers = create((set) => ({
     //Estados iniciales
     user: null,
+    token: null,
     loading: false,
     error: null,
     isAuthentication: false,
-    usuarios: [],
-    dataSingIn: null,
 
 
     //Funciones para cambiar los estados (Acciones)
@@ -20,7 +20,12 @@ export const authUsers = create((set) => ({
         set({ loading: true });
         try {
             const response = await signInWithPopup(auth, provider);
+            const idToken = await response.user.getIdToken();
             console.log('Respuesta desde zustand: ', response.user);
+
+            //Enviar token al backend
+            const backendResponse = await apiClient.post("/auth/login-google", { idToken });
+            const { token, user } = backendResponse.data;
 
             Swal.fire({
                 title: `Hola ${response.user.displayName}`,
@@ -30,10 +35,12 @@ export const authUsers = create((set) => ({
             })
 
             set({
-                user: response.user,
+                user: user ? response.user : null,
+                token: token,
                 loading: false,
                 isAuthentication: true
             });
+            localStorage.setItem("token", token); // Guardar el token en el localStorage
         } catch (error) {
             console.log("Error en el login: ", error);
             Swal.fire({
@@ -50,14 +57,17 @@ export const authUsers = create((set) => ({
     loginWithEmailAndPassword: async (email, password) => {
         set({ loading: true });
         try {
-            const response = await signInWithEmailAndPassword(auth, email, password)
+            const response = await apiClient.post("/auth/login-db", { email, contraseña: password });
+            const { token, user } = response.data;
             console.log('Respuesta desde zustand: ', response.user);
 
             set({
-                user: response.user,
+                user: user,
+                token: token,
                 loading: false,
                 isAuthentication: true
-            })
+            });
+            localStorage.setItem("token", token); // Guardar el token en el localStorage
         } catch (error) {
             console.log("Error en el login: ", error);
             Swal.fire({
@@ -79,9 +89,11 @@ export const authUsers = create((set) => ({
             await signOut(auth);
             set({
                 user: null,
+                token: null,
                 loading: false,
                 isAuthentication: false
             });
+            localStorage.removeItem("token"); // Eliminar el token del localStorage
             Swal.fire({
                 title: "Adiós!",
                 text: "Hasta luego",
