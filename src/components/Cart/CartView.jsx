@@ -64,6 +64,10 @@
             <button
                 className="bg-[#7e9e41] hover:bg-[#6e8e37] text-white font-semibold text-lg py-3 px-10 rounded-full shadow-lg transition-all duration-300"
                 onClick={() => navigate("/products")}
+                        style={{
+                        minHeight: "55px",        
+                        borderRadius: "9999px",    
+                        }}
             >
                 Volver a la tienda
             </button>

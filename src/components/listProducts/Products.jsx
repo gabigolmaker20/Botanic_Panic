@@ -10,6 +10,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useCart } from "../../zustand/cartStore";
+import Filtro from "./Filtro";
 
 
 const esquemaValidacion = yup.object().shape({
@@ -254,7 +255,16 @@ const handleAddToCart = (product) => {
         </div>
       ) : (
         <div className="mx-5 mb-4 bg-white" style={{ marginTop: "8rem" }}>
-          <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          
+          {/* FLEX CONTAINER: Filtro a la izquierda, productos a la derecha */}
+        <div style={{ display: "flex", gap: "2rem" }}>
+          {/* Filtro */}
+          <div style={{ minWidth: 270, position: "sticky", top: "7rem", alignSelf: "flex-start", height: "fit-content"  }}>
+            <Filtro />
+          </div>
+            {/* Productos */}
+          <div style={{ flex: 1 }}>
+          <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"></div>
             <div className="flex items-center justify-between my-4">
               <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                 Nuestros productos
@@ -686,6 +696,8 @@ const handleAddToCart = (product) => {
               ))}
             </div>
           </div>
+          </div>
+      
           <ToastContainer />
         </div>
       )}

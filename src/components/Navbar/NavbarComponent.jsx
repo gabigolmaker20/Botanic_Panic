@@ -20,8 +20,14 @@ import {
   IoChevronDownOutline,
   IoArrowForward,
 } from "react-icons/io5";
+import { useCart } from "../../zustand/cartStore"; 
+
 
 const NavbarComponent = () => {
+
+    const { items } = useCart(); // <-- Obtén los productos del carrito global
+
+
   const [show, setShow] = useState(false);
   const location = useLocation();
   const [loggedIn, setLoggedIn] = useState(false);
@@ -77,38 +83,6 @@ const NavbarComponent = () => {
   const { loginWithGoogle, loginWithEmailAndPassword, user, isAuthentication } =
     authUsers();
 
-  const products = [
-    {
-      id: 1,
-      name: "Suculenta",
-      href: "#",
-      imageSrc:
-        "https://images.stockcake.com/public/f/7/d/f7df4c36-2d58-4568-8713-2e03e833050a_large/sunny-succulent-display-stockcake.jpg",
-      imageAlt: "Front of men's Basic Tee in black.",
-      price: "$5000",
-      color: "Black",
-    },
-    {
-      id: 2,
-      name: "Cinta",
-      href: "#",
-      imageSrc:
-        "https://cdn.pixabay.com/photo/2014/12/29/14/23/potted-plants-582820_1280.jpg",
-      imageAlt: "Front of men's Basic Tee in black.",
-      price: "$5200",
-      color: "Black",
-    },
-    {
-      id: 7,
-      name: "Romero",
-      href: "#",
-      imageSrc:
-        "https://cdn.pixabay.com/photo/2022/04/30/18/05/rosemary-7166091_1280.jpg",
-      imageAlt: "Front of men's Basic Tee in black.",
-      price: "$8600",
-      color: "Black",
-    },
-  ];
 
   const handleLoginEmailAndPasswod = () => {
     loginWithEmailAndPassword(email, password);
@@ -344,11 +318,11 @@ const NavbarComponent = () => {
                   <div className="p-3 border-bottom">
                     <h6 className="fw-bold mb-0">Tu Carrito</h6>
                     <small className="text-muted">
-                      {products.length} productos
+                      {items.length} items
                     </small>
                   </div>
 
-                  {products?.map((product) => (
+                  {items?.map((product) => (
                     <div
                       key={product.id}
                       className="d-flex p-3 border-bottom w-100 align-items-center"
@@ -408,9 +382,9 @@ const NavbarComponent = () => {
                 </div>
               </DropdownButton>
 
-              {products.length > 0 && (
+              {items.length > 0 && (
                 <div className="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger">
-                  {products.length}
+                  {items.length}
                 </div>
               )}
             </motion.div>
