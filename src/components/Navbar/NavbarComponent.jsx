@@ -25,9 +25,9 @@ import { useCart } from "../../zustand/cartStore";
 
 const NavbarComponent = () => {
 
-    const { items } = useCart(); // <-- Obtén los productos del carrito global
+    const { items,removeFromCart, adjustQuantity  } = useCart(); // <-- Obtén los productos del carrito global
 
-
+  const total = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
   const [show, setShow] = useState(false);
   const location = useLocation();
   const [loggedIn, setLoggedIn] = useState(false);
@@ -310,9 +310,11 @@ const NavbarComponent = () => {
               >
                 <div
                   style={{
-                    width: "320px",
-                    maxHeight: "400px",
-                    overflowY: "auto",
+                        width: "320px",
+                        minHeight: "200px", 
+                        maxHeight: "400px",
+                        overflowY: "auto",
+                        overflowX: "hidden", 
                   }}
                 >
                   <div className="p-3 border-bottom">
@@ -331,13 +333,15 @@ const NavbarComponent = () => {
                         className="d-flex align-items-center"
                         style={{ width: "60%" }}
                       >
-                        <button className="btn btn-link text-decoration-none p-1 text-danger">
+                        <button className="btn btn-link text-decoration-none p-1 text-danger"
+                        onClick={() => removeFromCart(product.id)}
+                        >
                           <MdDeleteForever style={{ fontSize: "1.2rem" }} />
                         </button>
 
                         <img
                           src={product.imageSrc || "/placeholder.svg"}
-                          alt={product.imageAlt}
+                          alt={product.name}
                           className="rounded object-fit-cover ms-2"
                           style={{ width: "50px", height: "50px" }}
                         />
@@ -351,11 +355,13 @@ const NavbarComponent = () => {
                       </div>
 
                       <div className="d-flex align-items-center ms-auto">
-                        <button className="btn btn-sm btn-outline-secondary rounded-circle p-1">
+                        <button className="btn btn-sm btn-outline-secondary rounded-circle p-1"
+                        onClick={() => adjustQuantity(product.id, -1)}>
                           <RiSubtractLine />
                         </button>
-                        <span className="mx-2 fw-medium">1</span>
-                        <button className="btn btn-sm btn-outline-secondary rounded-circle p-1">
+                        <span className="mx-2 fw-medium">{product.quantity}</span>
+                        <button className="btn btn-sm btn-outline-secondary rounded-circle p-1"
+                        onClick={() => adjustQuantity(product.id, 1)} >
                           <MdOutlineAdd />
                         </button>
                       </div>
@@ -367,7 +373,9 @@ const NavbarComponent = () => {
                 <div className="p-3">
                   <div className="d-flex justify-content-between align-items-center mb-3">
                     <span className="text-muted">Total:</span>
-                    <span className="fw-bold fs-5 text-green-700">$18,800</span>
+                    <span className="fw-bold fs-5 text-green-700">
+                        ${total.toLocaleString("es-ES")}
+                      </span>
                   </div>
                   <button
                     onClick={() => navigate("/cart")}
