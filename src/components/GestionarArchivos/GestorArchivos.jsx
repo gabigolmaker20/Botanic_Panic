@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-//import axios from 'axios'; 
+import axios from 'axios'; 
 import AreaSubida from './AreaSubida/AreaSubida';
 import ListaArchivosSubir from './ListaArchivosSubir/ListaArchivosSubir';
 import ListaArchivosServidor from './ListaArchivosServidor/ListaArchivosServidor';
@@ -7,10 +7,12 @@ import estilos from './GestorArchivos.module.css';
 
 const URL_BASE_API = 'http://localhost:3000';
 
-// Define apiClient usando axios
-/*const apiClient = axios.create({
-    baseURL: URL_BASE_API,
-});*/
+
+
+// Cliente Axios para llamadas a la API
+const apiClient = axios.create({
+    baseURL: `${URL_BASE_API}`, 
+});
 
 function GestorArchivos() {
     const [archivosParaSubir, setArchivosParaSubir] = useState([]);
@@ -109,6 +111,7 @@ function GestorArchivos() {
             // Axios pone la respuesta en .data
             setEstadoSubida({ mensaje: respuesta.data.message || `Archivo '${nombreArchivo}' eliminado.`, tipo: 'exito' });
             setArchivosDelServidor(prevArchivos => prevArchivos.filter(archivo => archivo !== nombreArchivo));
+
         } catch (error) {
             console.error(`Error al eliminar ${nombreArchivo}:`, error);
             if (error.response) {
