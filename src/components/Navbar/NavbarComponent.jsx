@@ -311,7 +311,6 @@ const NavbarComponent = () => {
                 <div
                   style={{
                         width: "320px",
-                        minHeight: "200px", 
                         maxHeight: "400px",
                         overflowY: "auto",
                         overflowX: "hidden", 
