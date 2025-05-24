@@ -9,8 +9,12 @@ function ListaArchivosServidor({ archivos, urlBaseApi, alEliminarArchivo }) {
         return <p className={estilos.sinArchivos}>No hay archivos actualmente en el servidor.</p>;
     }
 
-    const obtenerIconoArchivo = (nombreArchivo) => {
-        const extension = nombreArchivo.split('.').pop()?.toLowerCase();
+    const obtenerIconoArchivo = (nombreDelArchivoStr) => { // Renombrar para claridad
+        if (typeof nombreDelArchivoStr !== 'string') { // Buena práctica: chequeo de tipo
+            console.warn("obtenerIconoArchivo recibió algo que no es un string:", nombreDelArchivoStr);
+            return '❓'; // Icono de error o fallback
+        }
+        const extension = nombreDelArchivoStr.split('.').pop()?.toLowerCase();
         if (['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'].includes(extension)) return '🖼️';
         if (['mp4', 'mov', 'avi', 'wmv', 'mkv'].includes(extension)) return '🎬';
         if (extension === 'pdf') return '📋';
@@ -18,11 +22,10 @@ function ListaArchivosServidor({ archivos, urlBaseApi, alEliminarArchivo }) {
         return '📄'; // Genérico
     };
 
-
-        const manejarClickEliminar = (nombreArchivo) => {
-        if (window.confirm(`¿Estás seguro de que quieres eliminar el archivo "${nombreArchivo}"? Esta acción no se puede deshacer.`)) {
+    const manejarClickEliminar = (nombreDelArchivoStr) => { // Renombrar para claridad
+        if (window.confirm(`¿Estás seguro de que quieres eliminar el archivo "${nombreDelArchivoStr}"? Esta acción no se puede deshacer.`)) {
             if (alEliminarArchivo) {
-                alEliminarArchivo(nombreArchivo);
+                alEliminarArchivo(nombreDelArchivoStr);
             } else {
                 console.warn("La función 'alEliminarArchivo' no fue proporcionada a ListaArchivosServidor.");
             }
@@ -31,22 +34,31 @@ function ListaArchivosServidor({ archivos, urlBaseApi, alEliminarArchivo }) {
 
     return (
         <ul className={estilos.listaArchivos}>
-            {archivos.map((nombreArchivo) => (
-                <li key={nombreArchivo} className={estilos.itemArchivo}>
+            {/* Cambia 'nombreArchivo' a 'archivo' o 'archivoObjeto' para representar el objeto */}
+            {archivos.map((archivo) => (
+                // Usa archivo.name para la key si es único, o combina con index si es necesario
+                // pero como el backend envía solo nombres de archivo, archivo.name es el identificador.
+                <li key={archivo.name} className={estilos.itemArchivo}>
                     <a
-                        href={`${urlBaseApi}/download/${encodeURIComponent(nombreArchivo)}`}
+                        // ASUMIENDO QUE TU RUTA DE DESCARGA EN EL BACKEND ES /download/:filename
+                        // Y que urlBaseApi es solo http://localhost:3000
+                        href={`${urlBaseApi}/download/${encodeURIComponent(archivo.name)}`}
+                        // SI QUIERES USAR LA URL QUE YA VIENE DEL BACKEND (que es /uploads/nombre)
+                        // SERÍA: href={`${urlBaseApi}${archivo.url}`} (esto abriría el archivo directamente, no forzaría descarga)
                         target="_blank"
                         rel="noopener noreferrer"
-                        title={`Descargar ${nombreArchivo}`}
+                        title={`Descargar ${archivo.name}`}
                     >
-                        <span className={estilos.iconoArchivo} aria-hidden="true">{obtenerIconoArchivo(nombreArchivo)}</span>
-                        {nombreArchivo}
+                        <span className={estilos.iconoArchivo} aria-hidden="true">
+                            {obtenerIconoArchivo(archivo.name)} {/* Usa archivo.name */}
+                        </span>
+                        {archivo.name} {/* Usa archivo.name para mostrar el nombre */}
                     </a>
                     <button
-                        onClick={() => manejarClickEliminar(nombreArchivo)}
+                        onClick={() => manejarClickEliminar(archivo.name)} 
                         className={estilos.botonEliminarItem}
-                        title={`Eliminar ${nombreArchivo} del servidor`}
-                        aria-label={`Eliminar archivo ${nombreArchivo}`}
+                        title={`Eliminar ${archivo.name} del servidor`}
+                        aria-label={`Eliminar archivo ${archivo.name}`}
                     >
                         🗑️
                     </button>

@@ -132,3 +132,29 @@
 .position-absolute {
   animation: fadeIn 0.2s ease-out forwards;
 }
+
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 1rem;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar-links.mobile-open {
+    display: flex;
+  }
+
+  .mobile-menu-button {
+    display: block;
+    margin-left: auto;
+  }
+}
+
