@@ -12,6 +12,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { authUsers } from "../zustand/authUsers";
 import { auth } from "../firebase/firebase.config";
 import Gestionar from "../components/GestionarArchivos/GestorArchivos"
+import CartView from "../components/Cart/CartView";
 
 // Función para verificar si el usuario está logueado
 // const isAuthenticated = () => {
@@ -48,7 +49,7 @@ const AppRouter = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/contact" element={<ContactComponent />} />
-          
+          <Route path="/cart" element={<CartView />} />
 
           {/* Rutas protegidas */}
 

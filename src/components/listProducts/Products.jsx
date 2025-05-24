@@ -7,6 +7,11 @@ import * as yup from "yup";
 import fileUpLoad from "../../service/uploadFileToCloudinary";
 import Spinner from "react-bootstrap/Spinner";
 
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { useCart } from "../../zustand/cartStore";
+
+
 const esquemaValidacion = yup.object().shape({
   imageSrc: yup.string().nullable().required("La imagen es obligatoria."),
   nombre: yup.string().trim().required("El nombre es obligatorio."),
@@ -27,6 +32,40 @@ const esquemaValidacion = yup.object().shape({
 
 const Products = () => {
   const { products, fetchProducts, deleteProduct } = useProductsStore();
+
+  const [loadingId, setLoadingId] = useState(null); // para spinner individual
+  const [successId, setSuccessId] = useState(null);
+  const { addToCart } = useCart(); 
+const handleAddToCart = (product) => {
+  setLoadingId(product.id);
+  setSuccessId(null);
+
+  setTimeout(() => {
+    // Normaliza el producto para el carrito
+    const productForCart = {
+      id: product.id,
+      name: product.nombre, // <-- usa 'nombre' para 'name'
+      price: typeof product.precio === "string"
+        ? parseFloat(product.precio.replace("$", ""))
+        : product.precio,
+      imageSrc: product.imagen, // <-- usa 'imagen' para 'imageSrc'
+      // agrega otros campos si los necesitas
+    };
+    addToCart(productForCart);
+    setLoadingId(null);
+    setSuccessId(product.id);
+    toast.success(`${product.nombre} fue agregado al carrito.`, {
+      position: "top-right",
+      autoClose: 2000,
+    });
+
+    setTimeout(() => {
+      setSuccessId(null);
+    }, 1500);
+  }, 1000);
+};
+
+
   // Estados del formulario
   const [mostrarModal, setMostrarModal] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
@@ -609,8 +648,19 @@ const Products = () => {
                     </div>
 
                     <div className="mt-1 flex justify-center">
-                      <button className="bg-[#091a04] text-amber-50 w-full rounded py-2 font-semibold group-hover:scale-95 transition-all duration-300 ease-in-out">
-                        Añadir al carrito
+                        <button
+                        onClick={() => handleAddToCart(product)}
+                        disabled={loadingId === product.id}
+                        className={`bg-[#091a04] text-white w-full rounded py-2 font-semibold group-hover:scale-95 transition-all duration-300 ease-in-out flex justify-center items-center ${loadingId === product.id ? 'opacity-70 cursor-not-allowed' : ''}`}
+                      >
+                        {loadingId === product.id ? (
+                        <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+                      ) : successId === product.id ? (
+                        <span className="text-green-300 text-xl font-bold">✔</span>
+                      ) : (
+                        "Añadir al carrito"
+                      )}
+
                       </button>
                     </div>
                     <div className="flex justify-center gap-12 mt-4">
@@ -636,6 +686,7 @@ const Products = () => {
               ))}
             </div>
           </div>
+          <ToastContainer />
         </div>
       )}
     </>
