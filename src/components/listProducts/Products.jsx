@@ -37,6 +37,35 @@ const Products = () => {
   const [loadingId, setLoadingId] = useState(null); // para spinner individual
   const [successId, setSuccessId] = useState(null);
   const { addToCart } = useCart(); 
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [searchText, setSearchText] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [maxPrice, setMaxPrice] = useState(15000);
+
+  useEffect(() => {
+  let filtered = products;
+
+  if (searchText.trim()) {
+    filtered = filtered.filter((product) =>
+      product.nombre.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }
+
+  if (selectedCategory.trim()) {
+    filtered = filtered.filter((product) =>
+      product.categoria.toLowerCase().includes(selectedCategory.toLowerCase())
+    );
+  }
+
+  if (maxPrice) {
+    filtered = filtered.filter((product) =>
+      Number(product.precio) <= maxPrice
+    );
+  }
+
+  setFilteredProducts(filtered);
+}, [products, searchText, selectedCategory, maxPrice]);
+
 const handleAddToCart = (product) => {
   setLoadingId(product.id);
   setSuccessId(null);
@@ -260,7 +289,12 @@ const handleAddToCart = (product) => {
         <div style={{ display: "flex", gap: "2rem" }}>
           {/* Filtro */}
           <div style={{ minWidth: 270, position: "sticky", top: "7rem", alignSelf: "flex-start", height: "fit-content"  }}>
-            <Filtro />
+            <Filtro
+  onSearch={setSearchText}
+  onCategoryChange={setSelectedCategory}
+  onPriceChange={setMaxPrice}
+/>
+
           </div>
             {/* Productos */}
           <div style={{ flex: 1 }}>
@@ -638,7 +672,7 @@ const handleAddToCart = (product) => {
             )}
 
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <div key={product.id} className="group relative">
                   <div className="group relative">
                     <img
