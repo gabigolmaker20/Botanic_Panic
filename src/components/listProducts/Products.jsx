@@ -14,6 +14,7 @@ import Filtro from "./Filtro";
 
 import { authUsers } from "../../zustand/authUsers";
 
+import { shallow } from 'zustand/shallow';
 
 
 const esquemaValidacion = yup.object().shape({
@@ -35,7 +36,13 @@ const esquemaValidacion = yup.object().shape({
 });
 
 const Products = () => {
-  const { user } = authUsers();
+
+
+  const { user, isAuthentication } = authUsers( /* ... */ );
+  console.log("Usuario en Products.jsx:", user); // Verifica el rol aquí
+  const esAdmin = isAuthentication && user && user.rol === "admin";
+
+
   const { products, fetchProducts, addProduct, updateProduct,deleteProduct } = useProductsStore();
 
   const [loadingId, setLoadingId] = useState(null); // para spinner individual
@@ -286,13 +293,14 @@ const handleAddToCart = (product) => {
               <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                 Nuestros productos
               </h2>
-             
+              {esAdmin && (
               <button
                 className="bg-[#091a04] text-amber-50 px-4 py-2 rounded font-semibold hover:scale-95 transition-all duration-300 ease-in-out"
                 onClick={abrirModalParaCrear}
               >
                 Crear producto
-              </button>
+              </button> 
+              )}
                 
             </div>
 
@@ -675,7 +683,7 @@ const handleAddToCart = (product) => {
                         {product.precio}
                       </span>
                     </div>
-
+                    { !esAdmin && (
                     <div className="mt-1 flex justify-center">
                         <button
                         onClick={() => handleAddToCart(product)}
@@ -691,7 +699,8 @@ const handleAddToCart = (product) => {
                       )}
 
                       </button>
-                    </div>
+                    </div> )}
+                    {esAdmin && (
                     <div className="flex justify-center gap-12 mt-4">
                       
                       <button
@@ -713,7 +722,7 @@ const handleAddToCart = (product) => {
                         <SlTrash className="text-red-600 text-xl" />
                       </button>
                       
-                    </div>
+                    </div>)}
                   </div>
                 </div>
               ))}
