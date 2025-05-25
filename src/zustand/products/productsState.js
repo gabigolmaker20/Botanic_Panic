@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 import { CgLaptop } from 'react-icons/cg';
+import api from '../../services/api'; 
 
 const useProductsStore = create((set) => ({
     products: [],
@@ -10,7 +11,7 @@ const useProductsStore = create((set) => ({
     fetchProducts: async () => {
         set({ loading: true, error: null });
         try {
-            const response = await axios.get('http://localhost:3000/api/plantas');
+            const response = await api.get('/api/plantas');
             console.log('Productos desde zustand: ',response.data);
             set({ products: response.data, loading: false });
         } catch (error) {
@@ -21,7 +22,7 @@ const useProductsStore = create((set) => ({
     addProduct: async (newProduct) => {
         set({ loading: true, error: null });
         try {
-            const response = await axios.post('http://localhost:3000/plantas', newProduct);
+            const response = await api.post('/api/plantas', newProduct);
             set((state) => ({
                 products: [...state.products, response.data],
                 loading: false,
@@ -34,7 +35,7 @@ const useProductsStore = create((set) => ({
     updateProduct: async (id, updatedProduct) => {
         set({ loading: true, error: null });
         try {
-            const response = await axios.put(`http://localhost:3000/plantas/${id}`, updatedProduct);
+            const response = await api.put(`/api/plantas/${id}`, updatedProduct);
             set((state) => ({
                 products: state.products.map((product) =>
                     product.id === id ? response.data : product
@@ -49,7 +50,7 @@ const useProductsStore = create((set) => ({
     deleteProduct: async (id) => {
         set({ loading: true, error: null });
         try {
-            const res = await axios.delete(`http://localhost:3000/plantas/${id}`);
+            const res = await api.delete(`/api/plantas/${id}`);
 
             console.log("respuesta delete desde zustand: ", res);
             set((state) => ({

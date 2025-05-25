@@ -21,6 +21,7 @@ import {
   IoArrowForward,
 } from "react-icons/io5";
 import { useCart } from "../../zustand/cartStore"; 
+import NuevoUsuarioModal from "../listProducts/Usuario.Registro";
 
 
 const NavbarComponent = () => {
@@ -38,6 +39,8 @@ const NavbarComponent = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [showRegister, setShowRegister] = useState(false);
 
   // Categorías de productos para el submenú
   const productCategories = [
@@ -552,12 +555,16 @@ const NavbarComponent = () => {
             <p className="text-muted mt-2 mb-0">
               ¿Es tu primera vez?{" "}
               <Link
-                className="text-green-600 fw-medium"
-                to={"/register"}
-                onClick={handleClose}
-              >
-                Regístrate
-              </Link>
+              className="text-green-600 fw-medium"
+              to="#"
+              onClick={e => {
+                e.preventDefault();
+                setShow(false); // Cierra el modal de login
+                setShowRegister(true); // Abre el modal de registro
+              }}
+            >
+              Regístrate
+            </Link>
             </p>
           </div>
         </Modal.Header>
@@ -628,7 +635,17 @@ const NavbarComponent = () => {
           </Button>
         </Modal.Body>
       </Modal>
+      <NuevoUsuarioModal
+        mostrar={showRegister}
+        onClose={() => setShowRegister(false)}
+        onSubmit={(data) => {
+          // Aquí puedes manejar el registro, por ejemplo, enviar a tu backend
+          // console.log("Nuevo usuario:", data);
+          setShowRegister(false);
+        }}
+      />
     </nav>
+    
   );
 };
 

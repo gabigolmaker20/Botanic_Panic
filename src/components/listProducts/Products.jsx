@@ -12,6 +12,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useCart } from "../../zustand/cartStore";
 import Filtro from "./Filtro";
 
+import { authUsers } from "../../zustand/authUsers";
+
+
 
 const esquemaValidacion = yup.object().shape({
   imageSrc: yup.string().nullable().required("La imagen es obligatoria."),
@@ -32,7 +35,8 @@ const esquemaValidacion = yup.object().shape({
 });
 
 const Products = () => {
-  const { products, fetchProducts, deleteProduct } = useProductsStore();
+  const { user } = authUsers();
+  const { products, fetchProducts, addProduct, updateProduct,deleteProduct } = useProductsStore();
 
   const [loadingId, setLoadingId] = useState(null); // para spinner individual
   const [successId, setSuccessId] = useState(null);
@@ -86,6 +90,8 @@ const handleAddToCart = (product) => {
   const fileInputRef = useRef(null);
 
   console.log("Productos desde el componente", products);
+
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -174,12 +180,12 @@ const handleAddToCart = (product) => {
       setFormErrors({});
 
       const datosProducto = {
-        name: nombre.trim(),
-        category: categoria.trim(),
-        description: descripcion.trim(),
-        price: `$${parseFloat(precio).toFixed(2)}`,
+        nombre: nombre.trim(),
+        categoria: categoria.trim(),
+        descripcion: descripcion.trim(),
+        precio: parseFloat(precio),
         stock: parseInt(stock, 10),
-        imageSrc: currentImageSrc,
+        imagen: currentImageSrc,
       };
 
       console.log("Producto a enviar a la BD", datosProducto);
@@ -195,6 +201,15 @@ const handleAddToCart = (product) => {
       //   setProducts((prevProducts) => [nuevoProductoConId, ...prevProducts]);
       //   alert("Producto creado exitosamente!");
       // }
+      if (productoAEditar) {
+        await updateProduct(productoAEditar.id, datosProducto);
+        await fetchProducts();
+        toast.success("Producto actualizado exitosamente!");
+      } else {
+        await addProduct(datosProducto);
+        await fetchProducts();
+        toast.success("Producto creado exitosamente!");
+      }
       cerrarModalPrincipal();
     } catch (err) {
       if (err instanceof yup.ValidationError) {
@@ -236,7 +251,9 @@ const handleAddToCart = (product) => {
   const confirmarEliminacionProducto = async () => {
     if (productoParaConfirmarEliminacion) {
       const res = await deleteProduct(productoParaConfirmarEliminacion.id);
+      await fetchProducts(); 
       console.log("Respuesta de eleiminacion", res);
+      toast.success("Producto eliminado exitosamente!");
     }
     cerrarModalEliminar();
   };
@@ -269,12 +286,14 @@ const handleAddToCart = (product) => {
               <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                 Nuestros productos
               </h2>
+             
               <button
                 className="bg-[#091a04] text-amber-50 px-4 py-2 rounded font-semibold hover:scale-95 transition-all duration-300 ease-in-out"
                 onClick={abrirModalParaCrear}
               >
                 Crear producto
               </button>
+                
             </div>
 
             {mostrarModal && (
@@ -649,12 +668,12 @@ const handleAddToCart = (product) => {
                   </div>
                   <div className="mt-4 flex flex-col justify-between">
                     <div className="flex items-center justify-between">
-                      <h5 className="text-sm text-gray-700">
+                      <h6 className="text-xs font-medium text-gray-70">
                         {product.nombre}
-                      </h5>
-                      <p className="text-sm font-medium text-gray-900">
+                      </h6>
+                      <span className="text-base font-semibold text-gray-900">
                         {product.precio}
-                      </p>
+                      </span>
                     </div>
 
                     <div className="mt-1 flex justify-center">
@@ -674,6 +693,7 @@ const handleAddToCart = (product) => {
                       </button>
                     </div>
                     <div className="flex justify-center gap-12 mt-4">
+                      
                       <button
                         style={{ background: "rgb(243, 245, 235)" }}
                         onClick={() => handleEditProduct(product)}
@@ -682,6 +702,8 @@ const handleAddToCart = (product) => {
                       >
                         <SlPencil className="text-gray-800 text-xl" />
                       </button>
+                    
+                    
                       <button
                         style={{ background: "rgb(242, 244, 245)" }}
                         onClick={() => abrirModalEliminar(product)}
@@ -690,6 +712,7 @@ const handleAddToCart = (product) => {
                       >
                         <SlTrash className="text-red-600 text-xl" />
                       </button>
+                      
                     </div>
                   </div>
                 </div>
