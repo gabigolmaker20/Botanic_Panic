@@ -14,9 +14,9 @@ import Filtro from "./Filtro";
 
 import { authUsers } from "../../zustand/authUsers";
 
-import { shallow } from 'zustand/shallow';
 
 
+//validacion del formulario
 const esquemaValidacion = yup.object().shape({
   imageSrc: yup.string().nullable().required("La imagen es obligatoria."),
   nombre: yup.string().trim().required("El nombre es obligatorio."),
@@ -37,10 +37,21 @@ const esquemaValidacion = yup.object().shape({
 
 const Products = () => {
 
-
+  //varibles,estados y funciones de los hooks
   const { user, isAuthentication } = authUsers( /* ... */ );
   console.log("Usuario en Products.jsx:", user); // Verifica el rol aquí
   const esAdmin = isAuthentication && user && user.rol === "admin";
+
+
+
+  
+  // --- INICIO: LÓGICA DE FILTRADO AÑADIDA ---
+  const [filteredProducts, setFilteredProducts] = useState([]); // Inicializar vacío o con products si están disponibles síncronamente
+  const [searchText, setSearchText] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [maxPrice, setMaxPrice] = useState(15000); // O un valor inicial más adecuado
+
+
 
 
   const { products, fetchProducts, addProduct, updateProduct,deleteProduct } = useProductsStore();
@@ -48,10 +59,11 @@ const Products = () => {
   const [loadingId, setLoadingId] = useState(null); // para spinner individual
   const [successId, setSuccessId] = useState(null);
   const { addToCart } = useCart(); 
-const handleAddToCart = (product) => {
-  setLoadingId(product.id);
-  setSuccessId(null);
+  const handleAddToCart = (product) => {
+    setLoadingId(product.id);
+    setSuccessId(null);
 
+  // Simula una carga de 1 segundo antes de agregar al carrito
   setTimeout(() => {
     // Normaliza el producto para el carrito
     const productForCart = {
@@ -98,11 +110,38 @@ const handleAddToCart = (product) => {
 
   console.log("Productos desde el componente", products);
 
-
+  // Efecto para cargar los productos al montar el componente
   useEffect(() => {
     fetchProducts();
   }, []);
 
+
+  // Efecto para filtrar los productos según los criterios de búsqueda, categoría y precio
+      useEffect(() => {
+  let filtered = products;
+
+  if (searchText.trim()) {
+    filtered = filtered.filter((product) =>
+      product.nombre.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }
+
+  if (selectedCategory.trim()) {
+    filtered = filtered.filter((product) =>
+      product.categoria.toLowerCase().includes(selectedCategory.toLowerCase())
+    );
+  }
+
+  if (maxPrice) {
+    filtered = filtered.filter((product) =>
+      Number(product.precio) <= maxPrice
+    );
+  }
+
+  setFilteredProducts(filtered);
+}, [products, searchText, selectedCategory, maxPrice]);
+
+  // Efecto para limpiar los campos del formulario al cerrar el modal
   const limpiarCamposFormulario = () => {
     setImageSrc(null);
     setNombre("");
@@ -117,6 +156,7 @@ const handleAddToCart = (product) => {
     }
   };
 
+  // Funciones para abrir y cerrar el modal
   const abrirModalParaCrear = () => {
     setProductoAEditar(null);
     limpiarCamposFormulario();
@@ -128,6 +168,8 @@ const handleAddToCart = (product) => {
     setProductoAEditar(null);
     setMostrarModal(false);
   };
+
+  // Función para previsualizar el archivo seleccionado
   const previewFile = async (file) => {
     if (file && file.type.startsWith("image/")) {
       setIsUploading(true);
@@ -148,6 +190,7 @@ const handleAddToCart = (product) => {
     }
   };
 
+  // Manejadores de eventos para el input de archivo y el drop
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) previewFile(file);
@@ -161,6 +204,7 @@ const handleAddToCart = (product) => {
 
   const handleDragOver = (e) => e.preventDefault();
 
+  // Manejador de envío del formulario
   const handleSubmitProducto = async (e) => {
     e.preventDefault();
     if (isUploading) {
@@ -197,17 +241,6 @@ const handleAddToCart = (product) => {
 
       console.log("Producto a enviar a la BD", datosProducto);
 
-      // if (productoAEditar) {
-      //   const productosActualizados = products.map((p) =>
-      //     p.id === productoAEditar.id ? { ...p, ...datosProducto, id: p.id } : p
-      //   );
-      //   setProducts(productosActualizados);
-      //   alert("Producto actualizado exitosamente!");
-      // } else {
-      //   const nuevoProductoConId = { ...datosProducto, id: Date.now() };
-      //   setProducts((prevProducts) => [nuevoProductoConId, ...prevProducts]);
-      //   alert("Producto creado exitosamente!");
-      // }
       if (productoAEditar) {
         await updateProduct(productoAEditar.id, datosProducto);
         await fetchProducts();
@@ -230,9 +263,10 @@ const handleAddToCart = (product) => {
         alert("Ocurrió un error inesperado.");
       }
     }
-    // --- El bloque de código problemático que fue eliminado estaba aquí ---
+
   };
 
+  // Funciones para manejar la edición de productos
   const handleEditProduct = (producto) => {
     limpiarCamposFormulario();
     setProductoAEditar(producto);
@@ -245,6 +279,7 @@ const handleAddToCart = (product) => {
     setMostrarModal(true);
   };
 
+  // Funciones para manejar la eliminación de productos
   const abrirModalEliminar = (producto) => {
     setProductoParaConfirmarEliminacion(producto);
     setMostrarModalEliminar(true);
@@ -255,6 +290,7 @@ const handleAddToCart = (product) => {
     setMostrarModalEliminar(false);
   };
 
+  // Función para confirmar la eliminación del producto
   const confirmarEliminacionProducto = async () => {
     if (productoParaConfirmarEliminacion) {
       const res = await deleteProduct(productoParaConfirmarEliminacion.id);
@@ -264,6 +300,8 @@ const handleAddToCart = (product) => {
     }
     cerrarModalEliminar();
   };
+
+  // Renderizado del componente
   return (
     <>
       {products.length === 0 ? (
@@ -284,7 +322,10 @@ const handleAddToCart = (product) => {
         <div style={{ display: "flex", gap: "2rem" }}>
           {/* Filtro */}
           <div style={{ minWidth: 270, position: "sticky", top: "7rem", alignSelf: "flex-start", height: "fit-content"  }}>
-            <Filtro />
+                        
+                        <Filtro onSearch={setSearchText} onCategoryChange={setSelectedCategory}
+                        onPriceChange={setMaxPrice}/>
+
           </div>
             {/* Productos */}
           <div style={{ flex: 1 }}>
@@ -304,6 +345,8 @@ const handleAddToCart = (product) => {
                 
             </div>
 
+
+            {/* Modal para crear/editar producto */}
             {mostrarModal && (
               <div
                 className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 sm:p-12 md:p-20"
@@ -624,6 +667,7 @@ const handleAddToCart = (product) => {
               </div>
             )}
 
+             {/* Modal de confirmación de eliminación */}
             {mostrarModalEliminar && productoParaConfirmarEliminacion && (
               <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
                 <div
@@ -664,8 +708,10 @@ const handleAddToCart = (product) => {
               </div>
             )}
 
+          {/* Lista de productos */}
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-              {products.map((product) => (
+              {/* se cambio products.map(...) para poder filtrar */}
+              {filteredProducts.map((product) => (
                 <div key={product.id} className="group relative">
                   <div className="group relative">
                     <img
@@ -702,6 +748,7 @@ const handleAddToCart = (product) => {
                     </div> )}
                     {esAdmin && (
                     <div className="flex justify-center gap-12 mt-4">
+                      
                       
                       <button
                         style={{ background: "rgb(243, 245, 235)" }}

@@ -44,11 +44,7 @@ const NavbarComponent = () => {
 
   // Categorías de productos para el submenú
   const productCategories = [
-    { name: "Plantas de Interior", count: 24, path: "/products/interior" },
-    { name: "Plantas de Exterior", count: 18, path: "/products/exterior" },
-    { name: "Accesorios", count: 12, path: "/products/accesorios" },
-    { name: "Macetas", count: 15, path: "/products/macetas" },
-    { name: "Fertilizantes", count: 8, path: "/products/fertilizantes" },
+
   ];
 
   useEffect(() => {
@@ -243,14 +239,14 @@ const NavbarComponent = () => {
 
           {/* Right side icons */}
           <div className="d-flex align-items-center">
-            {/* Search Icon */}
+            {/* Search Icon 
             <motion.button
               className="btn btn-link text-decoration-none p-2 rounded-circle me-1 text-gray-700 hover:bg-gray-100"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <FiSearch style={{ fontSize: "1.2rem", color: "black" }} />
-            </motion.button>
+            </motion.button> */}
 
             {/* User Profile/Login */}
             {user && isAuthentication ? (
