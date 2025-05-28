@@ -1,7 +1,12 @@
-import React from "react";
+
 import PropTypes from "prop-types"; // Recomendado para validar props
 import "./UserProfile.css"; // Importa los estilos CSS
 import { Link } from "react-router-dom";
+
+import React, { useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import api from "../../services/api"; 
 
 const CartIcon = () => (
   <span role="img" aria-label="Carrito">
@@ -39,13 +44,35 @@ function UserProfile({
   onChangeProfilePic,
   onChangeCoverPic,
 }) {
+
   // --- URLs por defecto en caso de que no se proporcionen imágenes ---
   const defaultCover =
     "https://via.placeholder.com/1170x220/E9ECEF/6C757D?text=Cover+Photo";
   const defaultProfile =
     "https://via.placeholder.com/150/CCCCCC/808080?text=User";
 
-  // --- Manejadores de Eventos Internos ---
+  
+  // --- Estados Locales ---
+    const [showOrdersModal, setShowOrdersModal] = useState(false);
+    const [orders, setOrders] = useState([]);
+    const [loadingOrders, setLoadingOrders] = useState(false);
+    const [ordersError, setOrdersError] = useState(null);
+
+  // --- Funcion cargar pedido ---
+        const handleShowOrders = async () => {
+      setShowOrdersModal(true);
+      setLoadingOrders(true);
+      setOrdersError(null);
+      try {
+        // Cambia el endpoint según tu backend, por ejemplo:
+        const res = await api.get("/api/pedidos"); // O /api/pedidos?usuarioId=...
+        setOrders(res.data);
+      } catch (err) {
+        setOrdersError("Error al cargar pedidos");
+      }
+      setLoadingOrders(false);
+    };
+    // --- Manejadores de Eventos Internos ---
 
 
   const handleLinkClick = (path) => {
@@ -87,8 +114,49 @@ function UserProfile({
 
   // --- Renderizado del Componente ---
   return (
+
+     
+
+
+    
     // Contenedor principal con clases de Bootstrap para tarjeta y sombra
     <div className="user-profile-container card shadow-sm mb-4">
+
+      <Modal show={showOrdersModal} onHide={() => setShowOrdersModal(false)} size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title>Mis Pedidos</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {loadingOrders && <p>Cargando pedidos...</p>}
+        {ordersError && <p className="text-danger">{ordersError}</p>}
+        {!loadingOrders && !ordersError && (
+          <div>
+            {orders.length === 0 ? (
+              <p>No tienes pedidos.</p>
+            ) : (
+              orders.map((pedido) => (
+                <div key={pedido.id} className="mb-4">
+                  <h6>Pedido #{pedido.id} - Total: ${pedido.total}</h6>
+                  <ul>
+                    {pedido.detalles?.map((detalle) => (
+                      <li key={detalle.id}>
+                        Planta ID: {detalle.id_planta} | Cantidad: {detalle.cantidad}
+                      </li>
+                    ))}
+                  </ul>
+                  <hr />
+                </div>
+              ))
+            )}
+          </div>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => setShowOrdersModal(false)}>
+          Cerrar
+        </Button>
+      </Modal.Footer>
+    </Modal>
       {/* === Sección de Cabecera: Portada y Barra de Información === */}
       <div className="profile-header">
         {/* --- Foto de Portada --- */}
@@ -168,7 +236,7 @@ function UserProfile({
           {/* Botón Mis Pedidos */}
           <button
             className="btn btn-outline-secondary d-inline-flex align-items-center"
-            onClick={() => handleLinkClick("/orders")} // Navega a /orders
+            onClick={handleShowOrders}
             aria-label="Ir a mis pedidos"
           >
             <OrdersIcon />
@@ -190,6 +258,9 @@ function UserProfile({
       </div>
       {/* === Fin Sección de Vínculos Rápidos === */}
     </div> // Fin .user-profile-container
+
+  
+    
   );
 }
 
