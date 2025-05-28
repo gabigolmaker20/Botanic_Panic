@@ -3,6 +3,8 @@
     import { useCart } from "../../zustand/cartStore";
     import { MdDeleteForever } from "react-icons/md";
     import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+    import { authUsers } from "../../zustand/authUsers";
+    import api from "../../services/api"; // Asegúrate de que esta ruta sea correcta
 
     const CartView = () => {
     const navigate = useNavigate();
@@ -14,6 +16,42 @@
         if (newQuantity < 1) return;
         updateQuantity(id, newQuantity);
     };
+
+                const { user } = authUsers();
+
+            const handleFinalizarCompra = async () => {
+            if (!user || !user.id) {
+                alert("Debes iniciar sesión para finalizar la compra.");
+                return;
+            }
+            if (!items || items.length === 0) {
+                alert("El carrito está vacío.");
+                return;
+            }
+
+            // Transforma los items del carrito al formato esperado por el backend
+            const itemsPedido = items.map(item => ({
+                id_planta: item.id,
+                cantidad: item.quantity
+            }));
+
+            try {
+                // 1. Crear el pedido y detalles en el backend
+                await api.post("/api/pedidos", {
+                id_usuario: user.id,
+                items: itemsPedido
+                });
+
+
+                alert("¡Pedido realizado con éxito! 🎉");
+            } catch (error) {
+                alert("Error al finalizar la compra: " + (error.response?.data?.message || error.message));
+            }
+            };
+ 
+
+
+
 
     return (
         <div className="min-h-screen bg-[#f6f8ee] px-4 py-8">
@@ -181,17 +219,17 @@
                 </div>
                 
                 <div className="flex justify-center mt-6">
-    <button
-        onClick={() => navigate("/checkout")}
-        className="bg-[#4c7c0b] hover:bg-[#3a610c] text-white font-semibold px-15 py-4.0 rounded-full transition-all duration-300 shadow-md"
-        style={{
-        minHeight: "55px",        
-        borderRadius: "9999px",    
-        }}
-    >
-        Finalizar compra
-    </button>
-    </div>
+            <button
+            onClick={handleFinalizarCompra}
+                className="bg-[#4c7c0b] hover:bg-[#3a610c] text-white font-semibold px-15 py-4.0 rounded-full transition-all duration-300 shadow-md"
+                style={{
+                minHeight: "55px",
+                borderRadius: "9999px",
+                }}
+            >
+                Finalizar compra
+            </button>
+            </div>
 
 
 

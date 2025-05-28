@@ -9,6 +9,8 @@ import Products from "../components/listProducts/Products";
 import Perfiles from "../components/Perfiles/ProfilePage";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RutaProtegida from "./routeProtect/RutaProtegida";
+
+
 // QUITA las importaciones de Firebase si solo se usan para el onAuthStateChanged que vamos a eliminar
 // import { onAuthStateChanged } from "firebase/auth";
 // import { auth } from "../firebase/firebase.config";

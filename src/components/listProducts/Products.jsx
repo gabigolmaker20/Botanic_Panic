@@ -49,7 +49,7 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState([]); // Inicializar vacío o con products si están disponibles síncronamente
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [maxPrice, setMaxPrice] = useState(15000); // O un valor inicial más adecuado
+  const [maxPrice, setMaxPrice] = useState(100); // O un valor inicial más adecuado
 
 
 

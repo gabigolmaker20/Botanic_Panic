@@ -24,6 +24,7 @@ import { useCart } from "../../zustand/cartStore";
 import NuevoUsuarioModal from "../listProducts/Usuario.Registro";
 
 
+
 const NavbarComponent = () => {
 
     const { items,removeFromCart, adjustQuantity  } = useCart(); // <-- Obtén los productos del carrito global
