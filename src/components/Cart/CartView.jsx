@@ -8,7 +8,7 @@
 
     const CartView = () => {
     const navigate = useNavigate();
-    const { items, removeFromCart, updateQuantity } = useCart();
+    const { items, removeFromCart, updateQuantity, clearCart } = useCart();
 
     const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
@@ -17,8 +17,7 @@
         updateQuantity(id, newQuantity);
     };
 
-                const { user } = authUsers();
-
+            const { user } = authUsers();
             const handleFinalizarCompra = async () => {
             if (!user || !user.id) {
                 alert("Debes iniciar sesión para finalizar la compra.");
@@ -42,7 +41,7 @@
                 items: itemsPedido
                 });
 
-
+                clearCart();
                 alert("¡Pedido realizado con éxito! 🎉");
             } catch (error) {
                 alert("Error al finalizar la compra: " + (error.response?.data?.message || error.message));

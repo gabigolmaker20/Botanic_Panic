@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import api from "../../services/api"; 
+import { useNavigate } from "react-router-dom";
 
 const CartIcon = () => (
   <span role="img" aria-label="Carrito">
@@ -33,6 +34,7 @@ const EditIcon = () => (
     ✏️
   </span>
 );
+
 
 function UserProfile({
   userName,
@@ -64,8 +66,8 @@ function UserProfile({
       setLoadingOrders(true);
       setOrdersError(null);
       try {
-        // Cambia el endpoint según tu backend, por ejemplo:
-        const res = await api.get("/api/pedidos"); // O /api/pedidos?usuarioId=...
+      
+        const res = await api.get("/api/pedidos"); 
         setOrders(res.data);
       } catch (err) {
         setOrdersError("Error al cargar pedidos");
@@ -75,15 +77,13 @@ function UserProfile({
     // --- Manejadores de Eventos Internos ---
 
 
+  const navigate = useNavigate();
+  // ...
   const handleLinkClick = (path) => {
-    if (onNavigate) {
-      onNavigate(path);
-    } else {
-      console.warn(
-        `UserProfile: onNavigate prop is not defined. Tried to navigate to: ${path}`
-      );
-    }
+    navigate(path);
   };
+  // ...
+
 
   /**
    * Maneja el clic en el botón para cambiar la foto de perfil.
